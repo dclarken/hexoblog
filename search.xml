@@ -11,7 +11,7 @@
   <entry>
     <title><![CDATA[Python基本语法]]></title>
     <url>%2FLander.github.io%2F2017%2F10%2F19%2FPython%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[#基本语法 for，if，while等语句可以查看入门课程 “ / “就表示 浮点数除法，返回浮点结果;” // “表示整数除法。 ‘’’+’’’或者”””+””” 可以实现区域注释 # __coding: utf8 _ 用UTF-8编码读取源代码#coding:utf-8 函数的自变量定义时候可以定义x=None这表示x可以是任意类型的数据 end=’ ‘不换行是python3版本的用法，python2版本无法编译，遇到这个问题直接在首行添加 1from __future__ import print_function 结构体定义： 123def __init__(self): self.chars=[] self.chars=[] [**Python strip()函数**](http://www.jb51.net/article/37287.htm)]]></content>
+    <content type="text"><![CDATA[#基本语法# for，if，while等语句可以查看入门课程 “ / “就表示 浮点数除法，返回浮点结果;” // “表示整数除法。 ‘’’+’’’或者”””+””” 可以实现区域注释 # __coding: utf8 _ 用UTF-8编码读取源代码#coding:utf-8 函数的自变量定义时候可以定义x=None这表示x可以是任意类型的数据 end=’ ‘不换行是python3版本的用法，python2版本无法编译，遇到这个问题直接在首行添加 1from __future__ import print_function --- 结构体定义： 123def __init__(self): self.chars=[] self.chars=[] --- [**Python strip()函数**](http://www.jb51.net/article/37287.htm)]]></content>
       <categories>
         <category>Python</category>
       </categories>
