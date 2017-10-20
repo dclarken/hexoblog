@@ -55,19 +55,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[切片用法]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F17%2F%E5%88%87%E7%89%87%E7%94%A8%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[Python中的sort()方法使用基础文档：格式：12sorted(iterable[, cmp[, key[, reverse]]])iterable.sort(cmp[, key[, reverse]]) 参数解释： iterable指定要排序的list或者iterable，不用多说； cmp为函数，指定排序时进行比较的函数，可以指定一个函数或者lambda函数，如：students为类对象的list，没个成员有三个域，用sorted进行比较时可以自己定cmp函数，例如这里要通过比较第三个数据成员来排序，代码可以这样写： 12students = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10)]sorted(students, key=lambda student : student[2]) key为函数，指定取待排序元素的哪一项进行排序，函数用上面的例子来说明，代码如下： 1sorted(students, key=lambda student : student[2]) key指定的lambda函数功能是去元素student的第三个域（即：student[2]），因此sorted排序时，会以students所有元素的第三个域来进行排序。 reverse实现降序排序，需要提供一个布尔值，默认为False（升序排列）。]]></content>
-      <categories>
-        <category>笔记</category>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[dp-求给定数组中和大于积的次数]]></title>
     <url>%2Fhexoblog%2F2017%2F09%2F17%2Fdp-%E6%B1%82%E7%BB%99%E5%AE%9A%E6%95%B0%E7%BB%84%E4%B8%AD%E5%92%8C%E5%A4%A7%E4%BA%8E%E7%A7%AF%E7%9A%84%E6%AC%A1%E6%95%B0%2F</url>
     <content type="text"><![CDATA[问题描述一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &gt; 1 1 2 * 3你可以适当从袋子里移除一些球(可以移除0个,但是别移除完)，要使移除后的袋子是幸运的。现在让你编程计算一下你可以获得的多少种不同的幸运的袋子。 输入：球号数组输出种类 123456789101112131415161718192021222324252627282930313233343536#-*- coding:utf-8 -*-def isluck(nums): #幸运袋子判断函数 sum=0 mul=1 for i in nums: sum +=i mul *=i if sum&gt;mul: return True else: return False def composite(array,Sum,multiply): #从小到大的规划过程 count=0 for i in xrange(len(array)): if i&gt;0 and array[i]==array[i-1]: continue Sum+=array[i] multiply*=array[i] if Sum&gt;multiply: count+=1+composite(array[i+1:], Sum, multiply) # 当序列中的数值都比较大的时候能够满足要求，那数值小的也更加容易满足 elif array[i]==1: count+=composite(array[i+1:], Sum, multiply) # 1为特殊情况，当为1的时候，和一定一直大于乘积，所以需要累加 else: break Sum-=array[i] #如果不满足，回退为上一状态 multiply/=array[i] return countdef main(): n=raw_input() array=raw_input().split() array=[int(i) for i in array] array.sort() #首先对其从小到大排列 print composite(array,0,1)main()]]></content>
@@ -78,6 +65,19 @@
       <tags>
         <tag>code</tag>
         <tag>dp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[切片用法]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F17%2F%E5%88%87%E7%89%87%E7%94%A8%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[Python中的sort()方法使用基础文档：格式：12sorted(iterable[, cmp[, key[, reverse]]])iterable.sort(cmp[, key[, reverse]]) 参数解释： iterable指定要排序的list或者iterable，不用多说； cmp为函数，指定排序时进行比较的函数，可以指定一个函数或者lambda函数，如：students为类对象的list，没个成员有三个域，用sorted进行比较时可以自己定cmp函数，例如这里要通过比较第三个数据成员来排序，代码可以这样写： 12students = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10)]sorted(students, key=lambda student : student[2]) key为函数，指定取待排序元素的哪一项进行排序，函数用上面的例子来说明，代码如下： 1sorted(students, key=lambda student : student[2]) key指定的lambda函数功能是去元素student的第三个域（即：student[2]），因此sorted排序时，会以students所有元素的第三个域来进行排序。 reverse实现降序排序，需要提供一个布尔值，默认为False（升序排列）。]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -162,7 +162,7 @@
   </entry>
   <entry>
     <title><![CDATA[Python语法]]></title>
-    <url>%2Fhexoblog%2F2017%2F08%2F19%2FPython%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%2F</url>
+    <url>%2Fhexoblog%2F2017%2F08%2F19%2FPython%E8%AF%AD%E6%B3%95%2F</url>
     <content type="text"><![CDATA[#基本语法#]]></content>
       <categories>
         <category>笔记</category>
@@ -189,7 +189,7 @@
   <entry>
     <title><![CDATA[Markdown编辑器]]></title>
     <url>%2Fhexoblog%2F2017%2F08%2F13%2FMarkdown%E7%BC%96%E8%BE%91%E5%99%A8%2F</url>
-    <content type="text"><![CDATA[##MaHua是什么?一个在线编辑markdown文档的编辑器 向Mac下优秀的markdown编辑器mou致敬 ##MaHua有哪些功能？ 方便的导入导出功能 直接把一个markdown的文本文件拖放到当前这个页面就可以了 导出为一个html格式的文件，样式一点也不会丢失 编辑和预览同步滚动，所见即所得（右上角设置） VIM快捷键支持，方便vim党们快速的操作 （右上角设置） 强大的自定义CSS功能，方便定制自己的展示 有数量也有质量的主题,编辑器和预览区域 完美兼容Github的markdown语法 预览区域代码高亮 所有选项自动记忆 ##有问题反馈在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流 邮件(dev.hubo#gmail.com, 把#换成@) QQ: 287759234 weibo: @草依山 twitter: @ihubo ##捐助开发者在兴趣的驱动下,写一个免费的东西，有欣喜，也还有汗水，希望你喜欢我的作品，同时也能支持一下。当然，有钱捧个钱场（右上角的爱心标志，支持支付宝和PayPal捐助），没钱捧个人场，谢谢各位。 ##感激感谢以下的项目,排名不分先后 mou ace jquery ##关于作者 123def __init__(self): self.num=[] self.counts = [] #该文可以用来便于查看markdown的语法规则]]></content>
+    <content type="text"><![CDATA[##MaHua是什么?一个在线编辑markdown文档的编辑器 向Mac下优秀的markdown编辑器mou致敬 ##MaHua有哪些功能？ 方便的导入导出功能 直接把一个markdown的文本文件拖放到当前这个页面就可以了 导出为一个html格式的文件，样式一点也不会丢失 编辑和预览同步滚动，所见即所得（右上角设置） VIM快捷键支持，方便vim党们快速的操作 （右上角设置） 强大的自定义CSS功能，方便定制自己的展示 有数量也有质量的主题,编辑器和预览区域 完美兼容Github的markdown语法 预览区域代码高亮 所有选项自动记忆 ##有问题反馈在使用中有任何问题，欢迎反馈给作者，可以用以下联系方式跟作者交流 邮件(dev.hubo#gmail.com, 把#换成@) QQ: 287759234 weibo: @草依山 twitter: @ihubo ##捐助开发者在兴趣的驱动下,写一个免费的东西，有欣喜，也还有汗水，希望你喜欢该作者的作品，同时也能支持一下。当然，有钱捧个钱场（右上角的爱心标志，支持支付宝和PayPal捐助），没钱捧个人场，谢谢各位。 ##感激感谢以下的项目,排名不分先后 mou ace jquery ##关于作者 123def __init__(self): self.name=[] self.age=[] #该文可以用来便于查看markdown的语法规则感谢作者]]></content>
       <categories>
         <category>博客</category>
         <category>Markdown</category>
