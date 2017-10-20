@@ -79,15 +79,18 @@
 
 
 
+<meta name="description" content="搭建原理github pages github是项目托管网站，列出了项目的源文件，github有一个pages功能，可以自定义主页，用来代替默认的列出源列表的这个页面。所以，github Pages可以被认为是用户编写的、托管在github上的静态网页。对于个人博客的主页页面内容可以位于 master 下。user pages只有一个, project pages可以有多个, 对于个人博客而言,">
 <meta name="keywords" content="npm,hexo,github,笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于Hexo和Github的博客搭建">
 <meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/08/12/基于Hexo和Github的博客搭建/index.html">
 <meta property="og:site_name" content="Lander Blog">
+<meta property="og:description" content="搭建原理github pages github是项目托管网站，列出了项目的源文件，github有一个pages功能，可以自定义主页，用来代替默认的列出源列表的这个页面。所以，github Pages可以被认为是用户编写的、托管在github上的静态网页。对于个人博客的主页页面内容可以位于 master 下。user pages只有一个, project pages可以有多个, 对于个人博客而言,">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-20T03:18:00.979Z">
+<meta property="og:updated_time" content="2017-10-20T04:22:17.403Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Hexo和Github的博客搭建">
+<meta name="twitter:description" content="搭建原理github pages github是项目托管网站，列出了项目的源文件，github有一个pages功能，可以自定义主页，用来代替默认的列出源列表的这个页面。所以，github Pages可以被认为是用户编写的、托管在github上的静态网页。对于个人博客的主页页面内容可以位于 master 下。user pages只有一个, project pages可以有多个, 对于个人博客而言,">
 
 
 
@@ -359,7 +362,105 @@
       
 
       
-        
+        <p><strong>搭建原理</strong><br><strong><code>github pages</code> </strong><br>github是项目托管网站，列出了项目的源文件，github有一个pages功能，可以自定义主页，用来代替默认的列出源列表的这个页面。<br>所以，github Pages可以被认为是用户编写的、托管在github上的静态网页。对于个人博客的主页页面内容可以位于 master 下。<br>user pages只有一个, project pages可以有多个, 对于个人博客而言, 两种方式都可以.如果用户申请了自己的域名,<br>还可以使用CNAME文件自定义domain name,这样访问你的域名就自动访问到github上的页面. 用户也可以自定义404页面.<br><strong><code>Hexo</code></strong><br>Hexo是一个快速、简洁并且高效的博客框架。Hexo使用Markdown解析文章，还可以使用期主题生成静态网页</p>
+<hr>
+<p><strong>搭建步骤</strong><br>大概可以分为以下几个步骤：</p>
+<ul>
+<li>搭建环境准备（包括node.js和git环境，gitHub账户的配置）</li>
+<li>安装Hexo</li>
+<li>配置Hexo</li>
+<li>怎样将Hexo与github page联系起来</li>
+<li>怎样发布文章</li>
+<li>主题 推荐</li>
+<li>主题Next的配置</li>
+<li>添加404 公益页面</li>
+</ul>
+<p><strong><code>环境准备</code></strong><br>配置Node.js安装环境：JavaScript工具，前端架构，编写出可扩展性高的服务器</p>
+<ul>
+<li>安装Online documentation shortcuts模块</li>
+<li>新打开的窗口中输入cmd，敲击回车，打开命令行界面</li>
+<li>查看安装的是否成功<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node -v npm -v</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>配置Git环境:Git工具可以在windows系统中的任意文件下进入命令行界面，可以建立Hexo和Github的连接</p>
+<ul>
+<li>安装Online documentation shortcuts模块</li>
+<li>查看安装是否成功<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git --<span class="keyword">version</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>github账号的配置</p>
+<ul>
+<li>新建一个repository，命名为hexoblog</li>
+<li>在settings页面中的Github Pages中开启gh pages功能，记录网址可以用于后续配置<br>安装Hexo</li>
+<li>新建一个目录并且创建Hexo文件夹，用于安装Hexo，并在命令行的窗口进入到该目录</li>
+<li>命令行输入:安装hexo以及查看是否安装<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm install hexo-cli -g</div><div class="line">npm install hexo --save</div><div class="line">hexo -v</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Hexo的体验</p>
+<ul>
+<li><p>初始化</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo init</div></pre></td></tr></table></figure>
+</li>
+<li><p>安装npm组件</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install</div></pre></td></tr></table></figure>
+</li>
+<li><p>生成</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo g</div></pre></td></tr></table></figure>
+</li>
+<li><p>开启端口</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo s</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>提示，在浏览器中输入以后网址既可以访问hexo界面<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INFO Hexo <span class="keyword">is</span> running at http://<span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">4000</span>/. Press Ctrl+C <span class="keyword">to</span> <span class="keyword">stop</span>.</div></pre></td></tr></table></figure></p>
+<hr>
+<p><strong><code>将hexo和github相连</code></strong><br>配置Git个人信息</p>
+<ul>
+<li><p>设置Git的user.name和user.email</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config --<span class="keyword">global</span> user.name <span class="string">"Lander"</span></div><div class="line">git config --<span class="keyword">global</span> user.email <span class="string">"dclarken@163.com"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>生成秘钥，生成的秘钥要使用需要配置为github上的安全ssh秘钥<br><a href="http://blog.csdn.net/gdutxiaoxu/article/details/53573399" target="_blank" rel="external">Git ssh 配置使用</a></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C <span class="string">"dclarken@163.com"</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>配置Deployment</p>
+<ul>
+<li>在hexo安装目录下找到根配置文件_config.yml文件，找到Deployment句段<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">  <span class="built_in">type</span>: git</div><div class="line">  repo: repo: git@github.<span class="keyword">com</span>:dclarken/hexoblog.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>git插件安装</p>
+<ul>
+<li>提前安装一个扩展<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<p><strong><code>主题配置以及文章发布</code></strong><br>Next主题配置使用</p>
+<ul>
+<li><p>安装Next，利用Git工具将下载的主题文件拷贝在themes目录下</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> your-hexo-site</div><div class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/iissnan/hexo-theme-<span class="keyword">next</span> themes/<span class="keyword">next</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>启用主题，切换主题一般可以用hexo clean来清空缓存</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">theme: <span class="keyword">next</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>验证主题，生成端口，访问网址观察是否成功配置</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo s –<span class="keyword">debug</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>主题设定<br><a href="http://theme-next.iissnan.com" target="_blank" rel="external">Next主题设定资料地址</a></p>
+</li>
+<li>添加文章，添加新的文章在source文件夹下的post文件中，文件名为引号中的字符<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo <span class="keyword">new</span> post <span class="string">"article title"</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>文件格式为markdown格式，初始生成的文件内容如下：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: article title</div><div class="line">date: <span class="number">2017</span>-<span class="number">8</span>-<span class="number">12</span> <span class="number">11</span>:<span class="number">31</span>:<span class="number">21</span></div><div class="line"><span class="keyword">tag</span><span class="variable">s:</span> [随笔,freinds]</div><div class="line">---</div></pre></td></tr></table></figure></p>
+<ul>
+<li>添加标签页面，如果不添加该页面在主题config配置文件中，添加的tags会指向404界面<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> your-hexo-site</div><div class="line">hexo <span class="keyword">new</span> page <span class="keyword">tags</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>文件补充为以下格式：添加type字段，comments字段可以关闭评论<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">title: 标签</div><div class="line">date: <span class="number">2017</span>-<span class="number">8</span>-<span class="number">12</span> <span class="number">12</span>:<span class="number">39</span>:<span class="number">04</span></div><div class="line"><span class="built_in">type</span>: <span class="string">"tags"</span></div><div class="line">comment<span class="variable">s:</span> false</div></pre></td></tr></table></figure></p>
+<ul>
+<li>添加分类页面<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> your-hexo-site</div><div class="line">hexo <span class="keyword">new</span> page categories</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>文件补充以下格式：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">title: 分类</div><div class="line">date: <span class="number">2017</span>-<span class="number">8</span>-<span class="number">12</span> <span class="number">12</span>:<span class="number">39</span>:<span class="number">04</span></div><div class="line"><span class="built_in">type</span>: <span class="string">"categories"</span></div><div class="line">comment<span class="variable">s:</span> false</div><div class="line">---</div></pre></td></tr></table></figure></p>
+
       
     </div>
     
