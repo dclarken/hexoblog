@@ -1381,10 +1381,10 @@
 <li>容错处理</li>
 <li>扩容、缩容</li>
 <li>负责执行各种控制器</li>
+<li>endpoint-controller<br>定期关联service和pod(关联信息由endpoint对象维护)，保证service到pod的映射总是最新的</li>
+<li>replication-controller<br>定期关联replicationController和pod，保证定义的复制数量与实际运行pod的数量总是一致的<br>可操作对象</li>
 </ul>
 </li>
-<li>endpoint-controller<br>  定期关联service和pod(关联信息由endpoint对象维护)，保证service到pod的映射总是最新的</li>
-<li>replication-controller<br>  定期关联replicationController和pod，保证定义的复制数量与实际运行pod的数量总是一致的<br>可操作对象</li>
 </ul>
 </li>
 </ul>
