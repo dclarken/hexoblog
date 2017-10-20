@@ -40,6 +40,18 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[图dfs输出全排序]]></title>
+    <url>%2Fhexoblog%2F2017%2F08%2F13%2F%E5%9B%BEdfs%E8%BE%93%E5%87%BA%E5%85%A8%E6%8E%92%E5%BA%8F%2F</url>
+    <content type="text"><![CDATA[问题: 生成1~n的排列思路: 穷举所有可能 在生成结果数组前把重复的去掉探索到某一步发现原先选择达不到目标, 就退回一步重新选择.效率比普通DFS高. 可以优化排列数和素数环的程序两种代码一种没有加入回溯，一种有——-分隔 1234567891011121314#coding：utf-8A = [None for i in range(10)]N = 3def dfs(cur): if cur == N: print(A[:N]) else: for i in range(1, N+1): if i not in A[:cur]: A[cur] = i dfs(cur+1)dfs(0) 12345678910111213141516A = [None for i in range(0, 10)]V = [False for i in range(0, 10)]N = 4def dfs(cur): if cur == N: #边界条件到N的时候需要输出结果 print(A[:N]) else: for i in range(1, N+1): #遍历所有的情况 if not V[i]: #V为标志，到排序的这个位置上没有数据时候，进入下一步 V[i] = True #首先改变标志位为true，输入需要排入的数值 A[cur] = i dfs(cur+1) #继续往下搜索 V[i] = False #跳出了循环，需要回溯到进入循环之前的状态dfs(0) 问题: 数字1~n围成一个n个节点的环, 不允许数字重复, 任意2个相邻数字相加, 结果均为素数, 打印所有素数环的组合.思路: 同排列数, 多了素数判断. 123456789101112131415161718192021A = [None for i in range(0, 10)]N = 6def is_prime(n): for i in range(2, n//2+1): if n%i == 0: return False return Truedef dfs(cur): if cur == N: if is_prime(A[0]+A[N-1]): print(A[:N]) else: for i in range(1, N+1): if i not in A[:cur]: if cur == 0 or is_prime(i+A[cur-1]): A[cur] = i dfs(cur+1)dfs(0) 1234567891011121314151617181920212223A = [None for i in range(0, 10)]V = [False for i in range(0, 10)]N = 6def is_prime(n): for i in range(2, n//2+1): if n%i == 0: return False return Truedef dfs(cur): if cur == N: if is_prime(A[0]+A[N-1]): print(A[:N]) else: for i in range(1, N+1): if not V[i]: if cur == 0 or is_prime(i+A[cur-1]): V[i] = True A[cur] = i dfs(cur+1) V[i] = Falsedfs(0)]]></content>
+      <categories>
+        <category>code</category>
+      </categories>
+      <tags>
+        <tag>code</tag>
+        <tag>dfs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[图dfs水池个数问题]]></title>
     <url>%2Fhexoblog%2F2017%2F08%2F13%2F%E5%9B%BEdfs%E6%B0%B4%E6%B1%A0%E4%B8%AA%E6%95%B0%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[输入：第一行输入一个整数N，表示共有N组测试数据每一组数据都是先输入该地图的行数m(0&lt;m&lt;100)与列数n(0&lt;n&lt;100)，然后，输入接下来的m行每行输入n个数，表示此处有水还是没水（1表示此处是水池，0表示此处是地面）输出：输出该地图中水池的个数。要注意，每个水池的旁边（上下左右四个位置）如果还是水池的话的话，它们可以看做是同一个水池。 python代码，一直跑不出递归，已经醉了1234567891011121314151617181920212223242526272829#coding:utf-8import sys sys.setrecursionlimit(1000000000)def dfs(i,j): if (i&lt;0 or i&gt;=m or j&lt;0 or j&gt;=n or (s[i][j]==0)): return s[i][j]==0 dfs(i,j+1) dfs(i,j-1) dfs(i-1,j) dfs(i+1,j)if __name__ == '__main__': #N=raw_input().split() try: s=[] ans=0 m,n=[int(i) for i in raw_input().split()] for i in range(m): s.append([int(i) for i in raw_input().split()]) for i in range(m): for j in range(n): if s[i][j]==1: dfs(i,j) ans +=1 print(ans) print s except: pass 1234567891011121314151617181920212223242526272829303132333435363738394041424344 //C++代码： #include&lt;stdio.h&gt;#include&lt;string.h&gt;int s[101][101],n,m;void dfs(int i,int j)&#123; if(i&lt;0||i&gt;m||j&lt;0||j&gt;n||s[i][j]==0)//当所有的点为0时说明这是一个水池 return; s[i][j]=0;//每次搜索一个点后，置为0，避免重复 //从此点开始往四周扩展 dfs(i,j+1); dfs(i,j-1); dfs(i-1,j); dfs(i+1,j);&#125;int main()&#123; int N; scanf("%d",&amp;N); while(N--) &#123; int i,j,ans=0; memset(s,0,sizeof(s));//初始化，0表示地面，1表示水池 scanf("%d%d",&amp;m,&amp;n); for(i=0;i&lt;m;i++) &#123; for(j=0;j&lt;n;j++) scanf("%d",&amp;s[i][j]); &#125; for(i=0;i&lt;m;i++) &#123; for(j=0;j&lt;n;j++) &#123; if(s[i][j]==1)//每次从是水池的地方开始深搜 &#123; dfs(i,j); ans++; //搜索结束后既为满足条件 &#125; &#125; &#125; printf("%d\n",ans);//输出结果 &#125; return 0;&#125;]]></content>
