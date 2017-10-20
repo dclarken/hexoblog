@@ -29,6 +29,19 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[模块-文件管理]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F28%2F%E6%A8%A1%E5%9D%97-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%2F</url>
+    <content type="text"><![CDATA[文件打开方式：1open(name，[mode[buf]]) name:文件路径 mode:打开方式，w：只写方式，文件不存在则创建文件，文件存在则清空文件不同于a追加模式。 buf:文件缓冲大小 r 只读方式打开 w 只写方式打开 a 追加方式打开 r+/w+ 读写方式打开 a+ 追加和读写方式打开 …b二进制方式打开，例如处理图片信息，省略号表示前面的内容 读取方式： read([size])读取文件，读取size个字节，默认读取全部 readline([size]):读取一行 readlnes([size]):读取完文件，返回每一行所组成的列表 readlines(1)能读取8192个字符数据，读取缓冲buff左右个字节 iter：使用迭代器读取文件，使用迭代器可以实现不消耗大量内存的情况下实现对文件的读取。iter(f)，然后利用for循环读取文件信息。 写入操作： write(str)：写入字符串，写缓存机制，调用close、flush之后才会真正写入 writelines(sequence_of_strings)：写多行到文件Linux缓存取大下可以通过write命令测试出来155648字节 Python文件需要关闭: 1.将写缓存同步到磁盘 2.linux系统中每个进程打开文件的个数是有限的 3.如果打开文件数到了系统限制，在打开文件就会失败 Python文件指针操作：1seek(offset[,whence]): 移动文件指针； offset:偏移量，可以为负数 whence：偏移相对位置（SET、CUR、END）import os os.SEEK_SET:相对文件起始位置 os.SEEK_CUR:相对文件当前位置 os.SEEK_END:相对文件结尾位置 Python文件属性: file.fileno():文件描述符 file.mode():文件打开权限 file.encoding():文件编码格式 标准文件：import sys模块 文件标准输入：sys.stdin 文件标准输出：sys.stdout 文件标准错误：sys.stderr文件命令行参数：sys模块体改sys.argv属性，sys.argv是个字符串组成的列表1open(fname,mode,encoding,..,..) 打开文件可以指定编码方式utf-8格式可以识别中文字符 Python文件处理:import os使用os模块 os.open os.read os.write os.lseek os.access 判断文件的权限：R_OK.W_OK.X_OK listdir(path)返回当前目录下所有文件组成的列表 remove(path)删除文件 rename(old,new)修改文件或者目录名 mkdir(path[,mode])创建目录 mkdirs(path[,mode])创建多级目录 removedirs(path)删除多级目录 rmdir(path)删除目录（目录必须为空目录） os.path.exits(path)当前路径是否存在 .isdir(s)是否是一个目录 .isfile(path)是否是一个文件 .getsize(filename)返回文件大小 .dirname(p)返回路径的目录 .basename(p)返回路径的文件名]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[K8s结合LVS高可用负载均衡与集群外服务访问实践]]></title>
     <url>%2Fhexoblog%2F2017%2F09%2F24%2FK8s%E7%BB%93%E5%90%88LVS%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E4%B8%8E%E9%9B%86%E7%BE%A4%E5%A4%96%E6%9C%8D%E5%8A%A1%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5%2F</url>
     <content type="text"><![CDATA[文档资料K8s官方文档翻译 Kubernetes平台Ingress 介绍 Ingress 是一个规则的集合，它允许集群外的流量通过一定的规则到达集群内的 Service 。Ingress三个组件: 反向代理负载均衡器反向代理负载均衡器，即常见的负载均衡软件，如 nginx、Haproxy 等。 Ingress ControllerIngress Controller 与 kubernetes API 进行交互，实时的感知后端 service、pod 等变化， Ingress Controller 再结合下文的 Ingress 生成配置，然后更新反向代理负载均衡器，并刷新其配置，实现动态服务发现与更新。 IngressIngress是规则集合；定义了域名与Kubernetes的service的对应关系;这个规则将与 Ingress Controller 结合， Ingress Controller 将其动态写入到负载均衡器配置中，从而实现整体的服务发现和负载均衡。 TraefikTræfɪk 是一个为了让部署微服务更加便捷而诞生的现代HTTP反向代理、负载均衡工具。 它支持多种后台来自动化、动态的应用它的配置文件设置。特性： 它非常快 无需安装其他依赖，通过Go语言编写的单一可执行文件 支持 Rest API 多种后台支持：Docker, Swarm, Kubernetes, Marathon, Mesos, Consul, Etcd 后台监控, 可以监听后台变化进而自动化应用新的配置文件设置 配置文件热更新。无需重启进程:Traefik 可以与Kubernetes的API进行交互，每当Kubernetes使用Ingress对微服务进行添加、移除、或更新都会被感知，并且可以自动生成它们的配置文件。 指向到你服务的路由将会被直接创建出来。 正常结束http连接 后端断路器 轮询，rebalancer 负载均衡 Rest Metrics 支持最小化 官方 docker 镜像 后台支持SSL 前台支持SSL（包括SNI） 清爽的AngularJS前端页面 支持Websocket 支持HTTP/2 网络错误重试 支持Let’s Encrypt (自动更新HTTPS证书) 高可用集群模式 K8s结合LVS高可用负载均衡与集群外服务访问组网拓扑： 这个案例也可以学习为：如何将四层负载均衡和七层负载均衡相结合来实现对外访问服务。 组网思路如下： 前端为两台LVS服务器，通过keepalive实现负载集群高可用以及虚拟IP，实现外部流量的四层负载，以及作为Kubernetes集群服务访问的入口。LVS负载均衡采用DR模式提高集群的处理速度。 后端三台服务器组成Kubernetes集群，每台节点使用hostPort 的方式部署traefik容器（或者其他能够实现反向代理与负载均衡的服务器如nginx），traefik监听节点的80端口，前端LVS负载均衡监听后端三台Kubernetes节点的80端口将外部访问负载分担至traefik。 然后由Traefik进行七层负载均衡，可以实现基于域名或访问目录等来实现映射与负载，将访问流量映射至Kubernetes Service并通过Service负载至最终业务POD所在的容器。]]></content>
