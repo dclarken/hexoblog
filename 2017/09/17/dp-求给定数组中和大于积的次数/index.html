@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="code,贪心," />
+  <meta name="keywords" content="code,dp," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="问题描述：某餐馆有n张桌子，每张桌子有一个参数：a 可容纳的最大人数； 有m批客人，每批客人有两个参数:b人数，c预计消费金额。在不允许拼桌的情况下，请实现一个算法选择其中一部分客人，使得总预计消费金额最大 基本思路：桌子序列升序排列，客人按照预定花钱多少降序排序，然后贪心法从钱多的客人开始招呼。在遍历能容得下第i批客人的时候需要二分查找去找否则超时。 输入：3 52 4 21 33 53 75">
-<meta name="keywords" content="code,贪心">
+<meta name="description" content="问题描述一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &amp;gt; 1  1  2 * 3你可以适当从袋子里移除一些球(可以移除0个,但是别移除完)，要使移除后的袋子是幸运的。现在让你编程计算一下你可">
+<meta name="keywords" content="code,dp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="贪心算法饭店招待问题">
-<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/09/14/贪心算法饭店招待问题/index.html">
+<meta property="og:title" content="dp-求给定数组中和大于积的次数">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/09/17/dp-求给定数组中和大于积的次数/index.html">
 <meta property="og:site_name" content="Lander Blog">
-<meta property="og:description" content="问题描述：某餐馆有n张桌子，每张桌子有一个参数：a 可容纳的最大人数； 有m批客人，每批客人有两个参数:b人数，c预计消费金额。在不允许拼桌的情况下，请实现一个算法选择其中一部分客人，使得总预计消费金额最大 基本思路：桌子序列升序排列，客人按照预定花钱多少降序排序，然后贪心法从钱多的客人开始招呼。在遍历能容得下第i批客人的时候需要二分查找去找否则超时。 输入：3 52 4 21 33 53 75">
+<meta property="og:description" content="问题描述一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &amp;gt; 1  1  2 * 3你可以适当从袋子里移除一些球(可以移除0个,但是别移除完)，要使移除后的袋子是幸运的。现在让你编程计算一下你可">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-20T07:30:42.434Z">
+<meta property="og:updated_time" content="2017-10-20T07:37:12.716Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="贪心算法饭店招待问题">
-<meta name="twitter:description" content="问题描述：某餐馆有n张桌子，每张桌子有一个参数：a 可容纳的最大人数； 有m批客人，每批客人有两个参数:b人数，c预计消费金额。在不允许拼桌的情况下，请实现一个算法选择其中一部分客人，使得总预计消费金额最大 基本思路：桌子序列升序排列，客人按照预定花钱多少降序排序，然后贪心法从钱多的客人开始招呼。在遍历能容得下第i批客人的时候需要二分查找去找否则超时。 输入：3 52 4 21 33 53 75">
+<meta name="twitter:title" content="dp-求给定数组中和大于积的次数">
+<meta name="twitter:description" content="问题描述一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &amp;gt; 1  1  2 * 3你可以适当从袋子里移除一些球(可以移除0个,但是别移除完)，要使移除后的袋子是幸运的。现在让你编程计算一下你可">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/09/14/贪心算法饭店招待问题/"/>
+  <link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/09/17/dp-求给定数组中和大于积的次数/"/>
 
 
 
 
 
-  <title>贪心算法饭店招待问题 | Lander Blog</title>
+  <title>dp-求给定数组中和大于积的次数 | Lander Blog</title>
   
 
 
@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/14/贪心算法饭店招待问题/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/17/dp-求给定数组中和大于积的次数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Daichao">
@@ -290,7 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">贪心算法饭店招待问题</h1>
+          <h1 class="post-title" itemprop="name headline">dp-求给定数组中和大于积的次数</h1>
         
 
         <div class="post-meta">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-14T00:08:12+08:00">
-                2017-09-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-17T00:08:12+08:00">
+                2017-09-17
               </time>
             
 
@@ -362,11 +362,10 @@
       
 
       
-        <p>问题描述：<br>某餐馆有n张桌子，每张桌子有一个参数：a 可容纳的最大人数； 有m批客人，每批客人有两个参数:b人数，c预计消费金额。在不允许拼桌的情况下，请实现一个算法选择其中一部分客人，使得总预计消费金额最大</p>
-<p>基本思路：<br>桌子序列升序排列，客人按照预定花钱多少降序排序，然后贪心法从钱多的客人开始招呼。在遍历能容得下第i批客人的时候需要二分查找去找否则超时。</p>
-<p>输入：<br>3 5<br>2 4 2<br>1 3<br>3 5<br>3 7<br>5 9<br>1 10<br>输出：<br>20</p>
+        <p>问题描述<br>一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。<br>例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &gt; 1 <em> 1 </em> 2 * 3<br>你可以适当从袋子里移除一些球(可以移除0个,但是别移除完)，要使移除后的袋子是幸运的。现在让你编程计算一下你可以获得的多少种不同的幸运的袋子。</p>
+<p>输入：<br>球号数组<br>输出<br>种类</p>
 <hr>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding:utf-8</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    n,m=[int(i) <span class="keyword">for</span> i <span class="keyword">in</span> raw_input().split()]</div><div class="line">    a=[int(i) <span class="keyword">for</span> i <span class="keyword">in</span> raw_input().split()]</div><div class="line">    guest=[]</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</div><div class="line">        guest.append([int(i) <span class="keyword">for</span> i <span class="keyword">in</span> raw_input().split()])</div><div class="line">    print(func(n,m,a,guest))</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(n,m,a,guest)</span>:</span></div><div class="line">    a.sort()</div><div class="line">    value = <span class="number">0</span></div><div class="line">    count = <span class="number">0</span></div><div class="line">    guest.sort(key=<span class="keyword">lambda</span> x:x[<span class="number">1</span>], reverse=<span class="keyword">True</span>)</div><div class="line">    i = <span class="number">0</span></div><div class="line">    j = <span class="number">0</span></div><div class="line">    <span class="keyword">while</span> i &lt; m:</div><div class="line">        index=search(a,guest[i][<span class="number">0</span>])</div><div class="line">        <span class="keyword">if</span> index&gt;<span class="number">0</span>:</div><div class="line">            j = j+<span class="number">1</span></div><div class="line">            value +=guest[i][<span class="number">1</span>]</div><div class="line">            <span class="keyword">del</span> a[index]</div><div class="line">            <span class="keyword">if</span> j == n:</div><div class="line">                <span class="keyword">break</span></div><div class="line">        i=i+<span class="number">1</span></div><div class="line">    <span class="keyword">return</span> value</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(nums,target)</span>:</span></div><div class="line">    <span class="keyword">if</span> target&lt;=nums[<span class="number">0</span>]:</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span></div><div class="line">    <span class="keyword">if</span> target&gt;nums[<span class="number">-1</span>]:</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span></div><div class="line">    l=<span class="number">0</span></div><div class="line">    r=len(nums)<span class="number">-1</span></div><div class="line">    <span class="keyword">while</span> (l+<span class="number">1</span>)!=r:</div><div class="line">        mid=(l+r)/<span class="number">2</span></div><div class="line">        <span class="keyword">if</span> target&lt;=nums[mid]:</div><div class="line">            r=mid</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            l=mid</div><div class="line">    <span class="keyword">return</span> r</div><div class="line">main()</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#-*- coding:utf-8 -*-</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">isluck</span><span class="params">(nums)</span>:</span> <span class="comment">#幸运袋子判断函数</span></div><div class="line">    sum=<span class="number">0</span></div><div class="line">    mul=<span class="number">1</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> nums:</div><div class="line">        sum +=i</div><div class="line">        mul *=i</div><div class="line">    <span class="keyword">if</span> sum&gt;mul:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">composite</span><span class="params">(array,Sum,multiply)</span>:</span> <span class="comment">#从小到大的规划过程</span></div><div class="line">    count=<span class="number">0</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(len(array)):</div><div class="line">        <span class="keyword">if</span> i&gt;<span class="number">0</span> <span class="keyword">and</span> array[i]==array[i<span class="number">-1</span>]:</div><div class="line">            <span class="keyword">continue</span></div><div class="line">        Sum+=array[i]</div><div class="line">        multiply*=array[i]</div><div class="line">        <span class="keyword">if</span> Sum&gt;multiply:</div><div class="line">            count+=<span class="number">1</span>+composite(array[i+<span class="number">1</span>:], Sum, multiply) <span class="comment"># 当序列中的数值都比较大的时候能够满足要求，那数值小的也更加容易满足</span></div><div class="line">        <span class="keyword">elif</span> array[i]==<span class="number">1</span>:</div><div class="line">            count+=composite(array[i+<span class="number">1</span>:], Sum, multiply) <span class="comment"># 1为特殊情况，当为1的时候，和一定一直大于乘积，所以需要累加</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">break</span></div><div class="line">        Sum-=array[i] <span class="comment">#如果不满足，回退为上一状态</span></div><div class="line">        multiply/=array[i] </div><div class="line">    <span class="keyword">return</span> count</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    n=raw_input()</div><div class="line">    array=raw_input().split()</div><div class="line">    array=[int(i) <span class="keyword">for</span> i <span class="keyword">in</span> array]</div><div class="line">    array.sort() <span class="comment">#首先对其从小到大排列</span></div><div class="line">    <span class="keyword">print</span> composite(array,<span class="number">0</span>,<span class="number">1</span>)</div><div class="line">main()</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -385,7 +384,7 @@
           
             <a href="/hexoblog/tags/code/" rel="tag"># code</a>
           
-            <a href="/hexoblog/tags/贪心/" rel="tag"># 贪心</a>
+            <a href="/hexoblog/tags/dp/" rel="tag"># dp</a>
           
         </div>
       
@@ -398,8 +397,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/hexoblog/2017/09/12/BGP的工作原理/" rel="next" title="BGP的工作原理">
-                <i class="fa fa-chevron-left"></i> BGP的工作原理
+              <a href="/hexoblog/2017/09/16/dp-求两个字符串的最大公共子序列/" rel="next" title="dp-求两个字符串的最大公共子序列">
+                <i class="fa fa-chevron-left"></i> dp-求两个字符串的最大公共子序列
               </a>
             
           </div>
@@ -408,8 +407,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/hexoblog/2017/09/14/ubuntu下安装dockers/" rel="prev" title="ubuntu下安装dockers">
-                ubuntu下安装dockers <i class="fa fa-chevron-right"></i>
+              <a href="/hexoblog/2017/09/19/K8s集群基本组成/" rel="prev" title="K8s集群基本组成">
+                K8s集群基本组成 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
