@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Lander Blog">
 <meta property="og:description" content="搭建原理github pages github是项目托管网站，列出了项目的源文件，github有一个pages功能，可以自定义主页，用来代替默认的列出源列表的这个页面。所以，github Pages可以被认为是用户编写的、托管在github上的静态网页。对于个人博客的主页页面内容可以位于 master 下。user pages只有一个, project pages可以有多个, 对于个人博客而言,">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-20T05:07:52.548Z">
+<meta property="og:updated_time" content="2017-10-20T05:32:47.246Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Hexo和Github的博客搭建">
 <meta name="twitter:description" content="搭建原理github pages github是项目托管网站，列出了项目的源文件，github有一个pages功能，可以自定义主页，用来代替默认的列出源列表的这个页面。所以，github Pages可以被认为是用户编写的、托管在github上的静态网页。对于个人博客的主页页面内容可以位于 master 下。user pages只有一个, project pages可以有多个, 对于个人博客而言,">
@@ -449,7 +449,7 @@
 <li>添加文章，添加新的文章在source文件夹下的post文件中，文件名为引号中的字符<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo <span class="keyword">new</span> post <span class="string">"article title"</span></div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>文件格式为markdown格式，初始生成的文件内容如下：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: article title</div><div class="line">date: <span class="number">2017</span>-<span class="number">8</span>-<span class="number">12</span> <span class="number">11</span>:<span class="number">31</span>:<span class="number">21</span></div><div class="line"><span class="keyword">tag</span><span class="variable">s:</span> [随笔,freinds]</div><div class="line">---</div></pre></td></tr></table></figure></p>
+<p>文件格式为markdown格式，初始生成的文件内容如下：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: article title</div><div class="line">date: <span class="number">2017</span>-<span class="number">8</span>-<span class="number">12</span> <span class="number">11</span>:<span class="number">31</span>:<span class="number">21</span></div><div class="line"><span class="keyword">tag</span><span class="variable">s:</span> [随笔,freinds]</div><div class="line">categorie<span class="variable">s:</span> [随笔]</div><div class="line">---</div></pre></td></tr></table></figure></p>
 <ul>
 <li>添加标签页面，如果不添加该页面在主题config配置文件中，添加的tags会指向404界面<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> your-hexo-site</div><div class="line">hexo <span class="keyword">new</span> page <span class="keyword">tags</span></div></pre></td></tr></table></figure>
 </li>
