@@ -88,7 +88,7 @@
 <meta property="og:description" content="K8s集群基本概念Kubernetes 是Google开源的容器集群管理系统，它构建于docker技术之上，基于Docker构建一个容器的调度服务，提供资源调度、均衡容灾、服务注册、动态扩缩容等功能套件，本质上可看作是基于容器技术的mini-PaaS平台。 基本概念：Node:Node也就等同于Mesos集群中的Slave节点，是所有Pod运行所在的工作主机，可以是物理机也可以是虚拟机。不论是物理">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2017/10/20/59e9a1d50897a.png">
-<meta property="og:updated_time" content="2017-10-20T09:42:27.360Z">
+<meta property="og:updated_time" content="2017-10-20T15:16:36.893Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="K8s集群基本组成">
 <meta name="twitter:description" content="K8s集群基本概念Kubernetes 是Google开源的容器集群管理系统，它构建于docker技术之上，基于Docker构建一个容器的调度服务，提供资源调度、均衡容灾、服务注册、动态扩缩容等功能套件，本质上可看作是基于容器技术的mini-PaaS平台。 基本概念：Node:Node也就等同于Mesos集群中的Slave节点，是所有Pod运行所在的工作主机，可以是物理机也可以是虚拟机。不论是物理">
@@ -538,19 +538,11 @@
 <li>Controller-Manager<ul>
 <li>容错处理</li>
 <li>扩容、缩容</li>
-<li>负责执行各种控制器<ul>
-<li>endpoint-controller<ul>
-<li>定期关联service和pod(关联信息由endpoint对象维护)，保证service到pod的映射总是最新的</li>
+<li>负责执行各种控制器</li>
 </ul>
 </li>
-<li>replication-controller<ul>
-<li>定期关联replicationController和pod，保证定义的复制数量与实际运行pod的数量总是一致的<br>可操作对象</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li>endpoint-controller<br>  定期关联service和pod(关联信息由endpoint对象维护)，保证service到pod的映射总是最新的</li>
+<li>replication-controller<br>  定期关联replicationController和pod，保证定义的复制数量与实际运行pod的数量总是一致的<br>可操作对象</li>
 </ul>
 </li>
 </ul>
