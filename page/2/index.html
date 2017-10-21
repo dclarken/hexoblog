@@ -306,6 +306,181 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/14/ubuntu下安装dockers/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Daichao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lander Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/hexoblog/2017/09/14/ubuntu下安装dockers/" itemprop="url">ubuntu下安装dockers</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-14T11:31:21+08:00">
+                2017-09-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/hexoblog/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/hexoblog/categories/笔记/dockers/" itemprop="url" rel="index">
+                    <span itemprop="name">dockers</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/hexoblog/2017/09/14/ubuntu下安装dockers/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/09/14/ubuntu下安装dockers/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://www.linuxidc.com/Linux/2015-04/116051.htm" target="_blank" rel="external">安装文档资料</a><br><a href="http://blog.csdn.net/quuqu/article/details/51488966" target="_blank" rel="external">dockers安装troubleshooting资料</a><br><strong><code>内核变更</code></strong><br>docker再Linux的kernel3.8上运行最佳。<br>利用 uname -r命令查看当前系统版本的内核，内核版本不满足要求，升级内核：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="built_in">get</span> install linux-image-generic-lts-raring linux-headers-generic-lts-raringsudo apt-<span class="built_in">get</span> install --install-recommends linux-generic-lts-raring xserver-xorg-lts-raring libgl1-mesa-glx-lts-raring</div><div class="line">~sudo reboot</div></pre></td></tr></table></figure></p>
+<p>重启ubuntu</p>
+<p><strong><code>更新apt-get的安装源</code></strong><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">root@linuxidc:~# <span class="keyword">vi</span> /etc/apt/sources.<span class="keyword">list</span></div></pre></td></tr></table></figure></p>
+<p>是包管理工具 apt 所用的记录软件包仓库位置的配置文件<br><a href="http://blog.csdn.net/gong_xucheng/article/details/53886271" target="_blank" rel="external">/etc/apt/sources.list 详解</a><br>删除里面的所有内容，把下面的安装源写入</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty main restricted universe multiverse</div><div class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-security main restricted universe multiverse</div><div class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-updates main restricted universe multiverse</div><div class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-proposed main restricted universe multiverse</div><div class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-backports main restricted universe multiverse</div><div class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty main restricted universe multiverse</div><div class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-security main restricted universe multiverse</div><div class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-updates main restricted universe multiverse</div><div class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-proposed main restricted universe multiverse</div><div class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-backports main restricted universe multiverse</div></pre></td></tr></table></figure>
+<p><strong><code>然后更新apt-get，利用apt-get安装docker.io</code></strong><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">root@linuxidc:~#apt-<span class="built_in">get</span> <span class="keyword">update</span></div><div class="line">root@linuxidc:~#apt-<span class="built_in">get</span> install docker.io</div><div class="line">root@linuxidc:~# service docker.io restart或者 service docker start</div></pre></td></tr></table></figure></p>
+<p>错误信息<br>●报错1：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FATA[<span class="number">0000</span>] Post http:///var/run/docker.sock/v1.<span class="number">18</span>/images/create?fromImage=wpscanteam%<span class="number">2</span>Fvulnerablewordpress%<span class="number">3</span>Alates<span class="variable">t:</span> dial unix /var/run/docker.sock: <span class="keyword">no</span> such <span class="keyword">file</span> <span class="built_in">or</span> directory. Are you trying <span class="keyword">to</span> connect <span class="keyword">to</span> <span class="keyword">a</span> TLS-enabled daemon without TLS?</div></pre></td></tr></table></figure></p>
+<p>解决办法：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo touch /var/run/docker.sock</div><div class="line">$ sudo docker -d</div></pre></td></tr></table></figure></p>
+<p>touch命令有两个功能：一是用于把已存在文件的时间标签更新为系统当前的时间（默认方式），它们的数据将原封不动地保留下来；二是用来创建新的空文件。<br><a href="http://man.linuxde.net/touch" target="_blank" rel="external">文档资料1</a><br>~docker -d :Run container in background and print container ID 运行容量并且打印容器ID<br><a href="http://www.cnblogs.com/go2bed/p/5703117.html" target="_blank" rel="external">文档资料2</a></p>
+<p>●报错2：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">INFO[<span class="number">0000</span>] +job serveapi(unix:///var/run/docker.sock) </div><div class="line">INFO[<span class="number">0000</span>] Listening <span class="keyword">for</span> HTTP <span class="keyword">on</span> unix (/var/run/docker.sock) </div><div class="line">INFO[<span class="number">0000</span>] +job init_networkdriver() </div><div class="line">INFO[<span class="number">0000</span>] -job init_networkdriver() = OK (<span class="number">0</span>) </div><div class="line">WARN[<span class="number">0000</span>] Your kernel does not support cgroup swap limit. </div><div class="line">FATA[<span class="number">0000</span>] Shutting down daemon due <span class="keyword">to</span> error<span class="variable">s:</span> Error loading docker apparmor <span class="keyword">profile</span>: fork/exec /sbin/apparmor_parser: <span class="keyword">no</span> such <span class="keyword">file</span></div></pre></td></tr></table></figure></p>
+<p>解决办法：<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-<span class="built_in">get</span> install apparmor</div></pre></td></tr></table></figure></p>
+<p>Apparmor—Linux内核中的强制访问控制系统，是Linux内核的一个安全模块，AppArmor允许系统管理员将每个程序与一个安全配置文件关联，从而限制程序的功能。简单的说，AppArmor是与SELinux类似的一个访问控制系统，通过它你可以指定程序可以读、写或运行哪些文件，是否可以打开网络端口等。作为对传统Unix的自主访问控制模块的补充，AppArmor提供了强制访问控制机制，它已经被整合到2.6版本的Linux内核中。<br><a href="http://www.cnblogs.com/-Lei/archive/2013/02/24/2923947.html" target="_blank" rel="external">Apparmor</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/14/贪心算法饭店招待问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1886,174 +2061,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/08/12/图BFS最小转机问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Daichao">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lander Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/hexoblog/2017/08/12/图BFS最小转机问题/" itemprop="url">图BFS最小转机问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-12T12:32:21+08:00">
-                2017-08-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/code/" itemprop="url" rel="index">
-                    <span itemprop="name">code</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/code/bfs/" itemprop="url" rel="index">
-                    <span itemprop="name">bfs</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/hexoblog/2017/08/12/图BFS最小转机问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/08/12/图BFS最小转机问题/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>思路：<br>我们假设所有边的长度都是1，每一个线段表示一个转机，求最少转机就是求最短路径而已<br>深度优先和广度优先的方法都可以，但是广度优先更适合所有边的权重一样的情况<br>输入：<br>第一行n,m,p,q分别为站点个数，航线个数，起始点，目的地<br>后面m行表示m条航线<br>输出：<br>最小转机数量<br>样例：<br>5 7 1 5<br>1 2<br>1 3<br>2 3<br>2 4<br>3 4<br>3 5<br>4 5</p>
-<p>2</p>
-<hr>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding:utf-8</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">change</span><span class="params">(n,line)</span>:</span> <span class="comment">#存储图的关系与标记数组</span></div><div class="line">    e=[[<span class="number">99999</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(n+<span class="number">1</span>)] <span class="keyword">for</span> j <span class="keyword">in</span> range(n+<span class="number">1</span>)] <span class="comment">#初始化所有的线路都为最大值99999</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n+<span class="number">1</span>):</div><div class="line">        e[i][i]=<span class="number">0</span> <span class="comment">#自己和自己之间没有线路</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(line)): <span class="comment">#根据m行输入，确定哪一些节点之间是有航线的，</span></div><div class="line">        a,b=line[i]</div><div class="line">        a=int(a)</div><div class="line">        b=int(b)</div><div class="line">        e[a][b]=<span class="number">1</span> <span class="comment">#节点之间有航班即为往返都可通行，即为双向图</span></div><div class="line">        e[b][a]=<span class="number">1</span></div><div class="line">    <span class="keyword">return</span> e</div></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bfs</span><span class="params">(n,m,p,q,e)</span>:</span></div><div class="line">    head=<span class="number">1</span></div><div class="line">    tail=<span class="number">1</span></div><div class="line">    que=[[<span class="number">0</span>,<span class="number">0</span>] <span class="keyword">for</span> i <span class="keyword">in</span> range(m)]</div><div class="line">    que[tail]=[p,<span class="number">0</span>]</div><div class="line">    tail +=<span class="number">1</span></div><div class="line">    book=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(m)]</div><div class="line">    book.insert(p,<span class="number">1</span>)</div><div class="line">    <span class="keyword">while</span> head&lt;=tail:</div><div class="line">        <span class="keyword">print</span> (<span class="string">'que='</span>,que)</div><div class="line">        cur=que[head][<span class="number">0</span>] <span class="comment">#que队列中首航班号</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n+<span class="number">1</span>):</div><div class="line">            <span class="keyword">if</span> e[cur][i]==<span class="number">1</span> <span class="keyword">and</span> book[i]==<span class="number">0</span>: <span class="comment">#利用方向图，从城市cur到城市i是否有航班并且判断城市i是否在队列中</span></div><div class="line">                que[tail]=[i,que[head][<span class="number">1</span>]+<span class="number">1</span>] <span class="comment">#满足条件，cur到城市i有航班并且城市i不在队列中，则i入队，转机次数+1</span></div><div class="line">                tail +=<span class="number">1</span></div><div class="line">                book[i]=<span class="number">1</span> <span class="comment">#改变标记，以防重用 </span></div><div class="line">            <span class="keyword">if</span> tail==q+<span class="number">1</span>:</div><div class="line">                <span class="keyword">return</span>(que[tail<span class="number">-1</span>][<span class="number">1</span>]) <span class="comment">#由于tail是指向队列队尾的下一个位置，所以减1 </span></div><div class="line">        head +=<span class="number">1</span></div></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    n,m,p,q=[int(i) <span class="keyword">for</span> i <span class="keyword">in</span> raw_input().split()]</div><div class="line">    line=[]</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(int(m)):</div><div class="line">        line.append(raw_input().split())</div><div class="line">    e=[]</div><div class="line">    <span class="keyword">print</span> (line)</div><div class="line">    e=change(n,line)</div><div class="line">    print(e)</div><div class="line">    ans=bfs(n,m,p,q,e)</div><div class="line">    print(ans)</div><div class="line"></div><div class="line">main()</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2104,7 +2111,7 @@
               
                 <a href="/hexoblog/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2115,7 +2122,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/hexoblog/categories/index.html">
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2126,7 +2133,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/hexoblog/tags/index.html">
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
