@@ -95,19 +95,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[sort用法]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F17%2Fsort%E7%94%A8%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[Python中的sort()方法使用基础文档：格式：12sorted(iterable[, cmp[, key[, reverse]]])iterable.sort(cmp[, key[, reverse]]) 参数解释： iterable指定要排序的list或者iterable，不用多说； cmp为函数，指定排序时进行比较的函数，可以指定一个函数或者lambda函数，如：students为类对象的list，没个成员有三个域，用sorted进行比较时可以自己定cmp函数，例如这里要通过比较第三个数据成员来排序，代码可以这样写： 12students = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10)]sorted(students, key=lambda student : student[2]) key为函数，指定取待排序元素的哪一项进行排序，函数用上面的例子来说明，代码如下： 1sorted(students, key=lambda student : student[2]) key指定的lambda函数功能是去元素student的第三个域（即：student[2]），因此sorted排序时，会以students所有元素的第三个域来进行排序。 reverse实现降序排序，需要提供一个布尔值，默认为False（升序排列）。]]></content>
-      <categories>
-        <category>笔记</category>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[dp-求给定数组中和大于积的次数]]></title>
     <url>%2Fhexoblog%2F2017%2F09%2F17%2Fdp-%E6%B1%82%E7%BB%99%E5%AE%9A%E6%95%B0%E7%BB%84%E4%B8%AD%E5%92%8C%E5%A4%A7%E4%BA%8E%E7%A7%AF%E7%9A%84%E6%AC%A1%E6%95%B0%2F</url>
     <content type="text"><![CDATA[问题描述一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &gt; 1 1 2 * 3你可以适当从袋子里移除一些球(可以移除0个,但是别移除完)，要使移除后的袋子是幸运的。现在让你编程计算一下你可以获得的多少种不同的幸运的袋子。 输入：球号数组输出种类 123456789101112131415161718192021222324252627282930313233343536#-*- coding:utf-8 -*-def isluck(nums): #幸运袋子判断函数 sum=0 mul=1 for i in nums: sum +=i mul *=i if sum&gt;mul: return True else: return False def composite(array,Sum,multiply): #从小到大的规划过程 count=0 for i in xrange(len(array)): if i&gt;0 and array[i]==array[i-1]: continue Sum+=array[i] multiply*=array[i] if Sum&gt;multiply: count+=1+composite(array[i+1:], Sum, multiply) # 当序列中的数值都比较大的时候能够满足要求，那数值小的也更加容易满足 elif array[i]==1: count+=composite(array[i+1:], Sum, multiply) # 1为特殊情况，当为1的时候，和一定一直大于乘积，所以需要累加 else: break Sum-=array[i] #如果不满足，回退为上一状态 multiply/=array[i] return countdef main(): n=raw_input() array=raw_input().split() array=[int(i) for i in array] array.sort() #首先对其从小到大排列 print composite(array,0,1)main()]]></content>
@@ -118,6 +105,19 @@
       <tags>
         <tag>code</tag>
         <tag>dp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[sort用法]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F17%2Fsort%E7%94%A8%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[Python中的sort()方法使用基础文档：格式：12sorted(iterable[, cmp[, key[, reverse]]])iterable.sort(cmp[, key[, reverse]]) 参数解释： iterable指定要排序的list或者iterable，不用多说； cmp为函数，指定排序时进行比较的函数，可以指定一个函数或者lambda函数，如：students为类对象的list，没个成员有三个域，用sorted进行比较时可以自己定cmp函数，例如这里要通过比较第三个数据成员来排序，代码可以这样写： 12students = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10)]sorted(students, key=lambda student : student[2]) key为函数，指定取待排序元素的哪一项进行排序，函数用上面的例子来说明，代码如下： 1sorted(students, key=lambda student : student[2]) key指定的lambda函数功能是去元素student的第三个域（即：student[2]），因此sorted排序时，会以students所有元素的第三个域来进行排序。 reverse实现降序排序，需要提供一个布尔值，默认为False（升序排列）。]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -171,6 +171,20 @@
         <tag>笔记</tag>
         <tag>网络协议</tag>
         <tag>bgp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux服务器查看性能的几个命令]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F12%2Flinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9F%A5%E7%9C%8B%E6%80%A7%E8%83%BD%E7%9A%84%E5%87%A0%E4%B8%AA%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[一、uptime命令 12$ uptime23:51:26 up 21:31, 1 user, load average: 30.02, 26.43, 19.02 这个命令可以快速查看机器的负载情况。在Linux系统中，这些数据表示等待CPU资源的进程和阻塞在不可中断IO进程（进程状态为D）的数量。这些数据可以让我们对系统资源使用有一个宏观的了解。命令的输出分别表示1分钟、5分钟、15分钟的平均负载情况。通过这三个数据，可以了解服务器负载是在趋于紧张还是趋于缓解。如果1分钟平均负载很高，而15分钟平均负载很低，说明服务器正在命令高负载情况，需要进一步排查CPU资源都消耗在了哪里。反之，如果15分钟平均负载很高，1分钟平均负载较低，则有可能是CPU资源紧张时刻已经过去。上面例子中的输出，可以看见最近1分钟的平均负载非常高，且远高于最近15分钟负载，因此我们需要继续排查当前系统中有什么进程消耗了大量的资源。可以通过下文将会介绍的vmstat、mpstat等命令进一步排查。二、dmesg命令 1234567$ dmesg | tail[1880957.563150] perl invoked oom-killer: gfp_mask=0x280da, order=0, oom_score_adj=0[...][1880957.563400] Out of memory: Kill process 18694 (perl) score 246 or sacrifice child[1880957.563408] Killed process 18694 (perl) total-vm:1972392kB, anon-rss:1953348kB, file-rss:0kB[2320864.954447] TCP: Possible SYN flooding on port 7001. Droppingrequest. Check SNMP counters. 该命令会输出系统日志的最后10行。示例中的输出，可以看见一次内核的oom kill和一次TCP丢包。这些日志可以帮助排查性能问题。千万不要忘了这一步。三、vmstat命令 12345678$ vmstat 1procs ---------memory---------- ---swap-- -----io---- -system-- ------cpu-----r b swpd free buff cache si so bi bo in cs us sy id wa st34 0 0 200889792 73708 591828 0 0 0 5 6 10 96 1 3 0 032 0 0 200889920 73708 591860 0 0 0 592 13284 4282 98 1 1 0 032 0 0 200890112 73708 591860 0 0 0 0 9501 2154 99 1 0 0 032 0 0 200889568 73712 591856 0 0 0 48 11900 2459 99 0 0 0 032 0 0 200890208 73712 591860 0 0 0 0 15898 4840 98 1 1 0 0 vmstat(8) 命令，每行会输出一些系统核心指标，这些指标可以让我们更详细的了解系统状态。后面跟的参数1，表示每秒输出一次统计信息，表头提示了每一列的含义，这几介绍一些和性能调优相关的列： r：等待在CPU资源的进程数。这个数据比平均负载更加能够体现CPU负载情况，数据中不包含等待IO的进程。如果这个数值大于机器CPU核数，那么机器的CPU资源已经饱和。 free：系统可用内存数（以千字节为单位），如果剩余内存不足，也会导致系统性能问题。下文介绍到的free命令，可以更详细的了解系统内存的使用情况。 si，so：交换区写入和读取的数量。如果这个数据不为0，说明系统已经在使用交换区（swap），机器物理内存已经不足。 us, sy, id, wa, st：这些都代表了CPU时间的消耗，它们分别表示用户时间（user）、系统（内核）时间（sys）、空闲时间（idle）、IO等待时间（wait）和被偷走的时间（stolen，一般被其他虚拟机消耗）。 上述这些CPU时间，可以让我们很快了解CPU是否出于繁忙状态。一般情况下，如果用户时间和系统时间相加非常大，CPU出于忙于执行指令。如果IO等待时间很长，那么系统的瓶颈可能在磁盘IO。示例命令的输出可以看见，大量CPU时间消耗在用户态，也就是用户应用程序消耗了CPU时间。这不一定是性能问题，需要结合r队列，一起分析。四、mpstat命令 123456789$ mpstat -P ALL 1Linux 3.13.0-49-generic (titanclusters-xxxxx) 07/14/2015 _x86_64_ (32 CPU)07:38:49 PM CPU %usr %nice %sys %iowait %irq %soft %steal %guest %gnice %idle07:38:50 PM all 98.47 0.00 0.75 0.00 0.00 0.00 0.00 0.00 0.00 0.7807:38:50 PM 0 96.04 0.00 2.97 0.00 0.00 0.00 0.00 0.00 0.00 0.9907:38:50 PM 1 97.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 2.0007:38:50 PM 2 98.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 1.0007:38:50 PM 3 96.97 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 3.03[...] 该命令可以显示每个CPU的占用情况，如果有一个CPU占用率特别高，那么有可能是一个单线程应用程序引起的。五、pidstat命令 1234567891011121314$ pidstat 1Linux 3.13.0-49-generic (titanclusters-xxxxx) 07/14/2015 _x86_64_ (32 CPU)07:41:02 PM UID PID %usr %system %guest %CPU CPU Command07:41:03 PM 0 9 0.00 0.94 0.00 0.94 1 rcuos/007:41:03 PM 0 4214 5.66 5.66 0.00 11.32 15 mesos-slave07:41:03 PM 0 4354 0.94 0.94 0.00 1.89 8 java07:41:03 PM 0 6521 1596.23 1.89 0.00 1598.11 27 java07:41:03 PM 0 6564 1571.70 7.55 0.00 1579.25 28 java07:41:03 PM 60004 60154 0.94 4.72 0.00 5.66 9 pidstat07:41:03 PM UID PID %usr %system %guest %CPU CPU Command07:41:04 PM 0 4214 6.00 2.00 0.00 8.00 15 mesos-slave07:41:04 PM 0 6521 1590.00 1.00 0.00 1591.00 27 java07:41:04 PM 0 6564 1573.00 10.00 0.00 1583.00 28 java07:41:04 PM 108 6718 1.00 0.00 0.00 1.00 0 snmp-pass07:41:04 PM 60004 60154 1.00 4.00 0.00 5.00 9 pidstat pidstat命令输出进程的CPU占用率，该命令会持续输出，并且不会覆盖之前的数据，可以方便观察系统动态。如上的输出，可以看见两个JAVA进程占用了将近1600%的CPU时间，既消耗了大约16个CPU核心的运算资源。六、iostat命令 123456789101112$ iostat -xz 1Linux 3.13.0-49-generic (titanclusters-xxxxx) 07/14/2015 _x86_64_ (32 CPU)avg-cpu: %user %nice %system %iowait %steal %idle73.96 0.00 3.73 0.03 0.06 22.21Device: rrqm/s wrqm/s r/s w/s rkB/s wkB/s avgrq-sz avgqu-sz await r_await w_await svctm %utilxvda 0.00 0.23 0.21 0.18 4.52 2.08 34.37 0.00 9.98 13.80 5.42 2.44 0.09xvdb 0.01 0.00 1.02 8.94 127.97 598.53 145.79 0.00 0.43 1.78 0.28 0.25 0.25xvdc 0.01 0.00 1.02 8.86 127.79 595.94 146.50 0.00 0.45 1.82 0.30 0.27 0.26dm-0 0.00 0.00 0.69 2.32 10.47 31.69 28.01 0.01 3.23 0.71 3.98 0.13 0.04dm-1 0.00 0.00 0.00 0.94 0.01 3.78 8.00 0.33 345.84 0.04 346.81 0.01 0.00dm-2 0.00 0.00 0.09 0.07 1.35 0.36 22.50 0.00 2.55 0.23 5.62 1.78 0.03[...] iostat命令主要用于查看机器磁盘IO情况。该命令输出的列，主要含义是： r/s, w/s, rkB/s, wkB/s：分别表示每秒读写次数和每秒读写数据量（千字节）。读写量过大，可能会引起性能问题。 await：IO操作的平均等待时间，单位是毫秒。这是应用程序在和磁盘交互时，需要消耗的时间，包括IO等待和实际操作的耗时。如果这个数值过大，可能是硬件设备遇到了瓶颈或者出现故障。 avgqu-sz：向设备发出的请求平均数量。如果这个数值大于1，可能是硬件设备已经饱和（部分前端硬件设备支持并行写入）。 %util：设备利用率。这个数值表示设备的繁忙程度，经验值是如果超过60，可能会影响IO性能（可以参照IO操作平均等待时间）。如果到达100%，说明硬件设备已经饱和。如果显示的是逻辑设备的数据，那么设备利用率不代表后端实际的硬件设备已经饱和。值得注意的是，即使IO性能不理想，也不一定意味这应用程序性能会不好，可以利用诸如预读取、写缓存等策略提升应用性能。七、free命令 12345$ free -mtotal used free shared buffers cachedMem: 245998 24545 221453 83 59 541-/+ buffers/cache: 23944 222053Swap: 0 0 0 free命令可以查看系统内存的使用情况，-m参数表示按照兆字节展示。最后两列分别表示用于IO缓存的内存数，和用于文件系统页缓存的内存数。需要注意的是，第二行-/+ buffers/cache，看上去缓存占用了大量内存空间。这是Linux系统的内存使用策略，尽可能的利用内存，如果应用程序需要内存，这部分内存会立即被回收并分配给应用程序。因此，这部分内存一般也被当成是可用内存。如果可用内存非常少，系统可能会动用交换区（如果配置了的话），这样会增加IO开销（可以在iostat命令中提现），降低系统性能。八、sar命令 12345678910$ sar -n DEV 1Linux 3.13.0-49-generic (titanclusters-xxxxx) 07/14/2015 _x86_64_ (32 CPU)12:16:48 AM IFACE rxpck/s txpck/s rxkB/s txkB/s rxcmp/s txcmp/s rxmcst/s %ifutil12:16:49 AM eth0 18763.00 5032.00 20686.42 478.30 0.00 0.00 0.00 0.0012:16:49 AM lo 14.00 14.00 1.36 1.36 0.00 0.00 0.00 0.0012:16:49 AM docker0 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.0012:16:49 AM IFACE rxpck/s txpck/s rxkB/s txkB/s rxcmp/s txcmp/s rxmcst/s %ifutil12:16:50 AM eth0 19763.00 5101.00 21999.10 482.56 0.00 0.00 0.00 0.0012:16:50 AM lo 20.00 20.00 3.25 3.25 0.00 0.00 0.00 0.0012:16:50 AM docker0 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 sar命令在这里可以查看网络设备的吞吐率。在排查性能问题时，可以通过网络设备的吞吐量，判断网络设备是否已经饱和。如示例输出中，eth0网卡设备，吞吐率大概在22 Mbytes/s，既176 Mbits/sec，没有达到1Gbit/sec的硬件上限。sar -n TCP,ETCP 112345678910$ sar -n TCP,ETCP 1Linux 3.13.0-49-generic (titanclusters-xxxxx) 07/14/2015 _x86_64_ (32 CPU)12:17:19 AM active/s passive/s iseg/s oseg/s12:17:20 AM 1.00 0.00 10233.00 18846.0012:17:19 AM atmptf/s estres/s retrans/s isegerr/s orsts/s12:17:20 AM 0.00 0.00 0.00 0.00 0.0012:17:20 AM active/s passive/s iseg/s oseg/s12:17:21 AM 1.00 0.00 8359.00 6039.0012:17:20 AM atmptf/s estres/s retrans/s isegerr/s orsts/s12:17:21 AM 0.00 0.00 0.00 0.00 0.00 sar命令在这里用于查看TCP连接状态，其中包括： active/s：每秒本地发起的TCP连接数，既通过connect调用创建的TCP连接； passive/s：每秒远程发起的TCP连接数，即通过accept调用创建的TCP连接； retrans/s：每秒TCP重传数量；TCP连接数可以用来判断性能问题是否由于建立了过多的连接，进一步可以判断是主动发起的连接，还是被动接受的连接。TCP重传可能是因为网络环境恶劣，或者服务器压九、top命令 123456789101112131415161718$ toptop - 00:15:40 up 21:56, 1 user, load average: 31.09, 29.87, 29.92Tasks: 871 total, 1 running, 868 sleeping, 0 stopped, 2 zombie%Cpu(s): 96.8 us, 0.4 sy, 0.0 ni, 2.7 id, 0.1 wa, 0.0 hi, 0.0 si, 0.0 stKiB Mem: 25190241+total, 24921688 used, 22698073+free, 60448 buffersKiB Swap: 0 total, 0 used, 0 free. 554208 cached MemPID USER PR NI VIRT RES SHR S %CPU %MEM TIME+ COMMAND20248 root 20 0 0.227t 0.012t 18748 S 3090 5.2 29812:58 java4213 root 20 0 2722544 64640 44232 S 23.5 0.0 233:35.37 mesos-slave66128 titancl+ 20 0 24344 2332 1172 R 1.0 0.0 0:00.07 top5235 root 20 0 38.227g 547004 49996 S 0.7 0.2 2:02.74 java4299 root 20 0 20.015g 2.682g 16836 S 0.3 1.1 33:14.42 java 1 root 20 0 33620 2920 1496 S 0.0 0.0 0:03.82 init2 root 20 0 0 0 0 S 0.0 0.0 0:00.02 kthreadd3 root 20 0 0 0 0 S 0.0 0.0 0:05.35 ksoftirqd/05 root 0 -20 0 0 0 S 0.0 0.0 0:00.00 kworker/0:0H6 root 20 0 0 0 0 S 0.0 0.0 0:06.94 kworker/u256:08 root 20 0 0 0 0 S 0.0 0.0 2:38.05 rcu_sched top命令包含了前面好几个命令的检查的内容。比如系统负载情况（uptime）、系统内存使用情况（free）、系统CPU使用情况（vmstat）等。因此通过这个命令，可以相对全面的查看系统负载的来源。同时，top命令支持排序，可以按照不同的列排序，方便查找出诸如内存占用最多的进程、CPU占用率最高的进程等。但是，top命令相对于前面一些命令，输出是一个瞬间值，如果不持续盯着，可能会错过一些线索。这时可能需要暂停top命令刷新，来记录和比对数据。]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>Linux</tag>
+        <tag>监控</tag>
       </tags>
   </entry>
   <entry>
@@ -307,18 +321,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[article title]]></title>
-    <url>%2Fhexoblog%2F2017%2F08%2F12%2Farticle-title%2F</url>
-    <content type="text"><![CDATA[Welcome to dclarken’s page!8.12 is my first day for writing!First of all,I want to say thank you to my best friends :Dachang,Hongwei,Jingchang,Xidun,Yue,YunhaoBest wishes to all of you!]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-        <tag>freinds</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[AWS简称及基本架构介绍]]></title>
     <url>%2Fhexoblog%2F2017%2F08%2F12%2FAWS%E7%AE%80%E7%A7%B0%E5%8F%8A%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D%2F</url>
     <content type="text"><![CDATA[文档教程位置 AWS整体架构 ·VPC：·私有网络AWS 云中逻辑隔离的虚拟网络。从所选的范围内定义 VPC 的 IP 地址空间 对VPC的IP寻CIDR块的控制 为您的VPC CIDR块划分子网的能力 网络访问控制列表 多个IP地址和多个弹性网络接口（ENI）的分配 通过私有连接将VPC和现场IT基础设施连接 ·常见的路由：·路由表的将决定子网的功能 IGW：提供对internet的访问，公有子网带通过IGW实现进/出站internet连接 VGW：提供对数据中心的访问，虚拟专用网关 NAT 网关：一项高度可用的托管网络地址转换 (NAT) 服务，可便于私有子网中的资源访问 Internet，可以在官方AMI上直接启动NAT网关实例，私有子网通过公有子网中运行NAT的Amazon EC2实例实现的出战Internet连接。 VPC对等：与NACL和安全组一起维护VPC的安全，允许在对等VPC之间路由流量，这样两个VPC中的实例可以彼此通信，就像在同一个网络中一样。两个对等的VPC不能具有CIDR块重叠的CIDR块。 ·ELB：·Elastic Load Balancing 弹性负载均衡， 在多个 Amazon EC2 实例之间自动分配应用程序的传入流量，软件负载均衡。 在同一区域可用区实例之间实现均衡 根据用户定义的运行状况检查检测状况欠佳的实例 SSL终端支持自动一证书 ·EC2：·Elastic Compute Cloud 一种 Web 服务，云计算服务平台，用于计算相当于一个虚拟机，可以在云中提供安全并且大小可调的计算容量。该服务旨在让开发人员能够更轻松地进行 Web 规模的云计算。让使用者可以租用云端电脑运行所需应用的系统。类型：C3计算优化、R3内存优化、G2 GPU优化、I2 HS1存储优化 ENI：弹性网络接口，创建的EC2实例具有的虚拟网络接口，具有属性如下：MAC地址、主要私有IP地址，一个或多个次要私有IP地址、每个私有IP地址都有弹性EIP、公有IP地址、安全组、目标检查标记、说明。使用案例：创建管理网络；许可身份验证；在VPC中使用网络和安全性设备 EIP：专为动态云计算设计的静态IP地址，EIP与AWS账号关联，而不是与特定实例关联；而公有IP地址也称为动态IP地址与实例相关。 IGW：整体网关 ALB：Application Load Balancer ALB是位于OSI模型第七层的负载均衡器，因此它能根据网络包的内容将该网络包路由到不同的后端服务。现有的负载均衡器多是位于OSI模型第四层的TCP/UDP均衡器。与这些均衡器不同的是，ALB将检查网络包的内容，并将该网络包发送给适当的服务。当前，ALB支持基于URL对路由流量定义多至十条的独立规则。 Amazon CloudWatch是一项针对 AWS 云资源和在 AWS 上运行的应用程序进行监控的服务。CPU 使用率、数据传输和磁盘使用活动等，弹性负载均衡器、Amazon SQS 队列、Amazon SNS 主题等更多 Amazon CloudFront 是一种全球内容分发网络 (CDN) 服务，用于内容传输，可以安全地以低延迟和高传输速度向浏览者分发数据、视频、应用程序和 API。建或修改现有 AWS CloudFormation 模板。一个描述了您的所有资源及其属性的模板。 Amazon Simple Storage Service (Amazon S3)对象存储，使您能够轻松实用地大规模收集、存储和分析数据，而不管格式如何。S3 是专为从任意位置存储和检索任意大小的数据而构建的对象存储，包括来自网站和移动应用程序、公司应用程序的数据以及来自 IoT 传感器或设备的数据。S3可与CloudFront(CDN)结合使用，可以利用分布式网络给边远地区加速 一个对象的大小可以达到5TB 每个对象存储在存储桶中，通过开发人员分配的唯一密钥进行检索 无限的存储、无限的对象 原生在线HTTP/S访问 通过在同一区域不同可用区间进行复制，持久性 面对Internet的对象存储 Amazon Route 53是一种可用性高、可扩展性强的云域名系统 (DNS) Web 服务，用于DNS域名服务。 IAM：Identity and Access Management“身份识别与访问管理”，身份管理 DMZ英文“demilitarized zone”的缩写，中文名称为“隔离区”，也称“非军事化区”。它是为了解决安装防火墙后外部网络的访问用户不能访问内部网络服务器的问题，而设立的一个非安全系统与安全系统之间的缓冲区。该缓冲区位于企业内部网络和外部网络之间的小网络区域内。在这个小网络区域内可以放置一些必须公开的服务器设施，如企业Web服务器、FTP服务器和论坛等。另一方面，通过这样一个DMZ区域，更加有效地保护了内部网络。因为这种网络部署，比起一般的防火墙方案，对来自外网的攻击者来说又多了一道关卡。 本地存储本地存储适合临时存储不断变化的信息（如缓冲区、缓存、暂存数据和其他临时内容），或者在实例机群内复制的数据。 EBS数据块存储 Elastic Block Store，相当于虚拟机硬盘，最大为1TB。实例依靠虚拟网络连接装载，持久性存储，可以重新附加在其他的EC2实例，利用快照实现，一个EC2实例可以有多个EBS卷，但是多个EC2不能共享卷。应用场景：简单硬盘设备；经常更改数据；对原始、未格式化数据块级别存储的访问权。 EBS快照存储在S3中 RDSAmazon Relational Database Service (Amazon RDS) 是一种可让用户在云中轻松设置、操作和扩展关系数据库的 Web 服务。它在管理耗时的数据库管理任务的同时，提供经济实用的可调容量，使您能够腾出时间专注于应用程序和业务。 RDS 让您能够访问非常熟悉的 MySQL、MariaDB、Oracle、Microsoft SQL Server 或 PostgreSQL 数据库引擎的功能。 AWS Elastic Beanstalk是一项易于使用的服务，用于在熟悉的服务器（例如 Apache 、Nginx、Passenger 和 IIS）上部署和扩展使用 Java、.NET、PHP、Node.js、Python、Ruby、GO 和 Docker 开发的 Web 应用程序和服务。上传代码，Elastic Beanstalk 即可自动处理从容量预置、负载均衡、自动扩展到应用程序运行状况监控的部署。同时，您能够完全控制为应用程序提供支持的 AWS 资源，并可随时访问基础资源。 AWS SQS、SNS、SWF消息发送各个工作流用 Amazon ElastiCache缓存 Amazon Glacier存档，将设置了生命周期规则（如90天）的S3存档，成本极低的存档存储服务，能够提供高耐久性存储，极低成本存储，允许在3-5小时内检索数据。可以利用Storage Gateway进行场外备份 安全性SSL加密型终端节点、AES-256自动加密数据、IAM策略指定账户中的哪些用户有权对特定文件库执行操作 Amazon Simple Email Service电子邮件Auto Scaling自动扩大或缩小Amazon EC2容量；响应需求峰值；当需求下降时，削减不需要的实例以节省费用；根据一天中的时间、按指标或通过API自动扩展 AMI亚马逊系统映像，提供启动实例所需的信息 AWS Direct Connect建立从本地设施到Amazon VPC的专用网络链接，建立AWS和数据中心、办公室或托管环境之间建立私有连接。 MSDNMicrosoft Developer Network用来帮助开发人员使用Microsoft产品和技术]]></content>
@@ -330,6 +332,18 @@
         <tag>笔记</tag>
         <tag>AWS</tag>
         <tag>架构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[article title]]></title>
+    <url>%2Fhexoblog%2F2017%2F08%2F12%2Farticle-title%2F</url>
+    <content type="text"><![CDATA[Welcome to dclarken’s page!8.12 is my first day for writing!First of all,I want to say thank you to my best friends :Dachang,Hongwei,Jingchang,Xidun,Yue,YunhaoBest wishes to all of you!]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>freinds</tag>
       </tags>
   </entry>
   <entry>
