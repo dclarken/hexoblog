@@ -940,43 +940,62 @@
       
         
           
-            <p>一、uptime命令</p>
+            <p><code>一、uptime命令</code></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ uptime</div><div class="line"><span class="number">23</span>:<span class="number">51</span>:<span class="number">26</span> <span class="keyword">up</span> <span class="number">21</span>:<span class="number">31</span>,  <span class="number">1</span> user,  load average: <span class="number">30.02</span>, <span class="number">26.43</span>, <span class="number">19.02</span></div></pre></td></tr></table></figure>
-<p>这个命令可以快速查看机器的负载情况。在Linux系统中，这些数据表示等待CPU资源的进程和阻塞在不可中断IO进程（进程状态为D）的数量。这些数据可以让我们对系统资源使用有一个宏观的了解。<br>命令的输出分别表示<strong>1分钟、5分钟、15分钟的平均负载情况</strong>。通过这三个数据，可以了解服务器负载是在趋于紧张还是趋于缓解。如果1分钟平均负载很高，而15分钟平均负载很低，说明服务器正在命令高负载情况，需要进一步排查CPU资源都消耗在了哪里。反之，如果15分钟平均负载很高，1分钟平均负载较低，则有可能是CPU资源紧张时刻已经过去。<br>上面例子中的输出，可以看见最近1分钟的平均负载非常高，且远高于最近15分钟负载，因此我们需要继续排查当前系统中有什么进程消耗了大量的资源。可以通过下文将会介绍的vmstat、mpstat等命令进一步排查。<br>二、dmesg命令</p>
+<p>这个命令可以快速查看机器的负载情况。在Linux系统中，这些数据表示等待CPU资源的进程和阻塞在不可中断IO进程（进程状态为D）的数量。这些数据可以让我们对系统资源使用有一个宏观的了解。<br>命令的输出分别表示<strong>1分钟、5分钟、15分钟的平均负载情况</strong>。通过这三个数据，可以了解服务器负载是在趋于紧张还是趋于缓解。如果1分钟平均负载很高，而15分钟平均负载很低，说明服务器正在命令高负载情况，需要进一步排查CPU资源都消耗在了哪里。反之，如果15分钟平均负载很高，1分钟平均负载较低，则有可能是CPU资源紧张时刻已经过去。<br>上面例子中的输出，可以看见最近1分钟的平均负载非常高，且远高于最近15分钟负载，因此我们需要继续排查当前系统中有什么进程消耗了大量的资源。可以通过下文将会介绍的vmstat、mpstat等命令进一步排查。</p>
+<hr>
+<p><code>二、dmesg命令</code></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ dmesg | tail</div><div class="line">[<span class="number">1880957.563150</span>] <span class="keyword">perl</span> invoked oom-killer: gfp_mask=<span class="number">0</span>x280da, order=<span class="number">0</span>, oom_score_adj=<span class="number">0</span></div><div class="line">[...]</div><div class="line">[<span class="number">1880957.563400</span>] Out of memory: Kill process <span class="number">18694</span> (<span class="keyword">perl</span>) score <span class="number">246</span> <span class="built_in">or</span> sacrifice child</div><div class="line">[<span class="number">1880957.563408</span>] Killed process <span class="number">18694</span> (<span class="keyword">perl</span>) total-<span class="keyword">vm</span>:<span class="number">1972392</span>kB, anon-rs<span class="variable">s:1953348kB</span>, <span class="keyword">file</span>-rs<span class="variable">s:0kB</span></div><div class="line">[<span class="number">2320864.954447</span>] TCP: Possible SYN flooding <span class="keyword">on</span> port <span class="number">7001</span>. Dropping</div><div class="line">request.  Check SNMP counters.</div></pre></td></tr></table></figure>
-<p>该命令会输出系统日志的最后10行。示例中的输出，可以看见一次内核的oom kill和一次TCP丢包。这些日志可以帮助排查性能问题。千万不要忘了这一步。<br>三、vmstat命令</p>
+<p>该命令会输出系统日志的最后10行。示例中的输出，可以看见一次内核的oom kill和一次TCP丢包。这些日志可以帮助排查性能问题。千万不要忘了这一步。</p>
+<hr>
+<p><code>三、vmstat命令</code></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ vmstat <span class="number">1</span></div><div class="line">procs ---------memory---------- ---swap-- -----io---- -<span class="built_in">system</span>-- ------cpu-----</div><div class="line">r  <span class="keyword">b</span> swpd   free   buff  cache   si   <span class="keyword">so</span>    bi    <span class="keyword">bo</span>   in   <span class="keyword">cs</span> us <span class="keyword">sy</span> id <span class="keyword">wa</span> <span class="keyword">st</span></div><div class="line"><span class="number">34</span>  <span class="number">0</span>    <span class="number">0</span> <span class="number">200889792</span>  <span class="number">73708</span> <span class="number">591828</span>    <span class="number">0</span>    <span class="number">0</span>     <span class="number">0</span>     <span class="number">5</span>    <span class="number">6</span>   <span class="number">10</span> <span class="number">96</span>  <span class="number">1</span>  <span class="number">3</span>  <span class="number">0</span>  <span class="number">0</span></div><div class="line"><span class="number">32</span>  <span class="number">0</span>    <span class="number">0</span> <span class="number">200889920</span>  <span class="number">73708</span> <span class="number">591860</span>    <span class="number">0</span>    <span class="number">0</span>     <span class="number">0</span>   <span class="number">592</span> <span class="number">13284</span> <span class="number">4282</span> <span class="number">98</span>  <span class="number">1</span>  <span class="number">1</span>  <span class="number">0</span>  <span class="number">0</span></div><div class="line"><span class="number">32</span>  <span class="number">0</span>    <span class="number">0</span> <span class="number">200890112</span>  <span class="number">73708</span> <span class="number">591860</span>    <span class="number">0</span>    <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span> <span class="number">9501</span> <span class="number">2154</span> <span class="number">99</span>  <span class="number">1</span>  <span class="number">0</span>  <span class="number">0</span>  <span class="number">0</span></div><div class="line"><span class="number">32</span>  <span class="number">0</span>    <span class="number">0</span> <span class="number">200889568</span>  <span class="number">73712</span> <span class="number">591856</span>    <span class="number">0</span>    <span class="number">0</span>     <span class="number">0</span>    <span class="number">48</span> <span class="number">11900</span> <span class="number">2459</span> <span class="number">99</span>  <span class="number">0</span>  <span class="number">0</span>  <span class="number">0</span>  <span class="number">0</span></div><div class="line"><span class="number">32</span>  <span class="number">0</span>    <span class="number">0</span> <span class="number">200890208</span>  <span class="number">73712</span> <span class="number">591860</span>    <span class="number">0</span>    <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span> <span class="number">15898</span> <span class="number">4840</span> <span class="number">98</span>  <span class="number">1</span>  <span class="number">1</span>  <span class="number">0</span>  <span class="number">0</span></div></pre></td></tr></table></figure>
 <p>vmstat(8) 命令，<strong>每行会输出一些系统核心指标，这些指标可以让我们更详细的了解系统状态</strong>。后面跟的参数1，表示每秒输出一次统计信息，表头提示了每一列的含义，这几介绍一些和性能调优相关的列：</p>
 <ul>
 <li>r：等待在CPU资源的进程数。这个数据比平均负载更加能够体现CPU负载情况，数据中不包含等待IO的进程。如果这个数值大于机器CPU核数，那么机器的CPU资源已经饱和。</li>
 <li>free：系统可用内存数（以千字节为单位），如果剩余内存不足，也会导致系统性能问题。下文介绍到的free命令，可以更详细的了解系统内存的使用情况。</li>
 <li>si，so：交换区写入和读取的数量。如果这个数据不为0，说明系统已经在使用交换区（swap），机器物理内存已经不足。</li>
-<li>us, sy, id, wa, st：这些都代表了CPU时间的消耗，它们分别表示用户时间（user）、系统（内核）时间（sys）、空闲时间（idle）、IO等待时间（wait）和被偷走的时间（stolen，一般被其他虚拟机消耗）。上述这些CPU时间，可以让我们很快了解CPU是否出于繁忙状态。一般情况下，如果用户时间和系统时间相加非常大，CPU出于忙于执行指令。如果IO等待时间很长，那么系统的瓶颈可能在磁盘IO。<br>示例命令的输出可以看见，大量CPU时间消耗在用户态，也就是用户应用程序消耗了CPU时间。这不一定是性能问题，需要结合r队列，一起分析。<br>四、mpstat命令</li>
+<li>us, sy, id, wa, st：这些都代表了CPU时间的消耗，它们分别表示用户时间（user）、系统（内核）时间（sys）、空闲时间（idle）、IO等待时间（wait）和被偷走的时间（stolen，一般被其他虚拟机消耗）。上述这些CPU时间，可以让我们很快了解CPU是否出于繁忙状态。一般情况下，如果用户时间和系统时间相加非常大，CPU出于忙于执行指令。如果IO等待时间很长，那么系统的瓶颈可能在磁盘IO。</li>
 </ul>
+<p>示例命令的输出可以看见，大量CPU时间消耗在用户态，也就是用户应用程序消耗了CPU时间。这不一定是性能问题，需要结合r队列，一起分析。</p>
+<hr>
+<p><code>四、mpstat命令</code></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ mpstat -<span class="keyword">P</span> ALL <span class="number">1</span></div><div class="line">Linux <span class="number">3.13</span>.<span class="number">0</span>-<span class="number">49</span>-generic (titanclusters-xxxxx)  <span class="number">07</span>/<span class="number">14</span>/<span class="number">2015</span>  _x86_64_ (<span class="number">32</span> CPU)</div><div class="line"><span class="number">07</span>:<span class="number">38</span>:<span class="number">49</span> PM  CPU   %usr  %nice   %sys %iowait   %irq  %soft  %steal  %guest  %gnice  %idle</div><div class="line"><span class="number">07</span>:<span class="number">38</span>:<span class="number">50</span> PM  <span class="keyword">all</span>  <span class="number">98.47</span>   <span class="number">0.00</span>   <span class="number">0.75</span>    <span class="number">0.00</span>   <span class="number">0.00</span>   <span class="number">0.00</span>    <span class="number">0.00</span>    <span class="number">0.00</span>    <span class="number">0.00</span>   <span class="number">0.78</span></div><div class="line"><span class="number">07</span>:<span class="number">38</span>:<span class="number">50</span> PM    <span class="number">0</span>  <span class="number">96.04</span>   <span class="number">0.00</span>   <span class="number">2.97</span>    <span class="number">0.00</span>   <span class="number">0.00</span>   <span class="number">0.00</span>    <span class="number">0.00</span>    <span class="number">0.00</span>    <span class="number">0.00</span>   <span class="number">0.99</span></div><div class="line"><span class="number">07</span>:<span class="number">38</span>:<span class="number">50</span> PM    <span class="number">1</span>  <span class="number">97.00</span>   <span class="number">0.00</span>   <span class="number">1.00</span>    <span class="number">0.00</span>   <span class="number">0.00</span>   <span class="number">0.00</span>    <span class="number">0.00</span>    <span class="number">0.00</span>    <span class="number">0.00</span>   <span class="number">2.00</span></div><div class="line"><span class="number">07</span>:<span class="number">38</span>:<span class="number">50</span> PM    <span class="number">2</span>  <span class="number">98.00</span>   <span class="number">0.00</span>   <span class="number">1.00</span>    <span class="number">0.00</span>   <span class="number">0.00</span>   <span class="number">0.00</span>    <span class="number">0.00</span>    <span class="number">0.00</span>    <span class="number">0.00</span>   <span class="number">1.00</span></div><div class="line"><span class="number">07</span>:<span class="number">38</span>:<span class="number">50</span> PM    <span class="number">3</span>  <span class="number">96.97</span>   <span class="number">0.00</span>   <span class="number">0.00</span>    <span class="number">0.00</span>   <span class="number">0.00</span>   <span class="number">0.00</span>    <span class="number">0.00</span>    <span class="number">0.00</span>    <span class="number">0.00</span>   <span class="number">3.03</span></div><div class="line">[...]</div></pre></td></tr></table></figure>
-<p>该命令可以显示每个CPU的占用情况，如果有一个CPU占用率特别高，那么有可能是一个单线程应用程序引起的。<br>五、pidstat命令</p>
+<p>该命令可以显示每个CPU的占用情况，如果有一个CPU占用率特别高，那么有可能是一个单线程应用程序引起的。</p>
+<hr>
+<p><code>五、pidstat命令</code></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">$ pidstat <span class="number">1</span></div><div class="line">Linux <span class="number">3.13</span>.<span class="number">0</span>-<span class="number">49</span>-generic (titanclusters-xxxxx)  <span class="number">07</span>/<span class="number">14</span>/<span class="number">2015</span>    _x86_64_    (<span class="number">32</span> CPU)</div><div class="line"><span class="number">07</span>:<span class="number">41</span>:<span class="number">02</span> PM   UID       PID    %usr %<span class="built_in">system</span>  %guest    %CPU   CPU  Command</div><div class="line"><span class="number">07</span>:<span class="number">41</span>:<span class="number">03</span> PM     <span class="number">0</span>         <span class="number">9</span>    <span class="number">0.00</span>    <span class="number">0.94</span>    <span class="number">0.00</span>    <span class="number">0.94</span>     <span class="number">1</span>  rcuos/<span class="number">0</span></div><div class="line"><span class="number">07</span>:<span class="number">41</span>:<span class="number">03</span> PM     <span class="number">0</span>      <span class="number">4214</span>    <span class="number">5.66</span>    <span class="number">5.66</span>    <span class="number">0.00</span>   <span class="number">11.32</span>    <span class="number">15</span>  mesos-slave</div><div class="line"><span class="number">07</span>:<span class="number">41</span>:<span class="number">03</span> PM     <span class="number">0</span>      <span class="number">4354</span>    <span class="number">0.94</span>    <span class="number">0.94</span>    <span class="number">0.00</span>    <span class="number">1.89</span>     <span class="number">8</span>  java</div><div class="line"><span class="number">07</span>:<span class="number">41</span>:<span class="number">03</span> PM     <span class="number">0</span>      <span class="number">6521</span> <span class="number">1596.23</span>    <span class="number">1.89</span>    <span class="number">0.00</span> <span class="number">1598.11</span>    <span class="number">27</span>  java</div><div class="line"><span class="number">07</span>:<span class="number">41</span>:<span class="number">03</span> PM     <span class="number">0</span>      <span class="number">6564</span> <span class="number">1571.70</span>    <span class="number">7.55</span>    <span class="number">0.00</span> <span class="number">1579.25</span>    <span class="number">28</span>  java</div><div class="line"><span class="number">07</span>:<span class="number">41</span>:<span class="number">03</span> PM <span class="number">60004</span>     <span class="number">60154</span>    <span class="number">0.94</span>    <span class="number">4.72</span>    <span class="number">0.00</span>    <span class="number">5.66</span>     <span class="number">9</span>  pidstat</div><div class="line"><span class="number">07</span>:<span class="number">41</span>:<span class="number">03</span> PM   UID       PID    %usr %<span class="built_in">system</span>  %guest    %CPU   CPU  Command</div><div class="line"><span class="number">07</span>:<span class="number">41</span>:<span class="number">04</span> PM     <span class="number">0</span>      <span class="number">4214</span>    <span class="number">6.00</span>    <span class="number">2.00</span>    <span class="number">0.00</span>    <span class="number">8.00</span>    <span class="number">15</span>  mesos-slave</div><div class="line"><span class="number">07</span>:<span class="number">41</span>:<span class="number">04</span> PM     <span class="number">0</span>      <span class="number">6521</span> <span class="number">1590.00</span>    <span class="number">1.00</span>    <span class="number">0.00</span> <span class="number">1591.00</span>    <span class="number">27</span>  java07:<span class="number">41</span>:<span class="number">04</span> PM     <span class="number">0</span>      <span class="number">6564</span> <span class="number">1573.00</span>   <span class="number">10.00</span>    <span class="number">0.00</span> <span class="number">1583.00</span>    <span class="number">28</span>  java</div><div class="line"><span class="number">07</span>:<span class="number">41</span>:<span class="number">04</span> PM   <span class="number">108</span>      <span class="number">6718</span>    <span class="number">1.00</span>    <span class="number">0.00</span>    <span class="number">0.00</span>    <span class="number">1.00</span>     <span class="number">0</span>  snmp-pass</div><div class="line"><span class="number">07</span>:<span class="number">41</span>:<span class="number">04</span> PM <span class="number">60004</span>     <span class="number">60154</span>    <span class="number">1.00</span>    <span class="number">4.00</span>    <span class="number">0.00</span>    <span class="number">5.00</span>     <span class="number">9</span>  pidstat</div></pre></td></tr></table></figure>
-<p>pidstat命令输出<strong>进程的CPU占用率</strong>，该命令会持续输出，并且不会覆盖之前的数据，可以方便观察系统动态。如上的输出，可以看见两个JAVA进程占用了将近1600%的CPU时间，既消耗了大约16个CPU核心的运算资源。<br>六、iostat命令</p>
+<p>pidstat命令输出<strong>进程的CPU占用率</strong>，该命令会持续输出，并且不会覆盖之前的数据，可以方便观察系统动态。如上的输出，可以看见两个JAVA进程占用了将近1600%的CPU时间，既消耗了大约16个CPU核心的运算资源。</p>
+<hr>
+<p><code>六、iostat命令</code></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">$ iostat -xz <span class="number">1</span></div><div class="line">Linux <span class="number">3.13</span>.<span class="number">0</span>-<span class="number">49</span>-generic (titanclusters-xxxxx)  <span class="number">07</span>/<span class="number">14</span>/<span class="number">2015</span>  _x86_64_ (<span class="number">32</span> CPU)</div><div class="line">avg-cpu:  %user   %nice %<span class="built_in">system</span> %iowait  %steal   %idle</div><div class="line"><span class="number">73.96</span>    <span class="number">0.00</span>    <span class="number">3.73</span>    <span class="number">0.03</span>    <span class="number">0.06</span>   <span class="number">22.21</span></div><div class="line">Device:   rrqm/s   wrqm/s     r/s     <span class="keyword">w</span>/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util</div><div class="line">xvda        <span class="number">0.00</span>     <span class="number">0.23</span>    <span class="number">0.21</span>    <span class="number">0.18</span>     <span class="number">4.52</span>     <span class="number">2.08</span>    <span class="number">34.37</span>     <span class="number">0.00</span>    <span class="number">9.98</span>   <span class="number">13.80</span>    <span class="number">5.42</span>   <span class="number">2.44</span>   <span class="number">0.09</span></div><div class="line">xvdb        <span class="number">0.01</span>     <span class="number">0.00</span>    <span class="number">1.02</span>    <span class="number">8.94</span>   <span class="number">127.97</span>   <span class="number">598.53</span>   <span class="number">145.79</span>     <span class="number">0.00</span>    <span class="number">0.43</span>    <span class="number">1.78</span>    <span class="number">0.28</span>   <span class="number">0.25</span>   <span class="number">0.25</span></div><div class="line">xvdc        <span class="number">0.01</span>     <span class="number">0.00</span>    <span class="number">1.02</span>    <span class="number">8.86</span>   <span class="number">127.79</span>   <span class="number">595.94</span>   <span class="number">146.50</span>     <span class="number">0.00</span>    <span class="number">0.45</span>    <span class="number">1.82</span>    <span class="number">0.30</span>   <span class="number">0.27</span>   <span class="number">0.26</span></div><div class="line">dm-<span class="number">0</span>        <span class="number">0.00</span>     <span class="number">0.00</span>    <span class="number">0.69</span>    <span class="number">2.32</span>    <span class="number">10.47</span>    <span class="number">31.69</span>    <span class="number">28.01</span>     <span class="number">0.01</span>    <span class="number">3.23</span>    <span class="number">0.71</span>    <span class="number">3.98</span>   <span class="number">0.13</span>   <span class="number">0.04</span></div><div class="line">dm-<span class="number">1</span>        <span class="number">0.00</span>     <span class="number">0.00</span>    <span class="number">0.00</span>    <span class="number">0.94</span>     <span class="number">0.01</span>     <span class="number">3.78</span>     <span class="number">8.00</span>     <span class="number">0.33</span>  <span class="number">345.84</span>    <span class="number">0.04</span>  <span class="number">346.81</span>   <span class="number">0.01</span>   <span class="number">0.00</span></div><div class="line">dm-<span class="number">2</span>        <span class="number">0.00</span>     <span class="number">0.00</span>    <span class="number">0.09</span>    <span class="number">0.07</span>     <span class="number">1.35</span>     <span class="number">0.36</span>    <span class="number">22.50</span>     <span class="number">0.00</span>    <span class="number">2.55</span>    <span class="number">0.23</span>    <span class="number">5.62</span>   <span class="number">1.78</span>   <span class="number">0.03</span></div><div class="line">[...]</div></pre></td></tr></table></figure>
 <p>iostat命令主要用于查看<strong>机器磁盘IO</strong>情况。该命令输出的列，主要含义是：</p>
 <ul>
 <li>r/s, w/s, rkB/s, wkB/s：分别表示每秒读写次数和每秒读写数据量（千字节）。读写量过大，可能会引起性能问题。</li>
 <li>await：IO操作的平均等待时间，单位是毫秒。这是应用程序在和磁盘交互时，需要消耗的时间，包括IO等待和实际操作的耗时。如果这个数值过大，可能是硬件设备遇到了瓶颈或者出现故障。</li>
 <li>avgqu-sz：向设备发出的请求平均数量。如果这个数值大于1，可能是硬件设备已经饱和（部分前端硬件设备支持并行写入）。</li>
-<li>%util：设备利用率。这个数值表示设备的繁忙程度，经验值是如果超过60，可能会影响IO性能（可以参照IO操作平均等待时间）。如果到达100%，说明硬件设备已经饱和。<br>如果显示的是逻辑设备的数据，那么设备利用率不代表后端实际的硬件设备已经饱和。值得注意的是，即使IO性能不理想，也不一定意味这应用程序性能会不好，可以利用诸如预读取、写缓存等策略提升应用性能。<br>七、free命令</li>
+<li>%util：设备利用率。这个数值表示设备的繁忙程度，经验值是如果超过60，可能会影响IO性能（可以参照IO操作平均等待时间）。如果到达100%，说明硬件设备已经饱和。</li>
 </ul>
+<p>如果显示的是逻辑设备的数据，那么设备利用率不代表后端实际的硬件设备已经饱和。值得注意的是，即使IO性能不理想，也不一定意味这应用程序性能会不好，可以利用诸如预读取、写缓存等策略提升应用性能。</p>
+<hr>
+<p><code>七、free命令</code></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ free -<span class="keyword">m</span></div><div class="line">total       used       free     shared    <span class="keyword">buffers</span>     cached</div><div class="line">Mem:        <span class="number">245998</span>      <span class="number">24545</span>     <span class="number">221453</span>         <span class="number">83</span>         <span class="number">59</span>        <span class="number">541</span></div><div class="line">-/+ <span class="keyword">buffers</span>/cache:      <span class="number">23944</span>     <span class="number">222053</span></div><div class="line">Swap:            <span class="number">0</span>          <span class="number">0</span>          <span class="number">0</span></div></pre></td></tr></table></figure>
-<p>free命令可以查看<strong>系统内存的使用情况</strong>，-m参数表示按照兆字节展示。最后两列分别表示用于IO缓存的内存数，和用于文件系统页缓存的内存数。需要注意的是，第二行-/+ buffers/cache，看上去缓存占用了大量内存空间。<br>这是Linux系统的内存使用策略，尽可能的利用内存，如果应用程序需要内存，这部分内存会立即被回收并分配给应用程序。因此，这部分内存一般也被当成是可用内存。<br>如果可用内存非常少，系统可能会动用交换区（如果配置了的话），这样会增加IO开销（可以在iostat命令中提现），降低系统性能。<br>八、sar命令</p>
+<p>free命令可以查看<strong>系统内存的使用情况</strong>，-m参数表示按照兆字节展示。最后两列分别表示用于IO缓存的内存数，和用于文件系统页缓存的内存数。需要注意的是，第二行-/+ buffers/cache，看上去缓存占用了大量内存空间。<br>这是Linux系统的内存使用策略，尽可能的利用内存，如果应用程序需要内存，这部分内存会立即被回收并分配给应用程序。因此，这部分内存一般也被当成是可用内存。<br>如果可用内存非常少，系统可能会动用交换区（如果配置了的话），这样会增加IO开销（可以在iostat命令中提现），降低系统性能。</p>
+<hr>
+<p><code>八、sar命令</code></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$ sar -n DEV <span class="number">1</span></div><div class="line">Linux <span class="number">3.13</span>.<span class="number">0</span>-<span class="number">49</span>-generic (titanclusters-xxxxx)  <span class="number">07</span>/<span class="number">14</span>/<span class="number">2015</span>     _x86_64_    (<span class="number">32</span> CPU)</div><div class="line"><span class="number">12</span>:<span class="number">16</span>:<span class="number">48</span> AM     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil</div><div class="line"><span class="number">12</span>:<span class="number">16</span>:<span class="number">49</span> AM      eth0  <span class="number">18763.00</span>   <span class="number">5032.00</span>  <span class="number">20686.42</span>    <span class="number">478.30</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span></div><div class="line"><span class="number">12</span>:<span class="number">16</span>:<span class="number">49</span> AM        <span class="keyword">lo</span>     <span class="number">14.00</span>     <span class="number">14.00</span>      <span class="number">1.36</span>      <span class="number">1.36</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span></div><div class="line"><span class="number">12</span>:<span class="number">16</span>:<span class="number">49</span> AM   docker0      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span></div><div class="line"><span class="number">12</span>:<span class="number">16</span>:<span class="number">49</span> AM     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil</div><div class="line"><span class="number">12</span>:<span class="number">16</span>:<span class="number">50</span> AM      eth0  <span class="number">19763.00</span>   <span class="number">5101.00</span>  <span class="number">21999.10</span>    <span class="number">482.56</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span></div><div class="line"><span class="number">12</span>:<span class="number">16</span>:<span class="number">50</span> AM        <span class="keyword">lo</span>     <span class="number">20.00</span>     <span class="number">20.00</span>      <span class="number">3.25</span>      <span class="number">3.25</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span></div><div class="line"><span class="number">12</span>:<span class="number">16</span>:<span class="number">50</span> AM   docker0      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span></div></pre></td></tr></table></figure>
 <p>sar命令在这里可以查看<strong>网络设备的吞吐率</strong>。在排查性能问题时，可以通过网络设备的吞吐量，判断网络设备是否已经饱和。如示例输出中，eth0网卡设备，吞吐率大概在22 Mbytes/s，既176 Mbits/sec，没有达到1Gbit/sec的硬件上限。<br>sar -n TCP,ETCP 1<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$ sar -n TCP,ETCP <span class="number">1</span></div><div class="line">Linux <span class="number">3.13</span>.<span class="number">0</span>-<span class="number">49</span>-generic (titanclusters-xxxxx)  <span class="number">07</span>/<span class="number">14</span>/<span class="number">2015</span>    _x86_64_    (<span class="number">32</span> CPU)</div><div class="line"><span class="number">12</span>:<span class="number">17</span>:<span class="number">19</span> AM  active/s passive/s    iseg/s    oseg/s</div><div class="line"><span class="number">12</span>:<span class="number">17</span>:<span class="number">20</span> AM      <span class="number">1.00</span>      <span class="number">0.00</span>  <span class="number">10233.00</span>  <span class="number">18846.00</span></div><div class="line"><span class="number">12</span>:<span class="number">17</span>:<span class="number">19</span> AM  atmptf/s  estres/s retrans/s isegerr/s   orsts/s</div><div class="line"><span class="number">12</span>:<span class="number">17</span>:<span class="number">20</span> AM      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span></div><div class="line"><span class="number">12</span>:<span class="number">17</span>:<span class="number">20</span> AM  active/s passive/s    iseg/s    oseg/s</div><div class="line"><span class="number">12</span>:<span class="number">17</span>:<span class="number">21</span> AM      <span class="number">1.00</span>      <span class="number">0.00</span>   <span class="number">8359.00</span>   <span class="number">6039.00</span></div><div class="line"><span class="number">12</span>:<span class="number">17</span>:<span class="number">20</span> AM  atmptf/s  estres/s retrans/s isegerr/s   orsts/s</div><div class="line"><span class="number">12</span>:<span class="number">17</span>:<span class="number">21</span> AM      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span>      <span class="number">0.00</span></div></pre></td></tr></table></figure></p>
 <p>sar命令在这里用于<strong>查看TCP连接状态</strong>，其中包括：</p>
 <ul>
 <li>active/s：每秒本地发起的TCP连接数，既通过connect调用创建的TCP连接；</li>
 <li>passive/s：每秒远程发起的TCP连接数，即通过accept调用创建的TCP连接；</li>
-<li>retrans/s：每秒TCP重传数量；<br>TCP连接数可以用来判断性能问题是否由于建立了过多的连接，进一步可以判断是主动发起的连接，还是被动接受的连接。TCP重传可能是因为网络环境恶劣，或者服务器压<br>sar命令也可以查看指定pid的信息</li>
+<li>retrans/s：每秒TCP重传数量；</li>
 </ul>
+<p>TCP连接数可以用来判断性能问题是否由于建立了过多的连接，进一步可以判断是主动发起的连接，还是被动接受的连接。TCP重传可能是因为网络环境恶劣，或者服务器压</p>
+<p>sar命令也可以查看指定pid的信息</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sar -<span class="keyword">x</span> pid <span class="number">1</span> <span class="number">1000</span></div></pre></td></tr></table></figure>
-<p>九、top命令</p>
+<hr>
+<p><code>九、top命令</code></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">$ top</div><div class="line">top - <span class="number">00</span>:<span class="number">15</span>:<span class="number">40</span> <span class="keyword">up</span> <span class="number">21</span>:<span class="number">56</span>,  <span class="number">1</span> user,  load average: <span class="number">31.09</span>, <span class="number">29.87</span>, <span class="number">29.92</span></div><div class="line">Task<span class="variable">s:</span> <span class="number">871</span> total,   <span class="number">1</span> running, <span class="number">868</span> sleeping,   <span class="number">0</span> stopped,   <span class="number">2</span> zombie</div><div class="line">%Cpu(s): <span class="number">96.8</span> us,  <span class="number">0.4</span> <span class="keyword">sy</span>,  <span class="number">0.0</span> ni,  <span class="number">2.7</span> id,  <span class="number">0.1</span> <span class="keyword">wa</span>,  <span class="number">0.0</span> <span class="keyword">hi</span>,  <span class="number">0.0</span> si,  <span class="number">0.0</span> <span class="keyword">st</span></div><div class="line">KiB Mem:  <span class="number">25190241</span>+total, <span class="number">24921688</span> used, <span class="number">22698073</span>+free,    <span class="number">60448</span> <span class="keyword">buffers</span></div><div class="line">KiB Swap:        <span class="number">0</span> total,        <span class="number">0</span> used,        <span class="number">0</span> free.   <span class="number">554208</span> cached Mem</div><div class="line">PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</div><div class="line"><span class="number">20248</span> root      <span class="number">20</span>   <span class="number">0</span>  <span class="number">0.227</span>t <span class="number">0.012</span>t  <span class="number">18748</span> S  <span class="number">3090</span>  <span class="number">5.2</span>  <span class="number">29812</span>:<span class="number">58</span> java</div><div class="line"><span class="number">4213</span> root      <span class="number">20</span>   <span class="number">0</span> <span class="number">2722544</span>  <span class="number">64640</span>  <span class="number">44232</span> S  <span class="number">23.5</span>  <span class="number">0.0</span> <span class="number">233</span>:<span class="number">35.37</span> mesos-slave</div><div class="line"><span class="number">66128</span> titancl+  <span class="number">20</span>   <span class="number">0</span>   <span class="number">24344</span>   <span class="number">2332</span>   <span class="number">1172</span> R   <span class="number">1.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">00.07</span> top</div><div class="line"><span class="number">5235</span> root      <span class="number">20</span>   <span class="number">0</span> <span class="number">38.227</span>g <span class="number">547004</span>  <span class="number">49996</span> S   <span class="number">0.7</span>  <span class="number">0.2</span>   <span class="number">2</span>:<span class="number">02.74</span> java</div><div class="line"><span class="number">4299</span> root      <span class="number">20</span>   <span class="number">0</span> <span class="number">20.015</span>g <span class="number">2.682</span>g  <span class="number">16836</span> S   <span class="number">0.3</span>  <span class="number">1.1</span>  <span class="number">33</span>:<span class="number">14.42</span> java     </div><div class="line"><span class="number">1</span> root      <span class="number">20</span>   <span class="number">0</span>   <span class="number">33620</span>   <span class="number">2920</span>   <span class="number">1496</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">03.82</span> init</div><div class="line"><span class="number">2</span> root      <span class="number">20</span>   <span class="number">0</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">00.02</span> kthreadd</div><div class="line"><span class="number">3</span> root      <span class="number">20</span>   <span class="number">0</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">05.35</span> ksoftirqd/<span class="number">0</span></div><div class="line"><span class="number">5</span> root       <span class="number">0</span> -<span class="number">20</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">00.00</span> kworker/<span class="number">0</span>:<span class="number">0</span>H</div><div class="line"><span class="number">6</span> root      <span class="number">20</span>   <span class="number">0</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">06.94</span> kworker/u256:<span class="number">0</span></div><div class="line"><span class="number">8</span> root      <span class="number">20</span>   <span class="number">0</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">2</span>:<span class="number">38.05</span> rcu_sched</div></pre></td></tr></table></figure>
 <p>top命令<strong>包含了前面好几个命令的检查的内容。比如系统负载情况（uptime）、系统内存使用情况（free）、系统CPU使用情况（vmstat）等。因此通过这个命令，可以相对全面的查看系统负载的来源</strong>。同时，top命令支持排序，可以按照不同的列排序，方便查找出诸如内存占用最多的进程、CPU占用率最高的进程等。<br>但是，top命令相对于前面一些命令，输出是一个瞬间值，如果不持续盯着，可能会错过一些线索。这时可能需要暂停top命令刷新，来记录和比对数据。</p>
 
@@ -1178,6 +1197,168 @@
 <li>c.rbegin()  传回一个逆向队列的第一个数据。 </li>
 <li>c.rend()  传回一个逆向队列的最后一个数据的下一个位置。 </li>
 </ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/11/top命令详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Daichao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.loli.net/2017/10/21/59eb564170624.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lander Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/hexoblog/2017/09/11/top命令详解/" itemprop="url">top命令详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-11T00:08:12+08:00">
+                2017-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/hexoblog/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/hexoblog/categories/笔记/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">$ top</div><div class="line">top - <span class="number">00</span>:<span class="number">15</span>:<span class="number">40</span> <span class="keyword">up</span> <span class="number">21</span>:<span class="number">56</span>,  <span class="number">1</span> user,  load average: <span class="number">31.09</span>, <span class="number">29.87</span>, <span class="number">29.92</span></div><div class="line">Task<span class="variable">s:</span> <span class="number">871</span> total,   <span class="number">1</span> running, <span class="number">868</span> sleeping,   <span class="number">0</span> stopped,   <span class="number">2</span> zombie</div><div class="line">%Cpu(s): <span class="number">96.8</span> us,  <span class="number">0.4</span> <span class="keyword">sy</span>,  <span class="number">0.0</span> ni,  <span class="number">2.7</span> id,  <span class="number">0.1</span> <span class="keyword">wa</span>,  <span class="number">0.0</span> <span class="keyword">hi</span>,  <span class="number">0.0</span> si,  <span class="number">0.0</span> <span class="keyword">st</span></div><div class="line">KiB Mem:  <span class="number">25190241</span>+total, <span class="number">24921688</span> used, <span class="number">22698073</span>+free,    <span class="number">60448</span> <span class="keyword">buffers</span></div><div class="line">KiB Swap:        <span class="number">0</span> total,        <span class="number">0</span> used,        <span class="number">0</span> free.   <span class="number">554208</span> cached Mem</div><div class="line">PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</div><div class="line"><span class="number">20248</span> root      <span class="number">20</span>   <span class="number">0</span>  <span class="number">0.227</span>t <span class="number">0.012</span>t  <span class="number">18748</span> S  <span class="number">3090</span>  <span class="number">5.2</span>  <span class="number">29812</span>:<span class="number">58</span> java</div><div class="line"><span class="number">4213</span> root      <span class="number">20</span>   <span class="number">0</span> <span class="number">2722544</span>  <span class="number">64640</span>  <span class="number">44232</span> S  <span class="number">23.5</span>  <span class="number">0.0</span> <span class="number">233</span>:<span class="number">35.37</span> mesos-slave</div><div class="line"><span class="number">66128</span> titancl+  <span class="number">20</span>   <span class="number">0</span>   <span class="number">24344</span>   <span class="number">2332</span>   <span class="number">1172</span> R   <span class="number">1.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">00.07</span> top</div><div class="line"><span class="number">5235</span> root      <span class="number">20</span>   <span class="number">0</span> <span class="number">38.227</span>g <span class="number">547004</span>  <span class="number">49996</span> S   <span class="number">0.7</span>  <span class="number">0.2</span>   <span class="number">2</span>:<span class="number">02.74</span> java</div><div class="line"><span class="number">4299</span> root      <span class="number">20</span>   <span class="number">0</span> <span class="number">20.015</span>g <span class="number">2.682</span>g  <span class="number">16836</span> S   <span class="number">0.3</span>  <span class="number">1.1</span>  <span class="number">33</span>:<span class="number">14.42</span> java     </div><div class="line"><span class="number">1</span> root      <span class="number">20</span>   <span class="number">0</span>   <span class="number">33620</span>   <span class="number">2920</span>   <span class="number">1496</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">03.82</span> init</div><div class="line"><span class="number">2</span> root      <span class="number">20</span>   <span class="number">0</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">00.02</span> kthreadd</div><div class="line"><span class="number">3</span> root      <span class="number">20</span>   <span class="number">0</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">05.35</span> ksoftirqd/<span class="number">0</span></div><div class="line"><span class="number">5</span> root       <span class="number">0</span> -<span class="number">20</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">00.00</span> kworker/<span class="number">0</span>:<span class="number">0</span>H</div><div class="line"><span class="number">6</span> root      <span class="number">20</span>   <span class="number">0</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">06.94</span> kworker/u256:<span class="number">0</span></div><div class="line"><span class="number">8</span> root      <span class="number">20</span>   <span class="number">0</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">2</span>:<span class="number">38.05</span> rcu_sched</div></pre></td></tr></table></figure>
+<p><code>第一行显示的内容和uptime命令一样</code></p>
+<p>top：   这个没有什么意思，只是个名称而以<br>01：47：56 ：     系统当前时间<br>up 1:26   ：   系统开机到现在经过了多少时间<br>2 users  ：            当前2用户在线<br>load average:0.00,0.00,0.00：        系统1分钟、5分钟、15分钟的CPU负载信息</p>
+<p><code>第二行：</code></p>
+<p>Tasks：英文意思是工作;任务;差事。<br>38 total：很好理解，就是当前有38个任务，也就是38个进程。<br>1 running：1个进程正在运行<br>37 sleeping：37个进程睡眠<br>0 stopped：停止的进程数<br>0 zombie：僵死的进程数<br>Cpu(s)：表示这一行显示CPU总体信息<br>0.0%us：用户态进程占用CPU时间百分比，不包含renice值为负的任务占用的CPU的时间。<br>0.7%sy：内核占用CPU时间百分比<br>0.0%ni：renice值为负的任务的用户态进程的CPU时间百分比。nice是优先级的意思<br>99.3%id：空闲CPU时间百分比<br>0.0%wa：等待I/O的CPU时间百分比<br>0.0%hi：CPU硬中断时间百分比<br>0.0%si：CPU软中断时间百分比<br>0.0%st：</p>
+<p><code>第三行：</code></p>
+<p>Men：内存的意思<br>256412k total：物理内存总量<br>30156k used：使用的物理内存量<br>226256 free：空闲的物理内存量<br>8176k buffers：用作内核缓存的物理内存量<br>Swap：交换空间<br>337356k total：交换区总量<br>0k used：使用的交换区量<br>337356k free：空闲的交换区量<br>12160k cached：缓冲交换区总量</p>
+<p><code>第四行：</code></p>
+<p>PID：进程的ID<br>USER：进程所有者<br>PR：进程的优先级别，越小越优先被执行<br>NInice：值<br>VIRT：进程占用的虚拟内存<br>RES：进程占用的物理内存<br>SHR：进程使用的共享内存<br>S：进程的状态。S表示休眠，R表示正在运行，Z表示僵死状态，N表示该进程优先值为负数<br>%CPU：进程占用CPU的使用率<br>%MEM：进程使用的物理内存和总内存的百分比<br>TIME+：该进程启动后占用的总的CPU时间，即占用CPU使用时间的累加值。<br>COMMAND：进程启动命令名称</p>
+<p><code>一些常用的linux top命令操作指令：</code></p>
+<p>q：退出top命令</p>
+<p><space>：立即刷新<br>s：设置刷新时间间隔<br>c：显示命令完全模式<br>t:：显示或隐藏进程和CPU状态信息<br>m：显示或隐藏内存状态信息<br>l：显示或隐藏uptime信息<br>f：增加或减少进程显示标志<br>S：累计模式，会把已完成或退出的子进程占用的CPU时间累计到父进程的MITE+<br>P：按%CPU使用率排行<br>T：按MITE+排行<br>M：按%MEM排行<br>u：指定显示用户进程<br>r：修改进程renice值<br>kkill：进程<br>i：只显示正在运行的进程<br>W：保存对top的设置到文件~/.toprc，下次启动将自动调用toprc文件的设置。<br>h：帮助命令。<br><a href="http://www.itwhy.org/2011/07-05/437.html" target="_blank" rel="external">原文</a></space></p>
 
           
         
@@ -1915,175 +2096,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/08/13/图dfs输出全排序/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Daichao">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://i.loli.net/2017/10/21/59eb564170624.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lander Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/hexoblog/2017/08/13/图dfs输出全排序/" itemprop="url">图dfs输出全排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-13T20:45:44+08:00">
-                2017-08-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/code/" itemprop="url" rel="index">
-                    <span itemprop="name">code</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/code/dfs/" itemprop="url" rel="index">
-                    <span itemprop="name">dfs</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/hexoblog/2017/08/13/图dfs输出全排序/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/08/13/图dfs输出全排序/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>问题: 生成1~n的排列<br>思路: 穷举所有可能 在生成结果数组前把重复的去掉<br>探索到某一步发现原先选择达不到目标, 就退回一步重新选择.<br>效率比普通DFS高. 可以优化排列数和素数环的程序<br>两种代码一种没有加入回溯，一种有——-分隔</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding：utf-8</span></div><div class="line">A = [<span class="keyword">None</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>)]</div><div class="line">N = <span class="number">3</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(cur)</span>:</span></div><div class="line">    <span class="keyword">if</span> cur == N:</div><div class="line">        print(A[:N])</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, N+<span class="number">1</span>):</div><div class="line">            <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> A[:cur]:</div><div class="line">                A[cur] = i</div><div class="line">                dfs(cur+<span class="number">1</span>)</div><div class="line"></div><div class="line">dfs(<span class="number">0</span>)</div></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">A = [<span class="keyword">None</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>)]</div><div class="line">V = [<span class="keyword">False</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>)]</div><div class="line">N = <span class="number">4</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(cur)</span>:</span></div><div class="line">    <span class="keyword">if</span> cur == N: <span class="comment">#边界条件到N的时候需要输出结果</span></div><div class="line">        print(A[:N])</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, N+<span class="number">1</span>): <span class="comment">#遍历所有的情况</span></div><div class="line">            <span class="keyword">if</span> <span class="keyword">not</span> V[i]: <span class="comment">#V为标志，到排序的这个位置上没有数据时候，进入下一步</span></div><div class="line">                V[i] = <span class="keyword">True</span> <span class="comment">#首先改变标志位为true，输入需要排入的数值</span></div><div class="line">                A[cur] = i</div><div class="line">                dfs(cur+<span class="number">1</span>) <span class="comment">#继续往下搜索</span></div><div class="line">                V[i] = <span class="keyword">False</span> <span class="comment">#跳出了循环，需要回溯到进入循环之前的状态</span></div><div class="line"></div><div class="line">dfs(<span class="number">0</span>)</div></pre></td></tr></table></figure>
-<hr>
-<p>问题: 数字1~n围成一个n个节点的环, 不允许数字重复, 任意2个相邻数字相加, 结果均为素数, 打印所有素数环的组合.<br>思路: 同排列数, 多了素数判断. </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">A = [<span class="keyword">None</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>)]</div><div class="line">N = <span class="number">6</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_prime</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, n//<span class="number">2</span>+<span class="number">1</span>):</div><div class="line">        <span class="keyword">if</span> n%i == <span class="number">0</span>:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(cur)</span>:</span></div><div class="line">    <span class="keyword">if</span> cur == N:</div><div class="line">        <span class="keyword">if</span> is_prime(A[<span class="number">0</span>]+A[N<span class="number">-1</span>]):</div><div class="line">            print(A[:N])</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, N+<span class="number">1</span>):</div><div class="line">            <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> A[:cur]:</div><div class="line">                <span class="keyword">if</span> cur == <span class="number">0</span> <span class="keyword">or</span> is_prime(i+A[cur<span class="number">-1</span>]):</div><div class="line">                    A[cur] = i</div><div class="line">                    dfs(cur+<span class="number">1</span>)</div><div class="line"></div><div class="line">dfs(<span class="number">0</span>)</div></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">A = [<span class="keyword">None</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>)]</div><div class="line">V = [<span class="keyword">False</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>)]</div><div class="line">N = <span class="number">6</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_prime</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, n//<span class="number">2</span>+<span class="number">1</span>):</div><div class="line">        <span class="keyword">if</span> n%i == <span class="number">0</span>:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(cur)</span>:</span></div><div class="line">    <span class="keyword">if</span> cur == N:</div><div class="line">        <span class="keyword">if</span> is_prime(A[<span class="number">0</span>]+A[N<span class="number">-1</span>]):</div><div class="line">            print(A[:N])</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, N+<span class="number">1</span>):</div><div class="line">            <span class="keyword">if</span> <span class="keyword">not</span> V[i]:</div><div class="line">                <span class="keyword">if</span> cur == <span class="number">0</span> <span class="keyword">or</span> is_prime(i+A[cur<span class="number">-1</span>]):</div><div class="line">                    V[i] = <span class="keyword">True</span></div><div class="line">                    A[cur] = i</div><div class="line">                    dfs(cur+<span class="number">1</span>)</div><div class="line">                    V[i] = <span class="keyword">False</span></div><div class="line"></div><div class="line">dfs(<span class="number">0</span>)</div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2138,7 +2150,7 @@
               
                 <a href="/hexoblog/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
