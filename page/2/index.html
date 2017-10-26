@@ -307,6 +307,173 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/16/dp-求两个字符串的最大公共子序列/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Daichao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.loli.net/2017/10/21/59eb564170624.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lander Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/hexoblog/2017/09/16/dp-求两个字符串的最大公共子序列/" itemprop="url">dp-求两个字符串的最大公共子序列</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-16T00:08:12+08:00">
+                2017-09-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/hexoblog/categories/code/" itemprop="url" rel="index">
+                    <span itemprop="name">code</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/hexoblog/categories/code/dp/" itemprop="url" rel="index">
+                    <span itemprop="name">dp</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/hexoblog/2017/09/16/dp-求两个字符串的最大公共子序列/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/09/16/dp-求两个字符串的最大公共子序列/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function </div><div class="line"><span class="comment">#将python3中的print函数调用，可以实现end=‘’不换行输出的功能</span></div><div class="line"><span class="keyword">import</span> math</div></pre></td></tr></table></figure>
+<p>问题描述：<br>求出两个字符串最大公共子序列以及输出他的长度，基础动态规划题目</p>
+<p>输入：<br>2017 11 02<br>02 11 2017<br>输出：<br>最大公共子序列</p>
+<hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#_*_coding: utf_8 _*_ </span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">lcs</span><span class="params">(a,b)</span>:</span></div><div class="line">    lena=len(a)</div><div class="line">    lenb=len(b)</div><div class="line">    c=[[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(lenb+<span class="number">1</span>)] <span class="keyword">for</span> j <span class="keyword">in</span> range(lena+<span class="number">1</span>)]</div><div class="line">    flag=[[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(lenb+<span class="number">1</span>)] <span class="keyword">for</span> j <span class="keyword">in</span> range(lena+<span class="number">1</span>)]</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(lena):</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(lenb):</div><div class="line">            <span class="keyword">if</span> a[i]==b[j]:</div><div class="line">                c[i+<span class="number">1</span>][j+<span class="number">1</span>]=c[i][j]+<span class="number">1</span></div><div class="line">                flag[i+<span class="number">1</span>][j+<span class="number">1</span>]=<span class="string">'ok'</span></div><div class="line">            <span class="keyword">elif</span> c[i+<span class="number">1</span>][j]&gt;c[i][j+<span class="number">1</span>]:</div><div class="line">                c[i+<span class="number">1</span>][j+<span class="number">1</span>]=c[i+<span class="number">1</span>][j]</div><div class="line">                flag[i+<span class="number">1</span>][j+<span class="number">1</span>]=<span class="string">'le'</span></div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                c[i+<span class="number">1</span>][j+<span class="number">1</span>]=c[i][j+<span class="number">1</span>]</div><div class="line">                flag[i+<span class="number">1</span>][j+<span class="number">1</span>]=<span class="string">'up'</span></div><div class="line">    maxnum=<span class="number">0</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,lena):</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(lenb):</div><div class="line">            <span class="keyword">if</span> flag[-i][-j]==<span class="string">'ok'</span>:</div><div class="line">                count=c[-i][-j]</div><div class="line">                maxnum=max(maxnum,int(count))</div><div class="line">                <span class="keyword">break</span></div><div class="line">    <span class="keyword">return</span> c,flag,maxnum</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">printLcs</span><span class="params">(flag,a,i,j)</span>:</span></div><div class="line">    <span class="keyword">if</span> i==<span class="number">0</span> <span class="keyword">or</span> j==<span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span></div><div class="line">    <span class="keyword">if</span> flag[i][j]==<span class="string">'ok'</span>:</div><div class="line">        printLcs(flag,a,i<span class="number">-1</span>,j<span class="number">-1</span>)</div><div class="line">        </div><div class="line">        print(a[i<span class="number">-1</span>],end=<span class="string">''</span>)</div><div class="line">    <span class="keyword">elif</span> flag[i][j]==<span class="string">'le'</span>:</div><div class="line">        printLcs(flag,a,i,j<span class="number">-1</span>)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        printLcs(flag,a,i<span class="number">-1</span>,j) </div><div class="line">a=<span class="string">'2017 11 02'</span></div><div class="line">b=<span class="string">'02 11 2017'</span></div><div class="line">c,flag,count=lcs(a,b)</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> c:</div><div class="line">    print(i)</div><div class="line">print(<span class="string">''</span>)</div><div class="line"><span class="keyword">for</span> j <span class="keyword">in</span> flag:</div><div class="line">    print(j)</div><div class="line">print(<span class="string">''</span>)</div><div class="line">printLcs(flag,a,len(a),len(b))</div><div class="line">print(<span class="string">''</span>)</div><div class="line">print(count)</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/14/ubuntu下安装dockers/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -838,6 +1005,205 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/12/vector用法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Daichao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.loli.net/2017/10/21/59eb564170624.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lander Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/hexoblog/2017/09/12/vector用法/" itemprop="url">vector用法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-12T00:08:12+08:00">
+                2017-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/hexoblog/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/hexoblog/categories/笔记/c/" itemprop="url" rel="index">
+                    <span itemprop="name">c++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://blog.csdn.net/hancunai0017/article/details/7032383" target="_blank" rel="external">文档来自</a><br><strong><code>vector(向量):</code></strong></p>
+<p>C++中的一种数据结构,确切的说是一个类.它相当于一个动态的数组,当程序员无法知道自己需要的数组的规模多大时,用其来解决问题可以达到最大节约空间的目的.<br><code>文件包含:</code><br>首先在程序开头处加上#include<vector>以包含所需要的类文件vector还有一定要加上using namespace std;<br><code>变量声明:</code><br>声明一个int向量以替代一维的数组:vector <int> a;用vector代替二维数组.其实只要声明一个一维数组向量即可,而一个数组的名字其实代表的是它的首地址,所以只要声明一个地址的向量即可,即:vector <int *=""> a.同理想用向量代替三维数组也是一样,vector <int**>a;再往上面依此类推.int可以改成其他的如char、string甚至是strcut。<br><code>具体的用法以及函数调用:</code></int**></int></int></vector></p>
+<ul>
+<li>1.push_back   在数组的最后添加一个数据</li>
+<li>2.pop_back    去掉数组的最后一个数据 </li>
+<li>3.at                得到编号位置的数据</li>
+<li>4.begin           得到数组头的指针</li>
+<li>5.end             得到数组的最后一个单元+1的指针</li>
+<li>6．front        得到数组头的引用</li>
+<li>7.back            得到数组的最后一个单元的引用</li>
+<li>8.max_size     得到vector最大可以是多大</li>
+<li>9.capacity       当前vector分配的大小</li>
+<li>10.size           当前使用数据的大小</li>
+<li>11.resize         改变当前使用数据的大小，如果它比当前使用的大者填充默认值</li>
+<li>12.reserve      改变当前vecotr所分配空间的大小</li>
+<li>13.erase         删除指针指向的数据项</li>
+<li>14.clear          清空当前的vector</li>
+<li>15.rbegin        将vector反转后的开始指针返回(其实就是原来的end-1)</li>
+<li>16.rend          将vector反转构的结束指针返回(其实就是原来的begin-1)</li>
+<li>17.empty        判断vector是否为空</li>
+<li><p>18.swap         与另一个vector交换数据<br><code>详细的函数实现功能:</code></p>
+</li>
+<li><p>c.clear()         移除容器中所有数据。</p>
+</li>
+<li>c.empty()         判断容器是否为空。</li>
+<li>c.erase(pos)        删除pos位置的数据</li>
+<li>c.erase(beg,end) 删除[beg,end]区间的数据 如： vec.erase(vec.begin()+2);删除第3个元素</li>
+<li>c.front()         传回第一个数据。</li>
+<li>c.insert(pos,elem)  在pos位置插入一个elem拷贝</li>
+<li>c.pop_back()     删除最后一个数据。</li>
+<li>c.push_back(elem) 在尾部加入一个数据。</li>
+<li>c.resize(num)     重新设置该容器的大小</li>
+<li>c.size()         回容器中实际数据的个数。</li>
+<li>c.begin()           返回指向容器第一个元素的迭代器</li>
+<li>c.end()             返回指向容器最后一个元素的迭代器                                  </li>
+<li>c1.swap(c2)==swap(c1,c2)         将c1和c2元素互换。两操作相同。</li>
+</ul>
+<p><code>#include&lt;algorithm&gt;中的泛函算法</code><br>搜索算法：find() 、search() 、count() 、find_if() 、search_if() 、count_if()<br>分类排序：sort() 、merge()<br>删除算法：unique() 、remove()<br>生成和变异：generate() 、fill() 、transformation() 、copy()<br>关系算法：equal() 、min() 、max()<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sort(v1.begin(),vi.begin()+v1.size/<span class="number">2</span>）;</div></pre></td></tr></table></figure></p>
+<p>对v1的前半段元素排序，默认是从小到大排序，即默认为冒泡排序。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sort(v1.begin(),v1.end());</div></pre></td></tr></table></figure></p>
+<p>对整个vector做排序<br>定义排序比较函数：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> &amp;a,<span class="keyword">const</span> <span class="keyword">int</span> &amp;b)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">return</span> a&gt;b;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>调用时:sort(vec.begin(),vec.end(),cmp)，这样就降序排序。<br><code>其他功能:</code></p>
+<ul>
+<li>c.at(idx)  传回索引idx所指的数据，如果idx越界，抛出out_of_range。 </li>
+<li>c.back()  传回最后一个数据，不检查这个数据是否存在。</li>
+<li>c.front()  传回地一个数据。 </li>
+<li>get_allocator  使用构造函数返回一个拷贝。 </li>
+<li>c.rbegin()  传回一个逆向队列的第一个数据。 </li>
+<li>c.rend()  传回一个逆向队列的最后一个数据的下一个位置。 </li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/12/linux服务器查看性能的几个命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -998,205 +1364,6 @@
 <p><code>九、top命令</code></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">$ top</div><div class="line">top - <span class="number">00</span>:<span class="number">15</span>:<span class="number">40</span> <span class="keyword">up</span> <span class="number">21</span>:<span class="number">56</span>,  <span class="number">1</span> user,  load average: <span class="number">31.09</span>, <span class="number">29.87</span>, <span class="number">29.92</span></div><div class="line">Task<span class="variable">s:</span> <span class="number">871</span> total,   <span class="number">1</span> running, <span class="number">868</span> sleeping,   <span class="number">0</span> stopped,   <span class="number">2</span> zombie</div><div class="line">%Cpu(s): <span class="number">96.8</span> us,  <span class="number">0.4</span> <span class="keyword">sy</span>,  <span class="number">0.0</span> ni,  <span class="number">2.7</span> id,  <span class="number">0.1</span> <span class="keyword">wa</span>,  <span class="number">0.0</span> <span class="keyword">hi</span>,  <span class="number">0.0</span> si,  <span class="number">0.0</span> <span class="keyword">st</span></div><div class="line">KiB Mem:  <span class="number">25190241</span>+total, <span class="number">24921688</span> used, <span class="number">22698073</span>+free,    <span class="number">60448</span> <span class="keyword">buffers</span></div><div class="line">KiB Swap:        <span class="number">0</span> total,        <span class="number">0</span> used,        <span class="number">0</span> free.   <span class="number">554208</span> cached Mem</div><div class="line">PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</div><div class="line"><span class="number">20248</span> root      <span class="number">20</span>   <span class="number">0</span>  <span class="number">0.227</span>t <span class="number">0.012</span>t  <span class="number">18748</span> S  <span class="number">3090</span>  <span class="number">5.2</span>  <span class="number">29812</span>:<span class="number">58</span> java</div><div class="line"><span class="number">4213</span> root      <span class="number">20</span>   <span class="number">0</span> <span class="number">2722544</span>  <span class="number">64640</span>  <span class="number">44232</span> S  <span class="number">23.5</span>  <span class="number">0.0</span> <span class="number">233</span>:<span class="number">35.37</span> mesos-slave</div><div class="line"><span class="number">66128</span> titancl+  <span class="number">20</span>   <span class="number">0</span>   <span class="number">24344</span>   <span class="number">2332</span>   <span class="number">1172</span> R   <span class="number">1.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">00.07</span> top</div><div class="line"><span class="number">5235</span> root      <span class="number">20</span>   <span class="number">0</span> <span class="number">38.227</span>g <span class="number">547004</span>  <span class="number">49996</span> S   <span class="number">0.7</span>  <span class="number">0.2</span>   <span class="number">2</span>:<span class="number">02.74</span> java</div><div class="line"><span class="number">4299</span> root      <span class="number">20</span>   <span class="number">0</span> <span class="number">20.015</span>g <span class="number">2.682</span>g  <span class="number">16836</span> S   <span class="number">0.3</span>  <span class="number">1.1</span>  <span class="number">33</span>:<span class="number">14.42</span> java     </div><div class="line"><span class="number">1</span> root      <span class="number">20</span>   <span class="number">0</span>   <span class="number">33620</span>   <span class="number">2920</span>   <span class="number">1496</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">03.82</span> init</div><div class="line"><span class="number">2</span> root      <span class="number">20</span>   <span class="number">0</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">00.02</span> kthreadd</div><div class="line"><span class="number">3</span> root      <span class="number">20</span>   <span class="number">0</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">05.35</span> ksoftirqd/<span class="number">0</span></div><div class="line"><span class="number">5</span> root       <span class="number">0</span> -<span class="number">20</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">00.00</span> kworker/<span class="number">0</span>:<span class="number">0</span>H</div><div class="line"><span class="number">6</span> root      <span class="number">20</span>   <span class="number">0</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">0</span>:<span class="number">06.94</span> kworker/u256:<span class="number">0</span></div><div class="line"><span class="number">8</span> root      <span class="number">20</span>   <span class="number">0</span>       <span class="number">0</span>      <span class="number">0</span>      <span class="number">0</span> S   <span class="number">0.0</span>  <span class="number">0.0</span>   <span class="number">2</span>:<span class="number">38.05</span> rcu_sched</div></pre></td></tr></table></figure>
 <p>top命令<strong>包含了前面好几个命令的检查的内容。比如系统负载情况（uptime）、系统内存使用情况（free）、系统CPU使用情况（vmstat）等。因此通过这个命令，可以相对全面的查看系统负载的来源</strong>。同时，top命令支持排序，可以按照不同的列排序，方便查找出诸如内存占用最多的进程、CPU占用率最高的进程等。<br>但是，top命令相对于前面一些命令，输出是一个瞬间值，如果不持续盯着，可能会错过一些线索。这时可能需要暂停top命令刷新，来记录和比对数据。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/12/vector用法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Daichao">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://i.loli.net/2017/10/21/59eb564170624.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lander Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/hexoblog/2017/09/12/vector用法/" itemprop="url">vector用法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-12T00:08:12+08:00">
-                2017-09-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">笔记</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/笔记/c/" itemprop="url" rel="index">
-                    <span itemprop="name">c++</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://blog.csdn.net/hancunai0017/article/details/7032383" target="_blank" rel="external">文档来自</a><br><strong><code>vector(向量):</code></strong></p>
-<p>C++中的一种数据结构,确切的说是一个类.它相当于一个动态的数组,当程序员无法知道自己需要的数组的规模多大时,用其来解决问题可以达到最大节约空间的目的.<br><code>文件包含:</code><br>首先在程序开头处加上#include<vector>以包含所需要的类文件vector还有一定要加上using namespace std;<br><code>变量声明:</code><br>声明一个int向量以替代一维的数组:vector <int> a;用vector代替二维数组.其实只要声明一个一维数组向量即可,而一个数组的名字其实代表的是它的首地址,所以只要声明一个地址的向量即可,即:vector <int *=""> a.同理想用向量代替三维数组也是一样,vector <int**>a;再往上面依此类推.int可以改成其他的如char、string甚至是strcut。<br><code>具体的用法以及函数调用:</code></int**></int></int></vector></p>
-<ul>
-<li>1.push_back   在数组的最后添加一个数据</li>
-<li>2.pop_back    去掉数组的最后一个数据 </li>
-<li>3.at                得到编号位置的数据</li>
-<li>4.begin           得到数组头的指针</li>
-<li>5.end             得到数组的最后一个单元+1的指针</li>
-<li>6．front        得到数组头的引用</li>
-<li>7.back            得到数组的最后一个单元的引用</li>
-<li>8.max_size     得到vector最大可以是多大</li>
-<li>9.capacity       当前vector分配的大小</li>
-<li>10.size           当前使用数据的大小</li>
-<li>11.resize         改变当前使用数据的大小，如果它比当前使用的大者填充默认值</li>
-<li>12.reserve      改变当前vecotr所分配空间的大小</li>
-<li>13.erase         删除指针指向的数据项</li>
-<li>14.clear          清空当前的vector</li>
-<li>15.rbegin        将vector反转后的开始指针返回(其实就是原来的end-1)</li>
-<li>16.rend          将vector反转构的结束指针返回(其实就是原来的begin-1)</li>
-<li>17.empty        判断vector是否为空</li>
-<li><p>18.swap         与另一个vector交换数据<br><code>详细的函数实现功能:</code></p>
-</li>
-<li><p>c.clear()         移除容器中所有数据。</p>
-</li>
-<li>c.empty()         判断容器是否为空。</li>
-<li>c.erase(pos)        删除pos位置的数据</li>
-<li>c.erase(beg,end) 删除[beg,end]区间的数据 如： vec.erase(vec.begin()+2);删除第3个元素</li>
-<li>c.front()         传回第一个数据。</li>
-<li>c.insert(pos,elem)  在pos位置插入一个elem拷贝</li>
-<li>c.pop_back()     删除最后一个数据。</li>
-<li>c.push_back(elem) 在尾部加入一个数据。</li>
-<li>c.resize(num)     重新设置该容器的大小</li>
-<li>c.size()         回容器中实际数据的个数。</li>
-<li>c.begin()           返回指向容器第一个元素的迭代器</li>
-<li>c.end()             返回指向容器最后一个元素的迭代器                                  </li>
-<li>c1.swap(c2)==swap(c1,c2)         将c1和c2元素互换。两操作相同。</li>
-</ul>
-<p><code>#include&lt;algorithm&gt;中的泛函算法</code><br>搜索算法：find() 、search() 、count() 、find_if() 、search_if() 、count_if()<br>分类排序：sort() 、merge()<br>删除算法：unique() 、remove()<br>生成和变异：generate() 、fill() 、transformation() 、copy()<br>关系算法：equal() 、min() 、max()<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sort(v1.begin(),vi.begin()+v1.size/<span class="number">2</span>）;</div></pre></td></tr></table></figure></p>
-<p>对v1的前半段元素排序，默认是从小到大排序，即默认为冒泡排序。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sort(v1.begin(),v1.end());</div></pre></td></tr></table></figure></p>
-<p>对整个vector做排序<br>定义排序比较函数：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> &amp;a,<span class="keyword">const</span> <span class="keyword">int</span> &amp;b)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">return</span> a&gt;b;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>调用时:sort(vec.begin(),vec.end(),cmp)，这样就降序排序。<br><code>其他功能:</code></p>
-<ul>
-<li>c.at(idx)  传回索引idx所指的数据，如果idx越界，抛出out_of_range。 </li>
-<li>c.back()  传回最后一个数据，不检查这个数据是否存在。</li>
-<li>c.front()  传回地一个数据。 </li>
-<li>get_allocator  使用构造函数返回一个拷贝。 </li>
-<li>c.rbegin()  传回一个逆向队列的第一个数据。 </li>
-<li>c.rend()  传回一个逆向队列的最后一个数据的下一个位置。 </li>
-</ul>
 
           
         
@@ -1897,204 +2064,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/08/13/Markdown编辑器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Daichao">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://i.loli.net/2017/10/21/59eb564170624.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lander Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/hexoblog/2017/08/13/Markdown编辑器/" itemprop="url">Markdown编辑器</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-13T21:31:21+08:00">
-                2017-08-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/博客/" itemprop="url" rel="index">
-                    <span itemprop="name">博客</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/博客/Markdown/" itemprop="url" rel="index">
-                    <span itemprop="name">Markdown</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/hexoblog/2017/08/13/Markdown编辑器/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/08/13/Markdown编辑器/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="https://i.loli.net/2017/10/20/59e958907d2d2.jpg" alt="mahua"></p>
-<p>##MaHua是什么?<br>一个在线编辑markdown文档的编辑器</p>
-<p>向Mac下优秀的markdown编辑器mou致敬</p>
-<p>##MaHua有哪些功能？</p>
-<ul>
-<li>方便的<code>导入导出</code>功能<ul>
-<li>直接把一个markdown的文本文件拖放到当前这个页面就可以了</li>
-<li>导出为一个html格式的文件，样式一点也不会丢失</li>
-</ul>
-</li>
-<li>编辑和预览<code>同步滚动</code>，所见即所得（右上角设置）</li>
-<li><code>VIM快捷键</code>支持，方便vim党们快速的操作 （右上角设置）</li>
-<li>强大的<code>自定义CSS</code>功能，方便定制自己的展示</li>
-<li>有数量也有质量的<code>主题</code>,编辑器和预览区域</li>
-<li>完美兼容<code>Github</code>的markdown语法</li>
-<li>预览区域<code>代码高亮</code></li>
-<li>所有选项自动记忆</li>
-</ul>
-<p>##有问题反馈<br>在使用中有任何问题，欢迎反馈给作者，可以用以下联系方式跟作者交流</p>
-<ul>
-<li>邮件(dev.hubo#gmail.com, 把#换成@)</li>
-<li>QQ: 287759234</li>
-<li>weibo: <a href="http://weibo.com/ihubo" target="_blank" rel="external">@草依山</a></li>
-<li>twitter: <a href="http://twitter.com/ihubo" target="_blank" rel="external">@ihubo</a></li>
-</ul>
-<p>##捐助开发者<br>在兴趣的驱动下,写一个<code>免费</code>的东西，有欣喜，也还有汗水，希望你喜欢该作者的作品，同时也能支持一下。<br>当然，有钱捧个钱场（右上角的爱心标志，支持支付宝和PayPal捐助），没钱捧个人场，谢谢各位。</p>
-<p>##感激<br>感谢以下的项目,排名不分先后</p>
-<ul>
-<li><a href="http://mouapp.com/" target="_blank" rel="external">mou</a> </li>
-<li><a href="http://ace.ajax.org/" target="_blank" rel="external">ace</a></li>
-<li><a href="http://jquery.com" target="_blank" rel="external">jquery</a></li>
-</ul>
-<p>##关于作者</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">    self.name=[]</div><div class="line">    self.age=[]</div></pre></td></tr></table></figure>
-<p>#该文可以用来便于查看markdown的语法规则<br>感谢作者</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2149,7 +2118,7 @@
               
                 <a href="/hexoblog/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2160,7 +2129,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/hexoblog/categories/index.html">
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2171,7 +2140,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/hexoblog/tags/index.html">
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
