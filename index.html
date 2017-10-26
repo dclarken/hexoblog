@@ -462,6 +462,9 @@
 <p>git stash 可用来暂存当前正在进行的工作， 比如想pull 最新代码， 又不想加新commit， 或者另外一种情况，为了fix 一个紧急的bug,  先stash, 使返回到自己上一个commit, 改完bug之后再stash pop, 继续原来的工作。所以以前自己在网页上面直接上传代码时，经常不写commit于是在想要添加本地管理的时候，会出现以上报错。</p>
 <p>基础命令：</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$git stash</div><div class="line">$<span class="keyword">do</span> some work</div><div class="line">$git stash <span class="keyword">pop</span></div></pre></td></tr></table></figure>
+<hr>
+<p><code>6.添加一个文件夹并且上传到github：</code><br>其实这个和上传文件的原理一样，github支持在上传某个文件夹下的文件的时，将文件夹也上传。所以：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">mkdir</span> CodeCut</div><div class="line">$ <span class="keyword">cd</span> CodeCut</div><div class="line">$ touch test.txt</div><div class="line">$ git <span class="built_in">add</span> <span class="string">"test.txt"</span></div><div class="line">$ git commit -<span class="keyword">m</span> <span class="string">" add test.txt"</span></div><div class="line">$ git push</div></pre></td></tr></table></figure>
 <p>资料参考：<br><a href="https://www.liaoxuefeng.com/" target="_blank" rel="external">廖学峰官方网站</a><br><a href="http://blog.csdn.net/u011471873/article/details/51462871" target="_blank" rel="external">error: failed to push some refs to ‘git@github.com:</a><br><a href="http://blog.csdn.net/u012385190/article/details/70670213" target="_blank" rel="external">error:Cannot pull with rebase</a></p>
 
           
