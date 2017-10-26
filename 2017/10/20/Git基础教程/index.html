@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="Lander Blog">
 <meta property="og:description" content="1.新建一个仓库添加本地上传服务：现在的情景:你已经在本地创建了一个Git仓库后，又想在GitHub创建一个Git仓库，并且让这两个仓库进行远程同步，这样，GitHub上的仓库既可以作为备份，又可以让其他人通过该仓库来协作，真是一举多得。对于新创建的仓库，从本地做备份到github网站上gitbash的代码段如下： 123456echo &quot;# learngit.github.io&quot; &amp;gt;&amp;gt">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-26T03:22:43.808Z">
+<meta property="og:updated_time" content="2017-10-26T03:23:41.895Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git基础教程">
 <meta name="twitter:description" content="1.新建一个仓库添加本地上传服务：现在的情景:你已经在本地创建了一个Git仓库后，又想在GitHub创建一个Git仓库，并且让这两个仓库进行远程同步，这样，GitHub上的仓库既可以作为备份，又可以让其他人通过该仓库来协作，真是一举多得。对于新创建的仓库，从本地做备份到github网站上gitbash的代码段如下： 123456echo &quot;# learngit.github.io&quot; &amp;gt;&amp;gt">
@@ -427,7 +427,7 @@
 <p><strong>解决方法：</strong></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">touch README</div><div class="line">git <span class="built_in">add</span> README </div><div class="line">git commit -<span class="keyword">m</span> <span class="string">'first commit'</span></div><div class="line">git push origin master</div></pre></td></tr></table></figure>
 <hr>
-<p><code>2.本地和远程仓库建立连接之后，如何添加和修改文件：</code><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">add</span> <span class="string">"filename"</span>                       添加文件到缓存区 ；</div><div class="line">git commit -<span class="keyword">m</span> <span class="string">"add/update…."</span>给刚刚添加的文件记录cmmit信息；</div><div class="line">git push                                         利用push将上传到master的文件发布到github网站上；</div></pre></td></tr></table></figure></p>
+<p><code>2.本地和远程仓库建立连接之后，如何添加和修改文件：</code><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">add</span> <span class="string">"filename"</span>          添加文件到缓存区 ；</div><div class="line">git commit -<span class="keyword">m</span> <span class="string">"add/update…."</span>给刚刚添加的文件记录cmmit信息；</div><div class="line">git push                    利用push将上传到master的文件发布到github网站上；</div></pre></td></tr></table></figure></p>
 <hr>
 <p><code>3.本地删除文件并且同步到仓库上：</code><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git rm filename</div><div class="line">git commit -<span class="keyword">m</span> <span class="string">"remove filename"</span></div><div class="line">git push</div></pre></td></tr></table></figure></p>
 <p>对于新建和删除修改文件的小结：<br>这些操作都需要三个步骤：</p>
