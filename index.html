@@ -409,7 +409,7 @@
       
         
           
-            <p><code>1.新建一个仓库添加本地上传服务：</code><br><strong>现在的情景:</strong><br>你已经在本地创建了一个Git仓库后，又想在GitHub创建一个Git仓库，并且让这两个仓库进行远程同步，这样，GitHub上的仓库既可以作为备份，又可以让其他人通过该仓库来协作，真是一举多得。<br>对于新创建的仓库，从本地做备份到github网站上gitbash的代码段如下：</p>
+            <h2 id="1-新建一个仓库添加本地上传服务："><a href="#1-新建一个仓库添加本地上传服务：" class="headerlink" title="1.新建一个仓库添加本地上传服务："></a>1.新建一个仓库添加本地上传服务：</h2><p><strong>现在的情景:</strong><br>你已经在本地创建了一个Git仓库后，又想在GitHub创建一个Git仓库，并且让这两个仓库进行远程同步，这样，GitHub上的仓库既可以作为备份，又可以让其他人通过该仓库来协作，真是一举多得。<br>对于新创建的仓库，从本地做备份到github网站上gitbash的代码段如下：</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ <span class="keyword">echo</span> <span class="string">"# learngit.github.io"</span> &gt;&gt; README.md</div><div class="line">$ git init</div><div class="line">$ git <span class="built_in">add</span> README.md</div><div class="line">$ git commit -<span class="keyword">m</span> <span class="string">"first commit"</span></div><div class="line">$ git remote <span class="built_in">add</span> origin git@github.<span class="keyword">com</span>:dclarken/dai.github.io.git</div><div class="line">$ git push -<span class="keyword">u</span> origin master</div></pre></td></tr></table></figure>
 <p><strong>操作解释：</strong></p>
 <ul>
@@ -425,9 +425,9 @@
 <p><strong>解决方法：</strong></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ touch README</div><div class="line">$ git <span class="built_in">add</span> README </div><div class="line">$ git commit -<span class="keyword">m</span> <span class="string">'first commit'</span></div><div class="line">$ git push origin master</div></pre></td></tr></table></figure>
 <hr>
-<p><code>2.本地和远程仓库建立连接之后，如何添加和修改文件：</code><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git <span class="built_in">add</span> <span class="string">"filename"</span>          添加文件到缓存区 ；</div><div class="line">$ git commit -<span class="keyword">m</span> <span class="string">"add/update…."</span>给刚刚添加的文件记录cmmit信息；</div><div class="line">$ git push                    利用push将上传到master的文件发布到github网站上；</div></pre></td></tr></table></figure></p>
+<h2 id="2-本地和远程仓库建立连接之后，如何添加和修改文件："><a href="#2-本地和远程仓库建立连接之后，如何添加和修改文件：" class="headerlink" title="2.本地和远程仓库建立连接之后，如何添加和修改文件："></a>2.本地和远程仓库建立连接之后，如何添加和修改文件：</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git <span class="built_in">add</span> <span class="string">"filename"</span>          添加文件到缓存区 ；</div><div class="line">$ git commit -<span class="keyword">m</span> <span class="string">"add/update…."</span>给刚刚添加的文件记录cmmit信息；</div><div class="line">$ git push                    利用push将上传到master的文件发布到github网站上；</div></pre></td></tr></table></figure>
 <hr>
-<p><code>3.本地删除文件并且同步到仓库上：</code><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git rm filename</div><div class="line">$ git commit -<span class="keyword">m</span> <span class="string">"remove filename"</span></div><div class="line">$ git push</div></pre></td></tr></table></figure></p>
+<h2 id="3-本地删除文件并且同步到仓库上："><a href="#3-本地删除文件并且同步到仓库上：" class="headerlink" title="3.本地删除文件并且同步到仓库上："></a>3.本地删除文件并且同步到仓库上：</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git rm filename</div><div class="line">$ git commit -<span class="keyword">m</span> <span class="string">"remove filename"</span></div><div class="line">$ git push</div></pre></td></tr></table></figure>
 <p>对于新建和删除修改文件的小结：<br>这些操作都需要三个步骤：</p>
 <ul>
 <li>修改/删除/新建</li>
@@ -436,8 +436,7 @@
 </ul>
 <p>另外：<br>git pull –rebase 从github上下拉到本地，进行同步工作，加上–rebase可以避免跳入merge commit窗口，从而导致的无用记录,一般来说在网页上直接操作即使没有添加commit也会自动添加，但是为了记录好看还是养成加–rebase的习惯吧<br><a href="http://www.cnblogs.com/wangiqngpei557/p/6056624.html" target="_blank" rel="external">聊下git pull –rebase</a><br>git status可以查看当前的修改情况<br>git checkout – file 让这个文件回到最近一次git commit或git add时的状态。<br>git reset HEAD file可以把暂存区的修改撤销掉（unstage），重新放回工作区</p>
 <hr>
-<p><code>4.将一个已有的github仓库clone到新创建的learngit以及本地仓库中：</code></p>
-<ul>
+<h2 id="4-将一个已有的github仓库clone到新创建的learngit以及本地仓库中："><a href="#4-将一个已有的github仓库clone到新创建的learngit以及本地仓库中：" class="headerlink" title="4.将一个已有的github仓库clone到新创建的learngit以及本地仓库中："></a>4.将一个已有的github仓库clone到新创建的learngit以及本地仓库中：</h2><ul>
 <li>在github上创建项目</li>
 <li>使用 git clone git@github.com:dclarken/dclarken.github.io.git克隆到本地</li>
 <li>编辑项目</li>
@@ -447,8 +446,7 @@
 </ul>
 <p>如果在github的remote上已经有了文件，会出现错误。此时应当先pull一下，即：<br>git pull origin master</p>
 <hr>
-<p><code>5.上传时候的某报错：</code></p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">To github.<span class="keyword">com</span>:dclarken/learngit.git</div><div class="line"> ! [rejected]        master -&gt; master (non-fast-forward)</div><div class="line">error: failed <span class="keyword">to</span> push some refs <span class="keyword">to</span> <span class="string">'git@github.com:dclarken/learngit.git'</span></div><div class="line">hin<span class="variable">t:</span> Updates were rejected because the tip of your current branch <span class="keyword">is</span> behind</div><div class="line">hin<span class="variable">t:</span> its remote counterpart. Integrate the remote <span class="keyword">changes</span> (<span class="keyword">e</span>.g.</div><div class="line">hin<span class="variable">t:</span> <span class="string">'git pull ...'</span>) before pushing again.</div><div class="line">hin<span class="variable">t:</span> See the <span class="string">'Note about fast-forwards'</span> in <span class="string">'git push --help'</span> <span class="keyword">for</span> details.</div></pre></td></tr></table></figure>
+<h2 id="5-上传时候的某报错："><a href="#5-上传时候的某报错：" class="headerlink" title="5.上传时候的某报错："></a>5.上传时候的某报错：</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">To github.<span class="keyword">com</span>:dclarken/learngit.git</div><div class="line"> ! [rejected]        master -&gt; master (non-fast-forward)</div><div class="line">error: failed <span class="keyword">to</span> push some refs <span class="keyword">to</span> <span class="string">'git@github.com:dclarken/learngit.git'</span></div><div class="line">hin<span class="variable">t:</span> Updates were rejected because the tip of your current branch <span class="keyword">is</span> behind</div><div class="line">hin<span class="variable">t:</span> its remote counterpart. Integrate the remote <span class="keyword">changes</span> (<span class="keyword">e</span>.g.</div><div class="line">hin<span class="variable">t:</span> <span class="string">'git pull ...'</span>) before pushing again.</div><div class="line">hin<span class="variable">t:</span> See the <span class="string">'Note about fast-forwards'</span> in <span class="string">'git push --help'</span> <span class="keyword">for</span> details.</div></pre></td></tr></table></figure>
 <p><strong>原因：</strong><br>GitHub远程仓库中的README.md文件不在本地仓库中。</p>
 <p><strong>解决方案：</strong></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git pull --rebase origin master</div><div class="line">$ git push -<span class="keyword">u</span> origin master</div></pre></td></tr></table></figure>
@@ -463,7 +461,7 @@
 <p>基础命令：</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git stash</div><div class="line">$ <span class="keyword">do</span> some work</div><div class="line">$ git stash <span class="keyword">pop</span></div></pre></td></tr></table></figure>
 <hr>
-<p><code>6.添加一个文件夹并且上传到github：</code><br>其实这个和上传文件的原理一样，github支持在上传某个文件夹下的文件的时，将文件夹也上传。所以：</p>
+<h2 id="6-添加一个文件夹并且上传到github："><a href="#6-添加一个文件夹并且上传到github：" class="headerlink" title="6.添加一个文件夹并且上传到github："></a>6.添加一个文件夹并且上传到github：</h2><p>其实这个和上传文件的原理一样，github支持在上传某个文件夹下的文件的时，将文件夹也上传。所以：</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">mkdir</span> CodeCut</div><div class="line">$ <span class="keyword">cd</span> CodeCut</div><div class="line">$ touch test.txt</div><div class="line">$ git <span class="built_in">add</span> <span class="string">"test.txt"</span></div><div class="line">$ git commit -<span class="keyword">m</span> <span class="string">" add test.txt"</span></div><div class="line">$ git push</div></pre></td></tr></table></figure>
 <p>资料参考：<br><a href="https://www.liaoxuefeng.com/" target="_blank" rel="external">廖学峰官方网站</a><br><a href="http://blog.csdn.net/u011471873/article/details/51462871" target="_blank" rel="external">error: failed to push some refs to ‘git@github.com:</a><br><a href="http://blog.csdn.net/u012385190/article/details/70670213" target="_blank" rel="external">error:Cannot pull with rebase</a></p>
 
@@ -630,10 +628,9 @@
         
           
             <p><img src="https://i.loli.net/2017/10/20/59e98c20af367.png" alt="封面"></p>
-<p>##　搭建原理</p>
-<p><code>github pages</code><br>github是项目托管网站，列出了项目的源文件，github有一个pages功能，可以自定义主页，用来代替默认的列出源列表的这个页面。所以，github Pages可以被认为是用户编写的、托管在github上的静态网页。对于个人博客的主页页面内容可以位于 master 下。user pages只有一个, project pages可以有多个, 对于个人博客而言, 两种方式都可以.如果用户申请了自己的域名, 还可以使用CNAME文件自定义domain name,这样访问你的域名就自动访问到github上的页面. 用户也可以自定义404页面.<br><code>Hexo</code><br>Hexo是一个快速、简洁并且高效的博客框架。Hexo使用Markdown解析文章，还可以使用期主题生成静态网页</p>
+<h2 id="搭建原理"><a href="#搭建原理" class="headerlink" title="搭建原理"></a>搭建原理</h2><p><code>github pages</code><br>github是项目托管网站，列出了项目的源文件，github有一个pages功能，可以自定义主页，用来代替默认的列出源列表的这个页面。所以，github Pages可以被认为是用户编写的、托管在github上的静态网页。对于个人博客的主页页面内容可以位于 master 下。user pages只有一个, project pages可以有多个, 对于个人博客而言, 两种方式都可以.如果用户申请了自己的域名, 还可以使用CNAME文件自定义domain name,这样访问你的域名就自动访问到github上的页面. 用户也可以自定义404页面.<br><code>Hexo</code><br>Hexo是一个快速、简洁并且高效的博客框架。Hexo使用Markdown解析文章，还可以使用期主题生成静态网页</p>
 <hr>
-<p>##　搭建步骤<br>大概可以分为以下几个步骤：</p>
+<h2 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h2><p>大概可以分为以下几个步骤：</p>
 <ul>
 <li>搭建环境准备（包括node.js和git环境，gitHub账户的配置）</li>
 <li>安装Hexo</li>
@@ -644,7 +641,7 @@
 <li>主题Next的配置</li>
 <li>添加404 公益页面</li>
 </ul>
-<p>##　环境准备<br>配置Node.js安装环境：JavaScript工具，前端架构，编写出可扩展性高的服务器</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>配置Node.js安装环境：JavaScript工具，前端架构，编写出可扩展性高的服务器</p>
 <ul>
 <li>安装Online documentation shortcuts模块</li>
 <li>新打开的窗口中输入cmd，敲击回车，打开命令行界面</li>
@@ -684,7 +681,7 @@
 </ul>
 <p>提示，在浏览器中输入以后网址既可以访问hexo界面<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INFO Hexo <span class="keyword">is</span> running at http://<span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">4000</span>/. Press Ctrl+C <span class="keyword">to</span> <span class="keyword">stop</span>.</div></pre></td></tr></table></figure></p>
 <hr>
-<p>##　将hexo和github相连<br>配置Git个人信息</p>
+<h2 id="将hexo和github相连"><a href="#将hexo和github相连" class="headerlink" title="将hexo和github相连"></a>将hexo和github相连</h2><p>配置Git个人信息</p>
 <ul>
 <li><p>设置Git的user.name和user.email</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config --<span class="keyword">global</span> user.name <span class="string">"Lander"</span></div><div class="line">git config --<span class="keyword">global</span> user.email <span class="string">"dclarken@163.com"</span></div></pre></td></tr></table></figure>
@@ -704,7 +701,7 @@
 </li>
 </ul>
 <hr>
-<p>##　主题配置以及文章发布<br>Next主题配置使用</p>
+<h2 id="主题配置以及文章发布"><a href="#主题配置以及文章发布" class="headerlink" title="主题配置以及文章发布"></a>主题配置以及文章发布</h2><p>Next主题配置使用</p>
 <ul>
 <li><p>安装Next，利用Git工具将下载的主题文件拷贝在themes目录下</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> your-hexo-site</div><div class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/iissnan/hexo-theme-<span class="keyword">next</span> themes/<span class="keyword">next</span></div></pre></td></tr></table></figure>
