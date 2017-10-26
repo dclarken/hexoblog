@@ -80,20 +80,20 @@
 
 
 
-<meta name="description" content="文档资料K8s官方文档翻译 Kubernetes平台Ingress 介绍 Ingress 是一个规则的集合，它允许集群外的流量通过一定的规则到达集群内的 Service 。Ingress三个组件:  反向代理负载均衡器反向代理负载均衡器，即常见的负载均衡软件，如 nginx、Haproxy 等。 Ingress ControllerIngress Controller 与 kubernetes A">
+<meta name="description" content="文档资料K8s官方文档翻译 Kubernetes平台Ingress 介绍Ingress 是一个规则的集合，它允许集群外的流量通过一定的规则到达集群内的 Service 。Ingress三个组件:  反向代理负载均衡器反向代理负载均衡器，即常见的负载均衡软件，如 nginx、Haproxy 等。 Ingress ControllerIngress Controller 与 kubernetes AP">
 <meta name="keywords" content="笔记,k8s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="K8s结合LVS高可用负载均衡与集群外服务访问实践">
 <meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/09/24/K8s结合LVS高可用负载均衡与集群外服务访问实践/index.html">
 <meta property="og:site_name" content="Lander Blog">
-<meta property="og:description" content="文档资料K8s官方文档翻译 Kubernetes平台Ingress 介绍 Ingress 是一个规则的集合，它允许集群外的流量通过一定的规则到达集群内的 Service 。Ingress三个组件:  反向代理负载均衡器反向代理负载均衡器，即常见的负载均衡软件，如 nginx、Haproxy 等。 Ingress ControllerIngress Controller 与 kubernetes A">
+<meta property="og:description" content="文档资料K8s官方文档翻译 Kubernetes平台Ingress 介绍Ingress 是一个规则的集合，它允许集群外的流量通过一定的规则到达集群内的 Service 。Ingress三个组件:  反向代理负载均衡器反向代理负载均衡器，即常见的负载均衡软件，如 nginx、Haproxy 等。 Ingress ControllerIngress Controller 与 kubernetes AP">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2017/10/20/59e9a4894e40e.png">
 <meta property="og:image" content="https://i.loli.net/2017/10/20/59e9a4895b6d8.png">
-<meta property="og:updated_time" content="2017-10-20T09:42:31.625Z">
+<meta property="og:updated_time" content="2017-10-26T09:14:57.770Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="K8s结合LVS高可用负载均衡与集群外服务访问实践">
-<meta name="twitter:description" content="文档资料K8s官方文档翻译 Kubernetes平台Ingress 介绍 Ingress 是一个规则的集合，它允许集群外的流量通过一定的规则到达集群内的 Service 。Ingress三个组件:  反向代理负载均衡器反向代理负载均衡器，即常见的负载均衡软件，如 nginx、Haproxy 等。 Ingress ControllerIngress Controller 与 kubernetes A">
+<meta name="twitter:description" content="文档资料K8s官方文档翻译 Kubernetes平台Ingress 介绍Ingress 是一个规则的集合，它允许集群外的流量通过一定的规则到达集群内的 Service 。Ingress三个组件:  反向代理负载均衡器反向代理负载均衡器，即常见的负载均衡软件，如 nginx、Haproxy 等。 Ingress ControllerIngress Controller 与 kubernetes AP">
 <meta name="twitter:image" content="https://i.loli.net/2017/10/20/59e9a4894e40e.png">
 
 
@@ -428,8 +428,7 @@
 
       
         <p><a href="https://www.kubernetes.org.cn/2812.html" target="_blank" rel="external">文档资料</a><br><a href="http://docs.kubernetes.org.cn/" target="_blank" rel="external">K8s官方文档翻译</a></p>
-<p><code>Kubernetes平台Ingress 介绍</code></p>
-<p>Ingress 是一个规则的集合，它允许集群外的流量通过一定的规则到达集群内的 Service 。<br>Ingress三个组件:</p>
+<h2 id="Kubernetes平台Ingress-介绍"><a href="#Kubernetes平台Ingress-介绍" class="headerlink" title="Kubernetes平台Ingress 介绍"></a>Kubernetes平台Ingress 介绍</h2><p>Ingress 是一个规则的集合，它允许集群外的流量通过一定的规则到达集群内的 Service 。<br>Ingress三个组件:</p>
 <ul>
 <li>反向代理负载均衡器<br>反向代理负载均衡器，即常见的负载均衡软件，如 nginx、Haproxy 等。</li>
 <li>Ingress Controller<br>Ingress Controller 与 kubernetes API 进行交互，实时的感知后端 service、pod 等变化， Ingress Controller 再结合下文的 Ingress 生成配置，然后更新反向代理负载均衡器，并刷新其配置，实现动态服务发现与更新。</li>
@@ -458,8 +457,7 @@
 <li>高可用集群模式</li>
 </ul>
 <hr>
-<p><code>K8s结合LVS高可用负载均衡与集群外服务访问组网拓扑：</code></p>
-<p>这个案例也可以学习为：如何将四层负载均衡和七层负载均衡相结合来实现对外访问服务。</p>
+<h2 id="K8s结合LVS高可用负载均衡与集群外服务访问组网拓扑："><a href="#K8s结合LVS高可用负载均衡与集群外服务访问组网拓扑：" class="headerlink" title="K8s结合LVS高可用负载均衡与集群外服务访问组网拓扑："></a>K8s结合LVS高可用负载均衡与集群外服务访问组网拓扑：</h2><p>这个案例也可以学习为：如何将四层负载均衡和七层负载均衡相结合来实现对外访问服务。</p>
 <p>组网思路如下：</p>
 <ul>
 <li>前端为两台LVS服务器，通过keepalive实现负载集群高可用以及虚拟IP，实现外部流量的四层负载，以及作为Kubernetes集群服务访问的入口。LVS负载均衡采用DR模式提高集群的处理速度。</li>
@@ -572,8 +570,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -659,6 +666,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes平台Ingress-介绍"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes平台Ingress 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K8s结合LVS高可用负载均衡与集群外服务访问组网拓扑："><span class="nav-number">2.</span> <span class="nav-text">K8s结合LVS高可用负载均衡与集群外服务访问组网拓扑：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
