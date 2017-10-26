@@ -629,9 +629,11 @@
       
         
           
-            <p><img src="https://i.loli.net/2017/10/20/59e98c20af367.png" alt="封面"><br><strong>搭建原理</strong><br><strong><code>github pages</code> </strong><br>github是项目托管网站，列出了项目的源文件，github有一个pages功能，可以自定义主页，用来代替默认的列出源列表的这个页面。所以，github Pages可以被认为是用户编写的、托管在github上的静态网页。对于个人博客的主页页面内容可以位于 master 下。user pages只有一个, project pages可以有多个, 对于个人博客而言, 两种方式都可以.如果用户申请了自己的域名, 还可以使用CNAME文件自定义domain name,这样访问你的域名就自动访问到github上的页面. 用户也可以自定义404页面.<br><strong><code>Hexo</code></strong><br>Hexo是一个快速、简洁并且高效的博客框架。Hexo使用Markdown解析文章，还可以使用期主题生成静态网页</p>
+            <p><img src="https://i.loli.net/2017/10/20/59e98c20af367.png" alt="封面"></p>
+<p>##　搭建原理</p>
+<p><code>github pages</code><br>github是项目托管网站，列出了项目的源文件，github有一个pages功能，可以自定义主页，用来代替默认的列出源列表的这个页面。所以，github Pages可以被认为是用户编写的、托管在github上的静态网页。对于个人博客的主页页面内容可以位于 master 下。user pages只有一个, project pages可以有多个, 对于个人博客而言, 两种方式都可以.如果用户申请了自己的域名, 还可以使用CNAME文件自定义domain name,这样访问你的域名就自动访问到github上的页面. 用户也可以自定义404页面.<br><code>Hexo</code><br>Hexo是一个快速、简洁并且高效的博客框架。Hexo使用Markdown解析文章，还可以使用期主题生成静态网页</p>
 <hr>
-<p><strong>搭建步骤</strong><br>大概可以分为以下几个步骤：</p>
+<p>##　搭建步骤<br>大概可以分为以下几个步骤：</p>
 <ul>
 <li>搭建环境准备（包括node.js和git环境，gitHub账户的配置）</li>
 <li>安装Hexo</li>
@@ -642,7 +644,7 @@
 <li>主题Next的配置</li>
 <li>添加404 公益页面</li>
 </ul>
-<p><strong><code>环境准备</code></strong><br>配置Node.js安装环境：JavaScript工具，前端架构，编写出可扩展性高的服务器</p>
+<p>##　环境准备<br>配置Node.js安装环境：JavaScript工具，前端架构，编写出可扩展性高的服务器</p>
 <ul>
 <li>安装Online documentation shortcuts模块</li>
 <li>新打开的窗口中输入cmd，敲击回车，打开命令行界面</li>
@@ -658,8 +660,10 @@
 <p>github账号的配置</p>
 <ul>
 <li>新建一个repository，命名为hexoblog</li>
-<li>在settings页面中的Github Pages中开启gh pages功能，记录网址可以用于后续配置<br>安装Hexo</li>
-<li>新建一个目录并且创建Hexo文件夹，用于安装Hexo，并在命令行的窗口进入到该目录</li>
+<li><p>在settings页面中的Github Pages中开启gh pages功能，记录网址可以用于后续配置<br>安装Hexo</p>
+</li>
+<li><p>新建一个目录并且创建Hexo文件夹，用于安装Hexo，并在命令行的窗口进入到该目录</p>
+</li>
 <li>命令行输入:安装hexo以及查看是否安装<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm install hexo-cli -g</div><div class="line">npm install hexo --save</div><div class="line">hexo -v</div></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -680,7 +684,7 @@
 </ul>
 <p>提示，在浏览器中输入以后网址既可以访问hexo界面<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INFO Hexo <span class="keyword">is</span> running at http://<span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">4000</span>/. Press Ctrl+C <span class="keyword">to</span> <span class="keyword">stop</span>.</div></pre></td></tr></table></figure></p>
 <hr>
-<p><strong><code>将hexo和github相连</code></strong><br>配置Git个人信息</p>
+<p>##　将hexo和github相连<br>配置Git个人信息</p>
 <ul>
 <li><p>设置Git的user.name和user.email</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config --<span class="keyword">global</span> user.name <span class="string">"Lander"</span></div><div class="line">git config --<span class="keyword">global</span> user.email <span class="string">"dclarken@163.com"</span></div></pre></td></tr></table></figure>
@@ -700,7 +704,7 @@
 </li>
 </ul>
 <hr>
-<p><strong><code>主题配置以及文章发布</code></strong><br>Next主题配置使用</p>
+<p>##　主题配置以及文章发布<br>Next主题配置使用</p>
 <ul>
 <li><p>安装Next，利用Git工具将下载的主题文件拷贝在themes目录下</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> your-hexo-site</div><div class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/iissnan/hexo-theme-<span class="keyword">next</span> themes/<span class="keyword">next</span></div></pre></td></tr></table></figure>
