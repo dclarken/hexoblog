@@ -423,21 +423,17 @@
       
         
           
-            <p>文档资料：<br><a href="http://www.wutianqi.com/?p=1890" target="_blank" rel="external">代码详解</a><br><a href="http://www.cnblogs.com/biyeymyhjob/archive/2012/07/31/2615833.html" target="_blank" rel="external">算法详解</a></p>
-<p><strong><code>freopen函数</code></strong><br><a href="http://blog.chinaunix.net/uid-11600035-id-2866019.html" target="_blank" rel="external">freopen妙用文档资料</a><br>因为文件指针使用的是标准流文件，因此我们可以不定义文件指针。<br>接下来我们使用freopen()函数以只读方式r(read)打开输入文件slyar.in<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">freopen(<span class="string">"slyar.in"</span>, <span class="string">"r"</span>, <span class="built_in">stdin</span>);</div></pre></td></tr></table></figure></p>
-<p>然后使用freopen()函数以写入方式w(write)打开输出文件slyar.out<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">freopen(<span class="string">"slyar.out"</span>, <span class="string">"w"</span>, <span class="built_in">stdout</span>);</div></pre></td></tr></table></figure></p>
-<p>单独使用stdin方法时候，系统有的时候会不读取我们自己创建的文件，这个时候的解决办法可以是写利用stdout输出一个txt的文件，然后将该文件改名并且填入需要输入的内容，作为stdio的文件。</p>
-<p><strong><code>算法步骤：</code></strong></p>
-<ul>
-<li>a.初始时，S只包含源点，即S＝{v}，v的距离为0。U包含除v外的其他顶点，即:U={其余顶点}，若v与U中顶点u有边，则<u,v>正常有权值，若u不是v的出边邻接点，则<u,v>权值为∞。</u,v></u,v></li>
-<li>b.从U中选取一个距离v最小的顶点k，把k，加入S中（该选定的距离就是v到k的最短路径长度）。</li>
-<li>c.以k为新考虑的中间点，修改U中各顶点的距离；若从源点v到顶点u的距离（经过顶点k）比原来距离（不经过顶点k）短，则修改顶点u的距离值，修改后的距离值的顶点k的距离加上边上的权。</li>
-<li>d.重复步骤b和c直到所有顶点都包含在S中<br><img src="https://i.loli.net/2017/10/20/59e99cc231939.png" alt="jiexi1"><br><img src="https://i.loli.net/2017/10/20/59e99cc2a104e.png" alt="jiexi2"></li>
-</ul>
-<p><strong><code>代码</code></strong><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxnum = <span class="number">100</span>;</div><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxint = <span class="number">999999</span>;</div><div class="line"></div><div class="line"><span class="comment">// 各数组都从下标1开始</span></div><div class="line"><span class="keyword">int</span> dist[maxnum];     <span class="comment">// 表示当前点到源点的最短路径长度</span></div><div class="line"><span class="keyword">int</span> prev[maxnum];     <span class="comment">// 记录当前点的前一个结点</span></div><div class="line"><span class="keyword">int</span> c[maxnum][maxnum];   <span class="comment">// 记录图的两点间路径长度</span></div><div class="line"><span class="keyword">int</span> n, line;             <span class="comment">// 图的结点数和路径数</span></div><div class="line"></div><div class="line"><span class="comment">// n -- n nodes</span></div><div class="line"><span class="comment">// v -- the source node</span></div><div class="line"><span class="comment">// dist[] -- the distance from the ith node to the source node</span></div><div class="line"><span class="comment">// prev[] -- the previous node of the ith node</span></div><div class="line"><span class="comment">// c[][] -- every two nodes' distance</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dijkstra</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> v, <span class="keyword">int</span> *dist, <span class="keyword">int</span> *prev, <span class="keyword">int</span> c[maxnum][maxnum])</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">bool</span> s[maxnum];    <span class="comment">// 判断是否已存入该点到S集合中</span></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; ++i)</div><div class="line">	&#123;</div><div class="line">		dist[i] = c[v][i];</div><div class="line">		s[i] = <span class="number">0</span>;     <span class="comment">// 初始都未用过该点</span></div><div class="line">		<span class="keyword">if</span>(dist[i] == maxint)</div><div class="line">			prev[i] = <span class="number">0</span>;</div><div class="line">		<span class="keyword">else</span></div><div class="line">			prev[i] = v;</div><div class="line">	&#125;</div><div class="line">	dist[v] = <span class="number">0</span>;</div><div class="line">	s[v] = <span class="number">1</span>;</div><div class="line"></div><div class="line">	<span class="comment">// 依次将未放入S集合的结点中，取dist[]最小值的结点，放入结合S中</span></div><div class="line">	<span class="comment">// 一旦S包含了所有V中顶点，dist就记录了从源点到所有其他顶点之间的最短路径长度</span></div><div class="line">         <span class="comment">// 注意是从第二个节点开始，第一个为源点</span></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>; i&lt;=n; ++i)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">int</span> tmp = maxint;</div><div class="line">		<span class="keyword">int</span> u = v;</div><div class="line">		<span class="comment">// 找出当前未使用的点j的dist[j]最小值</span></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; ++j)</div><div class="line">			<span class="keyword">if</span>((!s[j]) &amp;&amp; dist[j]&lt;tmp)</div><div class="line">			&#123;</div><div class="line">				u = j;              <span class="comment">// u保存当前邻接点中距离最小的点的号码</span></div><div class="line">				tmp = dist[j];</div><div class="line">			&#125;</div><div class="line">		s[u] = <span class="number">1</span>;    <span class="comment">// 表示u点已存入S集合中</span></div><div class="line"></div><div class="line">		<span class="comment">// 更新dist</span></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; ++j)</div><div class="line">			<span class="keyword">if</span>((!s[j]) &amp;&amp; c[u][j]&lt;maxint)</div><div class="line">			&#123;</div><div class="line">				<span class="keyword">int</span> newdist = dist[u] + c[u][j];</div><div class="line">				<span class="keyword">if</span>(newdist &lt; dist[j])</div><div class="line">				&#123;</div><div class="line">					dist[j] = newdist;</div><div class="line">					prev[j] = u;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 查找从源点v到终点u的路径，并输出</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">searchPath</span><span class="params">(<span class="keyword">int</span> *prev,<span class="keyword">int</span> v, <span class="keyword">int</span> u)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">int</span> que[maxnum];</div><div class="line">	<span class="keyword">int</span> tot = <span class="number">1</span>;</div><div class="line">	que[tot] = u;</div><div class="line">	tot++;</div><div class="line">	<span class="keyword">int</span> tmp = prev[u];</div><div class="line">	<span class="keyword">while</span>(tmp != v)</div><div class="line">	&#123;</div><div class="line">		que[tot] = tmp;</div><div class="line">		tot++;</div><div class="line">		tmp = prev[tmp];</div><div class="line">	&#125;</div><div class="line">	que[tot] = v;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=tot; i&gt;=<span class="number">1</span>; --i)</div><div class="line">		<span class="keyword">if</span>(i != <span class="number">1</span>)</div><div class="line">			<span class="built_in">cout</span> &lt;&lt; que[i] &lt;&lt; <span class="string">" -&gt; "</span>;</div><div class="line">		<span class="keyword">else</span></div><div class="line">			<span class="built_in">cout</span> &lt;&lt; que[i] &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	freopen(<span class="string">"input.txt"</span>, <span class="string">"r"</span>, <span class="built_in">stdin</span>);</div><div class="line">	<span class="keyword">if</span>( freopen(<span class="string">"input.txt"</span>,<span class="string">"r"</span>,<span class="built_in">stdin</span>)== <span class="literal">NULL</span> )</div><div class="line">        <span class="built_in">cout</span>&lt;&lt; <span class="string">"false"</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="built_in">cout</span>&lt;&lt; <span class="string">"open"</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="comment">// 各数组都从下标1开始</span></div><div class="line"></div><div class="line">	<span class="comment">// 输入结点数</span></div><div class="line">	<span class="built_in">cin</span> &gt;&gt; n;</div><div class="line">	<span class="comment">// 输入路径数</span></div><div class="line">	<span class="built_in">cin</span> &gt;&gt; line;</div><div class="line">	<span class="keyword">int</span> p, q, len;          <span class="comment">// 输入p, q两点及其路径长度</span></div><div class="line"></div><div class="line">	<span class="comment">// 初始化c[][]为maxint</span></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; ++i)</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; ++j)</div><div class="line">			c[i][j] = maxint;</div><div class="line"></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=line; ++i)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cin</span> &gt;&gt; p &gt;&gt; q &gt;&gt; len;</div><div class="line">		<span class="keyword">if</span>(len &lt; c[p][q])       <span class="comment">// 有重边</span></div><div class="line">		&#123;</div><div class="line">			c[p][q] = len;      <span class="comment">// p指向q</span></div><div class="line">			c[q][p] = len;      <span class="comment">// q指向p，这样表示无向图</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; ++i)</div><div class="line">		dist[i] = maxint;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; ++i)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; ++j)</div><div class="line">			<span class="built_in">printf</span>(<span class="string">"%8d"</span>, c[i][j]);</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	Dijkstra(n, <span class="number">1</span>, dist, prev, c);</div><div class="line"></div><div class="line">	<span class="comment">// 最短路径长度</span></div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"源点到最后一个顶点的最短路径长度: "</span> &lt;&lt; dist[n] &lt;&lt; <span class="built_in">endl</span>;</div><div class="line"></div><div class="line">	<span class="comment">// 路径</span></div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"源点到最后一个顶点的路径为: "</span>;</div><div class="line">	searchPath(prev, <span class="number">1</span>, n);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><img src="https://i.loli.net/2017/10/20/59e99c41573f8.png" alt="结果1"><br><img src="https://i.loli.net/2017/10/20/59e99c4179e4f.png" alt="结果2"></p>
-
-          
+          文档资料：代码详解算法详解
+freopen函数freopen妙用文档资料因为文件指针使用的是标准流文件，因此我们可以不定义文件指针。接下来我们使用freopen()函数以只读方式r(read)打开输入文件slyar.in1freopen("slyar.in", "r", stdin);
+然后使用fr
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/hexoblog/2017/08/23/Dijkstra算法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -599,9 +595,16 @@
       
         
           
-            <p>#基本语法#</p>
+          #基本语法#
 
           
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/hexoblog/2017/08/19/Python语法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -763,9 +766,15 @@
       
         
           
-            <p>jdk下载：（java环境配置）<br><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="external">jdk下载地址</a><br>环境变量配置<br>首先设置JAVA_HOME,点击新建，变量名：JAVA_HOME,变量值：D:\java\jdk1.7.0,即jdk安装的路径。<br>设置CLASSPATH属性，变量名：CLASSPATH，变量值：.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;此时需要注意的是最前有.;，不能忘记，%JAVA_HOME%代表D:\java\jdk1.7.0此路径。<br>设置path属性，变量名：path，变量值：%java_home%\bin;%java_home%\jre\bin;，此属性一般都是有的，只需添加即可，注意分号的问题。<br>在cmd中输入命令java检测安装是成功<br>ps：%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;环境变量原本的文件内容表示的dos系统下cmd的解释器，在环境变量配置时，定义的环境变量文件名不区分大小写path=PATH。<br>eclipse：<br><a href="http://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/heliossr1/" target="_blank" rel="external">eclipse下载地址</a><br>选择的下载版本为一个zip而不是官网的exe文件，官网的文件还需要后续联网下载，网络不稳定容易失败，zip文件解压缩之后既可以使用。<br>python插件：<br>1.<br>打开eclipse——Help——add-PyDev-<a href="http://pydev.org/updates——PyDev——PyDev" target="_blank" rel="external">http://pydev.org/updates——PyDev——PyDev</a> for eclipse——下一步——重启——建立Python工程<br>上述过程同样需要上境外网络，连接VPN实施。<br>或者参考：<br>2.<br><a href="https://jingyan.baidu.com/article/cd4c2979101f02756f6e6064.html" target="_blank" rel="external">python插件下载地址</a><br><a href="http://sourceforge.net/projects/pydev/files/pydev/PyDev%204.1.0/" target="_blank" rel="external">pyDev包下载地址</a>下载PyDev 4.1.0.zip包，<br>把压缩包里面的plugins中的文件解压到Eclipse安装目录下plugins文件夹中，压缩包里面features中的文件目录也是同样操作。之后重启Eclipse。<br>检查是否已经正确安装pydev：打开Eclipse–&gt;Windows–&gt;preferences就能找到Pydev。<br>配置解释器。官网下载Python27或者Python34<br>选择Window &gt; Preferences &gt; Pydev &gt; Python Interpreter&gt;New ，继续配置解释器：Python安装在F:\Python27 路径下。单击 New，进入对话框。Interpreter Name可以随便命名，Interpreter Executable选择Python解释器python.exe，在安装文件夹下查找。而后下一步下一步。<br>建立Python工程：<br>工程建立：file-new-project-PyDev-PyDev Project-命名-finish<br>文件建立：项目名右键-new-PyDev Module（.py文件）-编写-运行Python Run</p>
-
-          
+          jdk下载：（java环境配置）jdk下载地址环境变量配置首先设置JAVA_HOME,点击新建，变量名：JAVA_HOME,变量值：D:\java\jdk1.7.0,即jdk安装的路径。设置CLASSPATH属性，变量名：CLASSPATH，变量值：.;%JAVA_HOME%\lib\dt.jar;
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/hexoblog/2017/08/15/jdk+eclipse+python环境搭建/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -926,82 +935,14 @@
 
       
         
-          
-            <p><img src="https://i.loli.net/2017/10/20/59e958907d2d2.jpg" alt="mahua"></p>
-<h2 id="MaHua是什么"><a href="#MaHua是什么" class="headerlink" title="MaHua是什么?"></a>MaHua是什么?</h2><p>一个在线编辑markdown文档的编辑器</p>
-<p>向Mac下优秀的markdown编辑器mou致敬</p>
-<h2 id="MaHua有哪些功能？"><a href="#MaHua有哪些功能？" class="headerlink" title="MaHua有哪些功能？"></a>MaHua有哪些功能？</h2><ul>
-<li>方便的<code>导入导出</code>功能<ul>
-<li>直接把一个markdown的文本文件拖放到当前这个页面就可以了</li>
-<li>导出为一个html格式的文件，样式一点也不会丢失</li>
-</ul>
-</li>
-<li>编辑和预览<code>同步滚动</code>，所见即所得（右上角设置）</li>
-<li><code>VIM快捷键</code>支持，方便vim党们快速的操作 （右上角设置）</li>
-<li>强大的<code>自定义CSS</code>功能，方便定制自己的展示</li>
-<li>有数量也有质量的<code>主题</code>,编辑器和预览区域</li>
-<li>完美兼容<code>Github</code>的markdown语法</li>
-<li>预览区域<code>代码高亮</code></li>
-<li>所有选项自动记忆</li>
-</ul>
-<h2 id="有问题反馈"><a href="#有问题反馈" class="headerlink" title="有问题反馈"></a>有问题反馈</h2><p>在使用中有任何问题，欢迎反馈给作者，可以用以下联系方式跟作者交流</p>
-<ul>
-<li>邮件(dev.hubo#gmail.com, 把#换成@)</li>
-<li>QQ: 287759234</li>
-<li>weibo: <a href="http://weibo.com/ihubo" target="_blank" rel="external">@草依山</a></li>
-<li>twitter: <a href="http://twitter.com/ihubo" target="_blank" rel="external">@ihubo</a></li>
-</ul>
-<h2 id="感激"><a href="#感激" class="headerlink" title="感激"></a>感激</h2><p>感谢以下的项目,排名不分先后</p>
-<ul>
-<li><a href="http://mouapp.com/" target="_blank" rel="external">mou</a> </li>
-<li><a href="http://ace.ajax.org/" target="_blank" rel="external">ace</a></li>
-<li><a href="http://jquery.com" target="_blank" rel="external">jquery</a></li>
-</ul>
-<h2 id="表格实现"><a href="#表格实现" class="headerlink" title="表格实现"></a>表格实现</h2><table>
-<thead>
-<tr>
-<th>Namespace</th>
-<th>系统调用参数</th>
-<th>隔离内容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>UTS</td>
-<td>CLONE_NEWUTS</td>
-<td>主机名与域名</td>
-</tr>
-<tr>
-<td>IPC</td>
-<td>CLONE_NEWIPC</td>
-<td>信号量、消息队列和共享内存</td>
-</tr>
-<tr>
-<td>PID</td>
-<td>CLONE_NEWPID</td>
-<td>进程编号</td>
-</tr>
-<tr>
-<td>Network</td>
-<td>CLONE_NEWNET</td>
-<td>网络设备、网络栈、端口等等</td>
-</tr>
-<tr>
-<td>Mount</td>
-<td>CLONE_NEWNS</td>
-<td>挂载点（文件系统）</td>
-</tr>
-<tr>
-<td>User</td>
-<td>CLONE_NEWUSER</td>
-<td>用户和用户组</td>
-</tr>
-</tbody>
-</table>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">    self.name=[]</div><div class="line">    self.age=[]</div></pre></td></tr></table></figure>
-<h1 id="该文可以用来便于查看markdown的语法规则"><a href="#该文可以用来便于查看markdown的语法规则" class="headerlink" title="该文可以用来便于查看markdown的语法规则"></a>该文可以用来便于查看markdown的语法规则</h1><p>感谢作者</p>
-
-          
+          <p><img src="https://i.loli.net/2017/10/20/59e958907d2d2.jpg" alt="mahua"><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/hexoblog/2017/08/13/Markdown编辑器/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1163,14 +1104,16 @@
       
         
           
-            <p>问题: 生成1~n的排列<br>思路: 穷举所有可能 在生成结果数组前把重复的去掉<br>探索到某一步发现原先选择达不到目标, 就退回一步重新选择.<br>效率比普通DFS高. 可以优化排列数和素数环的程序<br>两种代码一种没有加入回溯，一种有——-分隔</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding：utf-8</span></div><div class="line">A = [<span class="keyword">None</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>)]</div><div class="line">N = <span class="number">3</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(cur)</span>:</span></div><div class="line">    <span class="keyword">if</span> cur == N:</div><div class="line">        print(A[:N])</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, N+<span class="number">1</span>):</div><div class="line">            <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> A[:cur]:</div><div class="line">                A[cur] = i</div><div class="line">                dfs(cur+<span class="number">1</span>)</div><div class="line"></div><div class="line">dfs(<span class="number">0</span>)</div></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">A = [<span class="keyword">None</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>)]</div><div class="line">V = [<span class="keyword">False</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>)]</div><div class="line">N = <span class="number">4</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(cur)</span>:</span></div><div class="line">    <span class="keyword">if</span> cur == N: <span class="comment">#边界条件到N的时候需要输出结果</span></div><div class="line">        print(A[:N])</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, N+<span class="number">1</span>): <span class="comment">#遍历所有的情况</span></div><div class="line">            <span class="keyword">if</span> <span class="keyword">not</span> V[i]: <span class="comment">#V为标志，到排序的这个位置上没有数据时候，进入下一步</span></div><div class="line">                V[i] = <span class="keyword">True</span> <span class="comment">#首先改变标志位为true，输入需要排入的数值</span></div><div class="line">                A[cur] = i</div><div class="line">                dfs(cur+<span class="number">1</span>) <span class="comment">#继续往下搜索</span></div><div class="line">                V[i] = <span class="keyword">False</span> <span class="comment">#跳出了循环，需要回溯到进入循环之前的状态</span></div><div class="line"></div><div class="line">dfs(<span class="number">0</span>)</div></pre></td></tr></table></figure>
-<hr>
-<p>问题: 数字1~n围成一个n个节点的环, 不允许数字重复, 任意2个相邻数字相加, 结果均为素数, 打印所有素数环的组合.<br>思路: 同排列数, 多了素数判断. </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">A = [<span class="keyword">None</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>)]</div><div class="line">N = <span class="number">6</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_prime</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, n//<span class="number">2</span>+<span class="number">1</span>):</div><div class="line">        <span class="keyword">if</span> n%i == <span class="number">0</span>:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(cur)</span>:</span></div><div class="line">    <span class="keyword">if</span> cur == N:</div><div class="line">        <span class="keyword">if</span> is_prime(A[<span class="number">0</span>]+A[N<span class="number">-1</span>]):</div><div class="line">            print(A[:N])</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, N+<span class="number">1</span>):</div><div class="line">            <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> A[:cur]:</div><div class="line">                <span class="keyword">if</span> cur == <span class="number">0</span> <span class="keyword">or</span> is_prime(i+A[cur<span class="number">-1</span>]):</div><div class="line">                    A[cur] = i</div><div class="line">                    dfs(cur+<span class="number">1</span>)</div><div class="line"></div><div class="line">dfs(<span class="number">0</span>)</div></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">A = [<span class="keyword">None</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>)]</div><div class="line">V = [<span class="keyword">False</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">10</span>)]</div><div class="line">N = <span class="number">6</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_prime</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, n//<span class="number">2</span>+<span class="number">1</span>):</div><div class="line">        <span class="keyword">if</span> n%i == <span class="number">0</span>:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(cur)</span>:</span></div><div class="line">    <span class="keyword">if</span> cur == N:</div><div class="line">        <span class="keyword">if</span> is_prime(A[<span class="number">0</span>]+A[N<span class="number">-1</span>]):</div><div class="line">            print(A[:N])</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, N+<span class="number">1</span>):</div><div class="line">            <span class="keyword">if</span> <span class="keyword">not</span> V[i]:</div><div class="line">                <span class="keyword">if</span> cur == <span class="number">0</span> <span class="keyword">or</span> is_prime(i+A[cur<span class="number">-1</span>]):</div><div class="line">                    V[i] = <span class="keyword">True</span></div><div class="line">                    A[cur] = i</div><div class="line">                    dfs(cur+<span class="number">1</span>)</div><div class="line">                    V[i] = <span class="keyword">False</span></div><div class="line"></div><div class="line">dfs(<span class="number">0</span>)</div></pre></td></tr></table></figure>
-          
+          问题: 生成1~n的排列思路: 穷举所有可能 在生成结果数组前把重复的去掉探索到某一步发现原先选择达不到目标, 就退回一步重新选择.效率比普通DFS高. 可以优化排列数和素数环的程序两种代码一种没有加入回溯，一种有——-分隔
+1234567891011121314#coding：utf-8A = [
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/hexoblog/2017/08/13/图dfs输出全排序/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1332,12 +1275,15 @@
       
         
           
-            <p>输入：<br>第一行输入一个整数N，表示共有N组测试数据<br>每一组数据都是先输入该地图的行数m(0&lt;m&lt;100)与列数n(0&lt;n&lt;100)，然后，输入接下来的m行每行输入n个数，表示此处有水还是没水（1表示此处是水池，0表示此处是地面）<br>输出：<br>输出该地图中水池的个数。<br>要注意，每个水池的旁边（上下左右四个位置）如果还是水池的话的话，它们可以看做是同一个水池。</p>
-<hr>
-<p>python代码，一直跑不出递归，已经醉了<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding:utf-8</span></div><div class="line"><span class="keyword">import</span> sys   </div><div class="line">sys.setrecursionlimit(<span class="number">1000000000</span>)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(i,j)</span>:</span></div><div class="line">    <span class="keyword">if</span> (i&lt;<span class="number">0</span> <span class="keyword">or</span> i&gt;=m <span class="keyword">or</span> j&lt;<span class="number">0</span> <span class="keyword">or</span> j&gt;=n <span class="keyword">or</span> (s[i][j]==<span class="number">0</span>)):</div><div class="line">        <span class="keyword">return</span> </div><div class="line">    s[i][j]==<span class="number">0</span></div><div class="line">    dfs(i,j+<span class="number">1</span>)</div><div class="line">    dfs(i,j<span class="number">-1</span>)</div><div class="line">    dfs(i<span class="number">-1</span>,j)</div><div class="line">    dfs(i+<span class="number">1</span>,j)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="comment">#N=raw_input().split()</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        s=[]</div><div class="line">        ans=<span class="number">0</span></div><div class="line">        m,n=[int(i) <span class="keyword">for</span> i <span class="keyword">in</span> raw_input().split()]</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</div><div class="line">            s.append([int(i) <span class="keyword">for</span> i <span class="keyword">in</span> raw_input().split()])</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</div><div class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</div><div class="line">                <span class="keyword">if</span> s[i][j]==<span class="number">1</span>:</div><div class="line">                    dfs(i,j)</div><div class="line">                    ans +=<span class="number">1</span></div><div class="line">        print(ans)</div><div class="line">        <span class="keyword">print</span> s</div><div class="line">    <span class="keyword">except</span>:</div><div class="line">        <span class="keyword">pass</span></div></pre></td></tr></table></figure></p>
-<hr>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">//C++代码： </span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="keyword">int</span> s[<span class="number">101</span>][<span class="number">101</span>],n,m;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">if</span>(i&lt;<span class="number">0</span>||i&gt;m||j&lt;<span class="number">0</span>||j&gt;n||s[i][j]==<span class="number">0</span>)<span class="comment">//当所有的点为0时说明这是一个水池</span></div><div class="line">        <span class="keyword">return</span>;</div><div class="line">      s[i][j]=<span class="number">0</span>;<span class="comment">//每次搜索一个点后，置为0，避免重复</span></div><div class="line">      <span class="comment">//从此点开始往四周扩展</span></div><div class="line">      dfs(i,j+<span class="number">1</span>);</div><div class="line">      dfs(i,j<span class="number">-1</span>);</div><div class="line">      dfs(i<span class="number">-1</span>,j);</div><div class="line">      dfs(i+<span class="number">1</span>,j);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> N;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;N);</div><div class="line">    <span class="keyword">while</span>(N--)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">int</span> i,j,ans=<span class="number">0</span>;</div><div class="line">        <span class="built_in">memset</span>(s,<span class="number">0</span>,<span class="keyword">sizeof</span>(s));<span class="comment">//初始化，0表示地面，1表示水池</span></div><div class="line">       <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;m,&amp;n);</div><div class="line">       <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;m;i++)</div><div class="line">       &#123;</div><div class="line">        <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;n;j++)</div><div class="line">          <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;s[i][j]);</div><div class="line">       &#125;</div><div class="line">       <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;m;i++)</div><div class="line">       &#123;</div><div class="line">            <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;n;j++)</div><div class="line">            &#123;</div><div class="line">                <span class="keyword">if</span>(s[i][j]==<span class="number">1</span>)<span class="comment">//每次从是水池的地方开始深搜</span></div><div class="line">                 &#123;</div><div class="line">                    dfs(i,j);</div><div class="line">                    ans++; <span class="comment">//搜索结束后既为满足条件</span></div><div class="line">                 &#125;</div><div class="line">            &#125;</div><div class="line">       &#125;</div><div class="line">       <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,ans);<span class="comment">//输出结果</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
+          输入：第一行输入一个整数N，表示共有N组测试数据每一组数据都是先输入该地图的行数m(0&lt;m&lt;100)与列数n(0&lt;n&lt;100)，然后，输入接下来的m行每行输入n个数，表示此处有水还是没水（1表示此处是水池，0表示此处是地面）输出：输出该地图中水池的个数。要注意，每个水池的旁边
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/hexoblog/2017/08/13/图dfs水池个数问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1499,13 +1445,15 @@
       
         
           
-            <p>思路：<br>我们假设所有边的长度都是1，每一个线段表示一个转机，求最少转机就是求最短路径而已<br>深度优先和广度优先的方法都可以，但是广度优先更适合所有边的权重一样的情况<br>输入：<br>第一行n,m,p,q分别为站点个数，航线个数，起始点，目的地<br>后面m行表示m条航线<br>输出：<br>最小转机数量<br>样例：<br>5 7 1 5<br>1 2<br>1 3<br>2 3<br>2 4<br>3 4<br>3 5<br>4 5</p>
-<p>2</p>
-<hr>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding:utf-8</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">change</span><span class="params">(n,line)</span>:</span> <span class="comment">#存储图的关系与标记数组</span></div><div class="line">    e=[[<span class="number">99999</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(n+<span class="number">1</span>)] <span class="keyword">for</span> j <span class="keyword">in</span> range(n+<span class="number">1</span>)] <span class="comment">#初始化所有的线路都为最大值99999</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n+<span class="number">1</span>):</div><div class="line">        e[i][i]=<span class="number">0</span> <span class="comment">#自己和自己之间没有线路</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(line)): <span class="comment">#根据m行输入，确定哪一些节点之间是有航线的，</span></div><div class="line">        a,b=line[i]</div><div class="line">        a=int(a)</div><div class="line">        b=int(b)</div><div class="line">        e[a][b]=<span class="number">1</span> <span class="comment">#节点之间有航班即为往返都可通行，即为双向图</span></div><div class="line">        e[b][a]=<span class="number">1</span></div><div class="line">    <span class="keyword">return</span> e</div></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bfs</span><span class="params">(n,m,p,q,e)</span>:</span></div><div class="line">    head=<span class="number">1</span></div><div class="line">    tail=<span class="number">1</span></div><div class="line">    que=[[<span class="number">0</span>,<span class="number">0</span>] <span class="keyword">for</span> i <span class="keyword">in</span> range(m)]</div><div class="line">    que[tail]=[p,<span class="number">0</span>]</div><div class="line">    tail +=<span class="number">1</span></div><div class="line">    book=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(m)]</div><div class="line">    book.insert(p,<span class="number">1</span>)</div><div class="line">    <span class="keyword">while</span> head&lt;=tail:</div><div class="line">        <span class="keyword">print</span> (<span class="string">'que='</span>,que)</div><div class="line">        cur=que[head][<span class="number">0</span>] <span class="comment">#que队列中首航班号</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n+<span class="number">1</span>):</div><div class="line">            <span class="keyword">if</span> e[cur][i]==<span class="number">1</span> <span class="keyword">and</span> book[i]==<span class="number">0</span>: <span class="comment">#利用方向图，从城市cur到城市i是否有航班并且判断城市i是否在队列中</span></div><div class="line">                que[tail]=[i,que[head][<span class="number">1</span>]+<span class="number">1</span>] <span class="comment">#满足条件，cur到城市i有航班并且城市i不在队列中，则i入队，转机次数+1</span></div><div class="line">                tail +=<span class="number">1</span></div><div class="line">                book[i]=<span class="number">1</span> <span class="comment">#改变标记，以防重用 </span></div><div class="line">            <span class="keyword">if</span> tail==q+<span class="number">1</span>:</div><div class="line">                <span class="keyword">return</span>(que[tail<span class="number">-1</span>][<span class="number">1</span>]) <span class="comment">#由于tail是指向队列队尾的下一个位置，所以减1 </span></div><div class="line">        head +=<span class="number">1</span></div></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    n,m,p,q=[int(i) <span class="keyword">for</span> i <span class="keyword">in</span> raw_input().split()]</div><div class="line">    line=[]</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(int(m)):</div><div class="line">        line.append(raw_input().split())</div><div class="line">    e=[]</div><div class="line">    <span class="keyword">print</span> (line)</div><div class="line">    e=change(n,line)</div><div class="line">    print(e)</div><div class="line">    ans=bfs(n,m,p,q,e)</div><div class="line">    print(ans)</div><div class="line"></div><div class="line">main()</div></pre></td></tr></table></figure>
-          
+          思路：我们假设所有边的长度都是1，每一个线段表示一个转机，求最少转机就是求最短路径而已深度优先和广度优先的方法都可以，但是广度优先更适合所有边的权重一样的情况输入：第一行n,m,p,q分别为站点个数，航线个数，起始点，目的地后面m行表示m条航线输出：最小转机数量样例：5 7 1 51 21 32 3
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/hexoblog/2017/08/12/图BFS最小转机问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1667,16 +1615,15 @@
       
         
           
-            <p><strong><code>冒泡算法：</code></strong><br>比较相邻的元素。如果第一个比第二个大，就交换他们两个。<br>对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。<br>针对所有的元素重复以上的步骤，除了最后一个。<br>持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。<br>可以利用冒泡算法的案例：<br>输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，<br>所有的偶数位于位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。<br>遇到偶数在前奇数在后的情况交换两者的位置。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding:utf-8</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubble</span><span class="params">(num,n)</span>:</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n-i<span class="number">-1</span>):</div><div class="line">            <span class="keyword">if</span> num[j]&gt;num[j+<span class="number">1</span>]:</div><div class="line">                tmp=num[j]</div><div class="line">                num[j]=num[j+<span class="number">1</span>]</div><div class="line">                num[j+<span class="number">1</span>]=tmp</div><div class="line">    <span class="keyword">return</span> (num)</div></pre></td></tr></table></figure></p>
-<hr>
-<p><strong><code>选择算法：</code></strong><br>每次讲min置成无序组起始位置元素下标<br>例遍无序组找到最小的<br>如果最小元素不是无序组起始位置元素，则与起始元素交换位置<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">selectsort</span><span class="params">(num,n)</span>:</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">        min=i</div><div class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(i,n):</div><div class="line">            <span class="keyword">if</span> num[j]&lt;num[min]:</div><div class="line">                min=j</div><div class="line">        <span class="keyword">if</span> min!=i:</div><div class="line">            tmp=num[i]</div><div class="line">            num[i]=num[min]</div><div class="line">            num[min]=tmp</div><div class="line">    <span class="keyword">return</span> (num)</div></pre></td></tr></table></figure></p>
-<hr>
-<p><strong><code>插入算法：</code></strong><br>插入排序原理很简单，讲一组数据分成两组，我分别将其称为有序组与待插入组。<br>每次从待插入组中取出一个元素，与有序组的元素进行比较，并找到合适的位置，将该元素插到有序组当中。<br>就这样，每次插入一个元素，有序组增加，待插入组减少。直到待插入组元素个数为0。<br>当然，插入过程中涉及到了元素的移动。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">insertsort</span><span class="params">(num,n)</span>:</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,n):</div><div class="line">        tmp=num[i]</div><div class="line">        j=i<span class="number">-1</span></div><div class="line">        <span class="keyword">while</span> j&gt;<span class="number">0</span> <span class="keyword">and</span> tmp&lt;num[j]:</div><div class="line">            num[j+<span class="number">1</span>]=num[j]</div><div class="line">            j -=<span class="number">1</span></div><div class="line">        num[j+<span class="number">1</span>]=tmp</div><div class="line">    <span class="keyword">return</span> (num)</div></pre></td></tr></table></figure></p>
-<hr>
-<p><strong><code>快速排序：</code></strong><br>基本思想是：通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，<br>然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。<br>一趟快速排序的算法是：<br> 1）设置两个变量i、j，排序开始的时候：i=0，j=N-1；<br> 2）以第一个数组元素作为关键数据，赋值给key，即key=A[0]；<br> 3）从j开始向前搜索，即由后开始向前搜索(j–)，找到第一个小于key的值A[j]，将A[j]和A[i]互换；<br> 4）从i开始向后搜索，即由前开始向后搜索(i++)，找到第一个大于key的A[i]，将A[i]和A[j]互换；<br> 5）重复第3、4步，直到i=j； (3,4步中，没找到符合条件的值，即3中A[j]不小于key,4中A[i]不大于key的时候改变j、i的值，<br>使得j=j-1，i=i+1，直至找到为止。找到符合条件的值，进行交换的时候i， j指针位置不变。<br>另外，i==j这一过程一定正好是i+或j-完成的时候，此时令循环结束）。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">quicksort</span><span class="params">(L, low, high)</span>:</span></div><div class="line">    i = low </div><div class="line">    j = high</div><div class="line">    <span class="keyword">if</span> i &gt;= j:</div><div class="line">        <span class="keyword">return</span> L</div><div class="line">    key = L[i]</div><div class="line">    <span class="keyword">while</span> i &lt; j:</div><div class="line">        <span class="keyword">while</span> i &lt; j <span class="keyword">and</span> L[j] &gt;= key:</div><div class="line">            j = j<span class="number">-1</span>                                                             </div><div class="line">        L[i] = L[j]</div><div class="line">        <span class="keyword">while</span> i &lt; j <span class="keyword">and</span> L[i] &lt;= key:    </div><div class="line">            i = i+<span class="number">1</span> </div><div class="line">        L[j] = L[i]</div><div class="line">    L[i] = key </div><div class="line">    quicksort(L, low, i<span class="number">-1</span>)</div><div class="line">    quicksort(L, j+<span class="number">1</span>, high)</div></pre></td></tr></table></figure></p>
-<hr>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    num=[<span class="number">9</span>,<span class="number">8</span>,<span class="number">7</span>,<span class="number">6</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">0</span>]</div><div class="line">    print(bubble(num,<span class="number">10</span>))</div><div class="line">    print(selectsort(num,<span class="number">10</span>))</div><div class="line">    print(insertsort(num,<span class="number">10</span>))</div><div class="line">main()</div></pre></td></tr></table></figure>
-          
+          冒泡算法：比较相邻的元素。如果第一个比第二个大，就交换他们两个。对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。针对所有的元素重复以上的步骤，除了最后一个。持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。可以利用冒泡算法的案例：
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/hexoblog/2017/08/12/排序算法集合/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1838,35 +1785,17 @@
       
         
           
-            <p><strong><code>OSI (Open System Interconnection)</code></strong><br>开放式系统互联参考模型。从下到上七层模型功能及其代表协议：</p>
-<ul>
-<li>物理层(Physical) ：规定了激活、维持、关闭通信端点之间的机械特性、电气特性、功能特性以及过程特性。该层为上层协议提供了一个传输数据的物理媒体。Bit，比特。典型协议代表：EIA/TIA-232, EIA/TIA-499, V.35, V.24, RJ45, Ethernet, IEEE 802.3x(以太网) 物理层, FDDI(Fiber Distributed Data Interface, 光纤分布式数据接口) 物理层</li>
-<li>数据链路层(Data Link) : 在不可靠的物理介质上提供可靠的传输。该层的作用包括：物理地址寻址、数据的成帧、流量控制、数据的检错、重发等。Frame，帧。典型协议代表：SDLC(Synchronous DataLink Control，同步数据链路控制), HDLC(High-Level Data Link Control, 高级数据链路控制), PPP(Point-to-Point 点到点), IEEE 802.3x 数据链路层, FDDI 数据链路层, ATM(Asynchronous Transfer Mode, 异步传输模式), IEEE 802.5(令牌环) , Frame Relay(帧中继)</li>
-<li>网络层(Network) : 负责对子网间的数据包进行路由选择。此外，网络层还可以实现拥塞控制、网际互连等功能。 Packet，包。典型协议代表：IP, ICMP, IGMP, IPX, BGP, OSPF, RIP, IGRP, EIGRP, ARP, RARP, X.25</li>
-<li>传输层(Transport) : 传输层是第一个端到端，即主机到主机的层次。传输层负责将上层数据分段并提供端到端的、可靠的或不可靠的传输。此外，传输层还要处理端到端的差错控制和流量控制问题。 Segment，段。典型协议代表：TCP, UDP, TLS, RTP, SCTP, SPX, ATP, IL</li>
-<li>会话层(Session) : 管理主机之间的会话进程，即负责建立、管理、终止进程之间的会话。会话层还利用在数据中插入校验点来实现数据的同步。典型协议代表：RPC, SQL, NFS, NetBIOS, SCP, ASP, SSH, Winsock, BSD sockets</li>
-<li>表示层(Presentation) : 对上层数据或信息进行变换以保证一个主机应用层信息可以被另一个主机的应用程序理解。表示层的数据转换包括数据的加密、压缩、格式转换等。典型协议代表：TIFF, GIF, JPEG, PICT, ASCII, EBCDIC, encryption, MPEG, MIDI, HTML</li>
-<li>应用层(Application) : 为操作系统或网络应用程序提供访问网络服务的接口。典型协议代表：FTP, WWW, Telnet, NFS, SMTP, Gateway, SNMP, HTTP, Whois, SSH<br>OSI 七层模型各层设备：<br>物理层：各种传输媒体(光线，网线)，各类 DTE 和 DCE 之间通讯的物理设备(计算机， HUB)，各类插槽，插座<br>数据链路层：两个子层：LLC(Logical Link Control, 逻辑链路控制层)，MAC(Media Access Control，媒体访问控制层)。网卡，网桥和二层交换机<br>网路层：路由器，网关和三层交换机<br>传输层：四层交换机<br>会话层：五层交换机<br>表示层：六层交换机<br>应用层：计算机，负载均衡和七成交换机</li>
-</ul>
-<hr>
-<p><strong><code>TCP/IP网络协议</code></strong><br>TCP/IP(Transmission Control Protocol/Internet Protocol，传输控制协议/网间网协议)是目前世界上应用最为广泛的协议，它的流行与 Internet 的迅猛发展密切相关。TCP/IP 最初是为互联网的原型 ARPANET 所设计的，目的是提供一整套方便实用、能应用于多种网络上的协议，事实证明 TCP/IP 做到了这一点，它使网络互联变得容易起来，并且使越来越多的网络加入其中，成为 Internet 的事实标准。<br>TCP/IP 参考模型分为四个层次：</p>
-<ul>
-<li>主机到网络层:实际上TCP/IP参考模型没有真正描述这一层的实现，只是要求能够提供给其上层-网络互连层一个访问接口，以便在其上传递IP分组。由于这一层次未被定义，所以其具体的实现方法将随着网络类型的不同而不同。</li>
-<li>网络互连层：定义了分组格式和协议，即IP协议（Internet Protocol）。网络互连层除了需要完成路由的功能外，也可以完成将不同类型的网络（异构网）互连的任务。除此之外，网络互连层还需要完成拥塞控制的功能。</li>
-<li>传输层：使源端主机和目标端主机上的对等实体可以进行会话。在传输层定义了两种服务质量不同的协议。即：传输控制协议TCP（transmission control protocol）和用户数据报协议UDP（user datagram protocol）。TCP协议是一个面向连接的、可靠的协议。它将一台主机发出的字节流无差错地发往互联网上的其他主机。在发送端，它负责把上层传送下来的字节流分成报文段并传递给下层。在接收端，它负责把收到的报文进行重组后递交给上层。TCP协议还要处理端到端的流量控制，以避免缓慢接收的接收方没有足够的缓冲区接收发送方发送的大量数据。 　　 　　UDP协议是一个不可靠的、无连接协议，主要适用于不需要对报文进行排序和流量控制的场合。</li>
-<li>应用层：包括 OSI 参考模型中的会话层和表示层。面向不同的网络应用引入不同的应用层协议。其中，有基于 TCP 协议的，如 FTP(File Transfer Protocol，文件传输协议)， Telnet(虚拟终端协议)， HTTP(Hyper Text Transfer Protocol，超文本链接协议)；基于 UDP 协议的：如 SNMP, TFTP，NTP。</li>
-</ul>
-<hr>
-<p><strong><code>OSI七层协议和TCP/IP四层协议之比较:</code></strong></p>
-<ul>
-<li>分层结构<br>OSI参考模型与TCP/IP协议都采用了分层结构，都是基于独立的协议栈的概念。OSI参考模型有7层，而TCP/IP协议只有 4 层，即 TCP/IP协议没有了表示层和会话层，并且把数据链路层和物理层合并为网络接口层。不过，二者的分层之间有一定的对应关系</li>
-<li>标准的特色<br>OSI 参考模型的标准最早是由 ISO 和 CCITT (ITU的前身)制定的，有浓厚的通信背景，因此也打上了深厚的通信系统的特色，比如对服务质量（QoS）、差错率的保证，只考虑了面向连接的服务。并且是先定义一套功能完整的构架，再根据该构架来发展相应的协议与系统。<br>TCP/IP 协议产生于对 Internet 网络的研究与实践中，是应实际需求而产生的，再由 IAB、IETF 等组织标准化，而并不是之前定义一个严谨的框架。而且 TCP/IP 最早是在 UNIX 系统中实现的，考虑了计算机网络的特点，比较适合计算机实现和使用。 </li>
-<li>连接服务<br>OSI 的网络层基本与 TCP/IP 的网际层对应，二者的功能基本相似，但是寻址方式有较大的区别。<br>OSI的地址空间为不固定的可变长，由选定的地址命名方式决定，最长可达 160byte，可以容纳非常大的网络，因而具有较大的成长空间。根据 OSI 的规定，网络上每个系统至多可以有 256 个通信地址。<br>TCP/IP网络的地址空间为固定的 4byte (在目前常用的 IPv4 中是这样，在 IPv6 中将扩展到 16byte)。网络上的每一个系统至少有一个唯一的地址与之对应。 </li>
-<li>传输服务<br>OSI 与 TCP/IP 的传输层都对不同的业务采取不同的传输策略。OSI 定义了五个不同层次的服务：TP1，TP2，TP3，TP4，TP5。TCP/I P定义了 TCP 和 UDP 两种协议，分别具有面向连接和面向无连接的性质。其中 TCP 与 OSI 中的 TP4，UDP 与OSI中的 TP0 在构架和功能上大体相同，只是内部细节有一些差异。</li>
-<li>应用范围<br>OSI 由于体系比较复杂，而且设计先于实现，有许多设计过于理想，不太方便计算机软件实现，因而完全实现 OSI 参考模型的系统并不多，应用的范围有限。而 TCP/IP 协议最早在计算机系统中实现，在 UNIX、Windows平台中都有稳定的实现，并且提供了简单方便的编程接口 (API)，可以在其上开发出丰富的应用程序，因此得到了广泛的应用。TCP/IP 协议已成为目前网际互联事实上的国际标准和工业标准。</li>
-</ul>
+          OSI (Open System Interconnection)开放式系统互联参考模型。从下到上七层模型功能及其代表协议：
 
-          
+物理层(Physical) ：规定了激活、维持、关闭通信端点之间的机械特性、电气特性、功能特性以及过程特性。该层为上层协议提供了一个传输数据的物理媒体。Bit，比特。典型协
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/hexoblog/2017/08/12/四七层模型协议比较/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1913,7 +1842,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/08/12/AWS简称及基本架构介绍/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/08/12/article-title/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Daichao">
@@ -1932,7 +1861,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/hexoblog/2017/08/12/AWS简称及基本架构介绍/" itemprop="url">AWS简称及基本架构介绍</a></h1>
+                <a class="post-title-link" href="/hexoblog/2017/08/12/article-title/" itemprop="url">article title</a></h1>
         
 
         <div class="post-meta">
@@ -1967,19 +1896,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">笔记</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/笔记/AWS/" itemprop="url" rel="index">
-                    <span itemprop="name">AWS</span>
+                  <a href="/hexoblog/categories/随笔/" itemprop="url" rel="index">
+                    <span itemprop="name">随笔</span>
                   </a>
                 </span>
 
@@ -2015,64 +1933,15 @@
       
         
           
-            <p><img src="https://i.loli.net/2017/10/21/59ea9bac76764.png" alt="tu"><br><a href="https://aws.amazon.com/cn/documentation/" target="_blank" rel="external">文档教程位置</a></p>
-<p><code>AWS整体架构</code></p>
-<p>·VPC：·<br>私有网络AWS 云中逻辑隔离的虚拟网络。从所选的范围内定义 VPC 的 IP 地址空间</p>
-<ul>
-<li>对VPC的IP寻CIDR块的控制</li>
-<li>为您的VPC CIDR块划分子网的能力</li>
-<li>网络访问控制列表</li>
-<li>多个IP地址和多个弹性网络接口（ENI）的分配</li>
-<li>通过私有连接将VPC和现场IT基础设施连接</li>
-</ul>
-<p>·常见的路由：·<br>路由表的将决定子网的功能</p>
-<ul>
-<li>IGW：提供对internet的访问，公有子网带通过IGW实现进/出站internet连接</li>
-<li>VGW：提供对数据中心的访问，虚拟专用网关</li>
-<li>NAT 网关：一项高度可用的托管网络地址转换 (NAT) 服务，可便于私有子网中的资源访问 Internet，可以在官方AMI上直接启动NAT网关实例，私有子网通过公有子网中运行NAT的Amazon EC2实例实现的出战Internet连接。</li>
-<li>VPC对等：与NACL和安全组一起维护VPC的安全，允许在对等VPC之间路由流量，这样两个VPC中的实例可以彼此通信，就像在同一个网络中一样。两个对等的VPC不能具有CIDR块重叠的CIDR块。</li>
-</ul>
-<p>·ELB：·<br>Elastic Load Balancing 弹性负载均衡，</p>
-<ul>
-<li>在多个 Amazon EC2 实例之间自动分配应用程序的传入流量，软件负载均衡。</li>
-<li>在同一区域可用区实例之间实现均衡</li>
-<li>根据用户定义的运行状况检查检测状况欠佳的实例</li>
-<li>SSL终端支持自动一证书</li>
-</ul>
-<p>·EC2：·<br>Elastic Compute Cloud  一种 Web 服务，云计算服务平台，用于计算相当于一个虚拟机，可以在云中提供安全并且大小可调的计算容量。该服务旨在让开发人员能够更轻松地进行 Web 规模的云计算。让使用者可以租用云端电脑运行所需应用的系统。<br>类型：C3计算优化、R3内存优化、G2 GPU优化、I2  HS1存储优化</p>
-<p><code>ENI：</code><br>弹性网络接口，创建的EC2实例具有的虚拟网络接口，具有属性如下：MAC地址、主要私有IP地址，一个或多个次要私有IP地址、每个私有IP地址都有弹性EIP、公有IP地址、安全组、目标检查标记、说明。使用案例：创建管理网络；许可身份验证；在VPC中使用网络和安全性设备</p>
-<p><code>EIP：</code><br>专为动态云计算设计的静态IP地址，EIP与AWS账号关联，而不是与特定实例关联；而公有IP地址也称为动态IP地址与实例相关。</p>
-<p><code>IGW：</code><br>整体网关</p>
-<p><code>ALB：</code><br>Application Load Balancer ALB是位于OSI模型第七层的负载均衡器，因此它能根据网络包的内容将该网络包路由到不同的后端服务。现有的负载均衡器多是位于OSI模型第四层的TCP/UDP均衡器。与这些均衡器不同的是，ALB将检查网络包的内容，并将该网络包发送给适当的服务。当前，ALB支持基于URL对路由流量定义多至十条的独立规则。</p>
-<p><code>Amazon CloudWatch</code><br>是一项针对 AWS 云资源和在 AWS 上运行的应用程序进行监控的服务。CPU 使用率、数据传输和磁盘使用活动等，弹性负载均衡器、Amazon SQS 队列、Amazon SNS 主题等更多</p>
-<p><code>Amazon CloudFront</code><br> 是一种全球内容分发网络 (CDN) 服务，用于内容传输，可以安全地以低延迟和高传输速度向浏览者分发数据、视频、应用程序和 API。建或修改现有 AWS CloudFormation 模板。一个描述了您的所有资源及其属性的模板。</p>
-<p> <code>Amazon Simple Storage Service (Amazon S3)</code>对象存储，使您能够轻松实用地大规模收集、存储和分析数据，而不管格式如何。S3 是专为从任意位置存储和检索任意大小的数据而构建的对象存储，包括来自网站和移动应用程序、公司应用程序的数据以及来自 IoT 传感器或设备的数据。S3可与CloudFront(CDN)结合使用，可以利用分布式网络给边远地区加速</p>
-<ul>
-<li>一个对象的大小可以达到5TB</li>
-<li>每个对象存储在存储桶中，通过开发人员分配的唯一密钥进行检索</li>
-<li>无限的存储、无限的对象</li>
-<li>原生在线HTTP/S访问</li>
-<li>通过在同一区域不同可用区间进行复制，持久性</li>
-<li>面对Internet的对象存储</li>
-</ul>
-<p><code>Amazon Route 53</code><br>是一种可用性高、可扩展性强的云域名系统 (DNS) Web 服务，用于DNS域名服务。</p>
-<p><code>IAM：Identity and Access Management</code><br>“身份识别与访问管理”，身份管理</p>
-<p><code>DMZ</code><br>英文“demilitarized zone”的缩写，中文名称为“隔离区”，也称“非军事化区”。它是为了解决安装防火墙后外部网络的访问用户不能访问内部网络服务器的问题，而设立的一个非安全系统与安全系统之间的缓冲区。该缓冲区位于企业内部网络和外部网络之间的小网络区域内。在这个小网络区域内可以放置一些必须公开的服务器设施，如企业Web服务器、FTP服务器和论坛等。另一方面，通过这样一个DMZ区域，更加有效地保护了内部网络。因为这种网络部署，比起一般的防火墙方案，对来自外网的攻击者来说又多了一道关卡。</p>
-<p><code>本地存储</code><br>本地存储适合临时存储不断变化的信息（如缓冲区、缓存、暂存数据和其他临时内容），或者在实例机群内复制的数据。</p>
-<p><code>EBS</code><br>数据块存储 Elastic Block Store，相当于虚拟机硬盘，最大为1TB。实例依靠虚拟网络连接装载，持久性存储，可以重新附加在其他的EC2实例，利用快照实现，一个EC2实例可以有多个EBS卷，但是多个EC2不能共享卷。应用场景：简单硬盘设备；经常更改数据；对原始、未格式化数据块级别存储的访问权。</p>
-<p><code>EBS快照</code><br>存储在S3中</p>
-<p><code>RDS</code><br>Amazon Relational Database Service (Amazon RDS) 是一种可让用户在云中轻松设置、操作和扩展关系数据库的 Web 服务。它在管理耗时的数据库管理任务的同时，提供经济实用的可调容量，使您能够腾出时间专注于应用程序和业务。 RDS 让您能够访问非常熟悉的 MySQL、MariaDB、Oracle、Microsoft SQL Server 或 PostgreSQL 数据库引擎的功能。</p>
-<p><code>AWS Elastic Beanstalk</code><br>是一项易于使用的服务，用于在熟悉的服务器（例如 Apache 、Nginx、Passenger 和 IIS）上部署和扩展使用 Java、.NET、PHP、Node.js、Python、Ruby、GO 和 Docker 开发的 Web 应用程序和服务。上传代码，Elastic Beanstalk 即可自动处理从容量预置、负载均衡、自动扩展到应用程序运行状况监控的部署。同时，您能够完全控制为应用程序提供支持的 AWS 资源，并可随时访问基础资源。</p>
-<p><code>AWS SQS、SNS、SWF</code><br>消息发送各个工作流用</p>
-<p><code>Amazon ElastiCache</code><br>缓存</p>
-<p><code>Amazon Glacier</code><br>存档，将设置了生命周期规则（如90天）的S3存档，成本极低的存档存储服务，能够提供高耐久性存储，极低成本存储，允许在3-5小时内检索数据。可以利用Storage Gateway进行场外备份</p>
-<p><code>安全性</code><br>SSL加密型终端节点、AES-256自动加密数据、IAM策略指定账户中的哪些用户有权对特定文件库执行操作</p>
-<p><code>Amazon Simple Email Service</code><br>电子邮件<br><code>Auto Scaling</code><br>自动扩大或缩小Amazon EC2容量；响应需求峰值；当需求下降时，削减不需要的实例以节省费用；根据一天中的时间、按指标或通过API自动扩展</p>
-<p><code>AMI</code><br>亚马逊系统映像，提供启动实例所需的信息</p>
-<p><code>AWS Direct Connect</code><br>建立从本地设施到Amazon VPC的专用网络链接，建立AWS和数据中心、办公室或托管环境之间建立私有连接。</p>
-<p><code>MSDN</code><br>Microsoft Developer Network用来帮助开发人员使用Microsoft产品和技术</p>
-
-          
+          Welcome to dclarken’s page!8.12 is my first day for writing!First of all,I want to say thank you to my best friends :Dachang,Hongwei,Jingchang,Xidun,Y
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/hexoblog/2017/08/12/article-title/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -2160,7 +2029,7 @@
               
                 <a href="/hexoblog/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
