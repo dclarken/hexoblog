@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="介绍： 应用程序负载均衡器Application Load Balancer是 Elastic Load Balancing 服务的一个负载均衡选项，在应用程序层运行，支持您在运行于一个或多个 Amazon Elastic Compute Cloud (Amazon EC2) 实例上的多个服务或容器之间基于内容定义路由规则。负载均衡器收到请求后，会按照优先级顺序评估侦听器规则以确定应用哪个规则，然">
 <meta name="keywords" content="笔记,AWS,负载均衡">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ALB应用程序负载均衡">
 <meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/10/01/ALB应用程序负载均衡/index.html">
 <meta property="og:site_name" content="Lander Blog">
-<meta property="og:description" content="介绍： 应用程序负载均衡器Application Load Balancer是 Elastic Load Balancing 服务的一个负载均衡选项，在应用程序层运行，支持您在运行于一个或多个 Amazon Elastic Compute Cloud (Amazon EC2) 实例上的多个服务或容器之间基于内容定义路由规则。负载均衡器收到请求后，会按照优先级顺序评估侦听器规则以确定应用哪个规则，然">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-21T00:44:41.260Z">
+<meta property="og:image" content="https://i.loli.net/2017/10/26/59f1ca3ac68d6.jpg">
+<meta property="og:updated_time" content="2017-10-26T11:44:18.751Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ALB应用程序负载均衡">
-<meta name="twitter:description" content="介绍： 应用程序负载均衡器Application Load Balancer是 Elastic Load Balancing 服务的一个负载均衡选项，在应用程序层运行，支持您在运行于一个或多个 Amazon Elastic Compute Cloud (Amazon EC2) 实例上的多个服务或容器之间基于内容定义路由规则。负载均衡器收到请求后，会按照优先级顺序评估侦听器规则以确定应用哪个规则，然">
+<meta name="twitter:image" content="https://i.loli.net/2017/10/26/59f1ca3ac68d6.jpg">
 
 
 
@@ -412,7 +411,7 @@
       
 
       
-        <p><code>介绍：</code></p>
+        <p><img src="https://i.loli.net/2017/10/26/59f1ca3ac68d6.jpg" alt="mahua"><br><a id="more"></a><br><code>介绍：</code></p>
 <p>应用程序负载均衡器Application Load Balancer是 Elastic Load Balancing 服务的一个负载均衡选项，在应用程序层运行，支持您在运行于一个或多个 Amazon Elastic Compute Cloud (Amazon EC2) 实例上的多个服务或容器之间基于内容定义路由规则。<br>负载均衡器收到请求后，会按照优先级顺序评估侦听器规则以确定应用哪个规则，然后使用轮询路由算法从目标组中选择一个目标以实施规则操作。可以配置侦听器规则，以根据应用程序流量的内容，将请求路由至不同的目标组。每个目标组的路由都是单独进行的，即使某个目标已在多个目标组中注册。<br>应用程序负载均衡器概述文档：<br><a href="http://docs.aws.amazon.com/zh_cn/elasticloadbalancing/latest/application/introduction.html" target="_blank" rel="external">文档资料地址</a></p>
 <p><code>组成部分：</code></p>
 <ul>
