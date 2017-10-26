@@ -69,7 +69,7 @@
 
 
 
-  <meta name="keywords" content="笔记,docker," />
+  <meta name="keywords" content="笔记,docker,内核," />
 
 
 
@@ -81,15 +81,15 @@
 
 
 <meta name="description" content="关于 AUFS（联合文件系统） 的几个特点：  AUFS 是一种联合文件系统，它把若干目录按照顺序和权限 mount 为一个目录并呈现出来 默认情况下，只有第一层（第一个目录）是可写的，其余层是只读的。 增加文件：默认情况下，新增的文件都会被放在最上面的可写层中。 删除文件：因为底下各层都是只读的，当需要删除这些层中的文件时，AUFS 使用 whiteout 机制，它的实现是通过在上层的可写的目录">
-<meta name="keywords" content="笔记,docker">
+<meta name="keywords" content="笔记,docker,内核">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker内核知识——AUFS及安全性">
-<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/09/14/Docker内核知识——AUFS及安全性/index.html">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/09/14/Docker内核知识—AUFS及安全性/index.html">
 <meta property="og:site_name" content="Lander Blog">
 <meta property="og:description" content="关于 AUFS（联合文件系统） 的几个特点：  AUFS 是一种联合文件系统，它把若干目录按照顺序和权限 mount 为一个目录并呈现出来 默认情况下，只有第一层（第一个目录）是可写的，其余层是只读的。 增加文件：默认情况下，新增的文件都会被放在最上面的可写层中。 删除文件：因为底下各层都是只读的，当需要删除这些层中的文件时，AUFS 使用 whiteout 机制，它的实现是通过在上层的可写的目录">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2017/10/26/59f168e853994.png">
-<meta property="og:updated_time" content="2017-10-26T04:48:28.532Z">
+<meta property="og:updated_time" content="2017-10-26T08:35:35.487Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker内核知识——AUFS及安全性">
 <meta name="twitter:description" content="关于 AUFS（联合文件系统） 的几个特点：  AUFS 是一种联合文件系统，它把若干目录按照顺序和权限 mount 为一个目录并呈现出来 默认情况下，只有第一层（第一个目录）是可写的，其余层是只读的。 增加文件：默认情况下，新增的文件都会被放在最上面的可写层中。 删除文件：因为底下各层都是只读的，当需要删除这些层中的文件时，AUFS 使用 whiteout 机制，它的实现是通过在上层的可写的目录">
@@ -123,7 +123,7 @@
 
 
 
-  <link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/09/14/Docker内核知识——AUFS及安全性/"/>
+  <link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/09/14/Docker内核知识—AUFS及安全性/"/>
 
 
 
@@ -310,7 +310,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/14/Docker内核知识——AUFS及安全性/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/14/Docker内核知识—AUFS及安全性/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Daichao">
@@ -461,6 +461,8 @@
           
             <a href="/hexoblog/tags/docker/" rel="tag"># docker</a>
           
+            <a href="/hexoblog/tags/内核/" rel="tag"># 内核</a>
+          
         </div>
       
 
@@ -472,8 +474,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/hexoblog/2017/09/14/Docker内核知识—Cgroup控制组/" rel="next" title="Docker内核知识——Cgroup控制组">
-                <i class="fa fa-chevron-left"></i> Docker内核知识——Cgroup控制组
+              <a href="/hexoblog/2017/09/14/贪心算法饭店招待问题/" rel="next" title="贪心算法饭店招待问题">
+                <i class="fa fa-chevron-left"></i> 贪心算法饭店招待问题
               </a>
             
           </div>
@@ -482,8 +484,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/hexoblog/2017/09/14/ubuntu下安装dockers/" rel="prev" title="ubuntu下安装dockers">
-                ubuntu下安装dockers <i class="fa fa-chevron-right"></i>
+              <a href="/hexoblog/2017/09/14/Docker内核知识—Cgroup控制组/" rel="prev" title="Docker内核知识——Cgroup控制组">
+                Docker内核知识——Cgroup控制组 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -574,7 +576,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/hexoblog/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

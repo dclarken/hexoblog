@@ -69,7 +69,7 @@
 
 
 
-  <meta name="keywords" content="笔记,docker," />
+  <meta name="keywords" content="笔记,docker,内核," />
 
 
 
@@ -81,14 +81,14 @@
 
 
 <meta name="description" content="Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太多的资源而影响到其它进程；另一方面，在系统资源耗尽的时候，linux 内核会触发 OOM，这会让一些">
-<meta name="keywords" content="笔记,docker">
+<meta name="keywords" content="笔记,docker,内核">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker内核知识——Cgroup控制组">
 <meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/09/14/Docker内核知识—Cgroup控制组/index.html">
 <meta property="og:site_name" content="Lander Blog">
 <meta property="og:description" content="Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太多的资源而影响到其它进程；另一方面，在系统资源耗尽的时候，linux 内核会触发 OOM，这会让一些">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-26T08:33:27.444Z">
+<meta property="og:updated_time" content="2017-10-26T08:35:21.885Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker内核知识——Cgroup控制组">
 <meta name="twitter:description" content="Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太多的资源而影响到其它进程；另一方面，在系统资源耗尽的时候，linux 内核会触发 OOM，这会让一些">
@@ -460,6 +460,8 @@
           
             <a href="/hexoblog/tags/docker/" rel="tag"># docker</a>
           
+            <a href="/hexoblog/tags/内核/" rel="tag"># 内核</a>
+          
         </div>
       
 
@@ -471,8 +473,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/hexoblog/2017/09/14/贪心算法饭店招待问题/" rel="next" title="贪心算法饭店招待问题">
-                <i class="fa fa-chevron-left"></i> 贪心算法饭店招待问题
+              <a href="/hexoblog/2017/09/14/Docker内核知识—AUFS及安全性/" rel="next" title="Docker内核知识——AUFS及安全性">
+                <i class="fa fa-chevron-left"></i> Docker内核知识——AUFS及安全性
               </a>
             
           </div>
@@ -481,8 +483,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/hexoblog/2017/09/14/Docker内核知识——AUFS及安全性/" rel="prev" title="Docker内核知识——AUFS及安全性">
-                Docker内核知识——AUFS及安全性 <i class="fa fa-chevron-right"></i>
+              <a href="/hexoblog/2017/09/14/ubuntu下安装dockers/" rel="prev" title="ubuntu下安装dockers">
+                ubuntu下安装dockers <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -573,7 +575,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/hexoblog/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

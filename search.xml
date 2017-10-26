@@ -160,19 +160,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Docker内核知识——AUFS及安全性]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94%E2%80%94AUFS%E5%8F%8A%E5%AE%89%E5%85%A8%E6%80%A7%2F</url>
-    <content type="text"><![CDATA[关于 AUFS（联合文件系统） 的几个特点： AUFS 是一种联合文件系统，它把若干目录按照顺序和权限 mount 为一个目录并呈现出来 默认情况下，只有第一层（第一个目录）是可写的，其余层是只读的。 增加文件：默认情况下，新增的文件都会被放在最上面的可写层中。 删除文件：因为底下各层都是只读的，当需要删除这些层中的文件时，AUFS 使用 whiteout 机制，它的实现是通过在上层的可写的目录下建立对应的whiteout隐藏文件来实现的。 修改文件：AUFS 利用其 CoW （copy-on-write）特性来修改只读层中的文件。AUFS 工作在文件层面，因此，只要有对只读层中的文件做修改，不管修改数据的量的多少，在第一次修改时，文件都会被拷贝到可写层然后再被修改。 节省空间：AUFS 的 CoW 特性能够允许在多个容器之间共享分层，从而减少物理空间占用。 查找文件：AUFS 的查找性能在层数非常多时会出现下降，层数越多，查找性能越低，因此，在制作 Docker 镜像时要注意层数不要太多。 性能：AUFS 的 CoW 特性在写入大型文件时第一次会出现延迟。 一个Linux 系统之中 所有 Docker 容器都共享主机系统的 bootfs 即 Linux 内核 每个容器有自己的 rootfs，它来自不同的 Linux 发行版的基础镜像，包括 Ubuntu，Debian 和 SUSE 等 在操作系统镜像上面一层层附加应用程序的开源组件的镜像 所有基于一种基础镜像的容器都共享这种 rootfs 安全性: AppArmor, SELinux, GRSEC安全永远是相对的，这里有三个方面可以考虑Docker的安全特性: 由kernel namespaces和cgroups实现的Linux系统固有的安全标准; Docker Deamon的安全接口; Linux本身的安全加固解决方案,类如AppArmor, SELinux; 资料参考：内核知识资料AUFS安全性]]></content>
-      <categories>
-        <category>笔记</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Docker内核知识——Cgroup控制组]]></title>
     <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94Cgroup%E6%8E%A7%E5%88%B6%E7%BB%84%2F</url>
     <content type="text"><![CDATA[Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太多的资源而影响到其它进程；另一方面，在系统资源耗尽的时候，linux 内核会触发 OOM，这会让一些被杀掉的进程成了无辜的替死鬼。因此，为了让容器中的进程更加可控，Docker 使用 Linux cgroups 来限制容器中的进程允许使用的系统资源。Linux Cgroup 可​​​让​​​您​​​为​​​系​​​统​​​中​​​所​​​运​​​行​​​任​​​务​​​（进​​​程​​​）的​​​用​​​户​​​定​​​义​​​组​​​群​​​分​​​配​​​资​​​源​​​ — 比​​​如​​​ CPU 时​​​间​​​、​​​系​​​统​​​内​​​存​​​、​​​网​​​络​​​带​​​宽​​​或​​​者​​​这​​​些​​​资​​​源​​​的​​​组​​​合​​​。​​​您​​​可​​​以​​​监​​​控​​​您​​​配​​​置​​​的​​​ cgroup，拒​​​绝​​​ cgroup 访​​​问​​​某​​​些​​​资​​​源​​​，甚​​​至​​​在​​​运​​​行​​​的​​​系​​​统​​​中​​​动​​​态​​​配​​​置​​​您​​​的​​​ cgroup。所以，可以将 controll groups 理解为 controller （system resource） （for） （process）groups，也就是是说它以一组进程为目标进行系统资源分配和控制。功能： Resource limitation: 限制资源使用，比如内存使用上限以及文件系统的缓存限制。 Prioritization: 优先级控制，比如：CPU利用和磁盘IO吞吐。 Accounting: 一些审计或一些统计，主要目的是为了计费。 Control: 挂起进程，恢复执行进程。 使​​​用​​​ cgroup，系​​​统​​​管​​​理​​​员​​​可​​​更​​​具​​​体​​​地​​​控​​​制​​​对​​​系​​​统​​​资​​​源​​​的​​​分​​​配​​​、​​​优​​​先​​​顺​​​序​​​、​​​拒​​​绝​​​、​​​管​​​理​​​和​​​监​​​控​​​。​​​可​​​更​​​好​​​地​​​根​​​据​​​任​​​务​​​和​​​用​​​户​​​分​​​配​​​硬​​​件​​​资​​​源​​​，提​​​高​​​总​​​体​​​效​​​率​​​。 在实践中：系统管理员一般会利用CGroup做下面这些事（有点像为某个虚拟机分配资源似的）： 隔离一个进程集合（比如：nginx的所有进程），并限制他们所消费的资源，比如绑定CPU的核。 为这组进程分配其足够使用的内存 为这组进程分配相应的网络带宽和磁盘存储限制 限制访问某些设备（通过设置设备的白名单） 子系统说明cgroups 实现了对资源的配额和度量。cgroups 的使用非常简单，提供类似文件的接口，在 /cgroup目录下新建一个文件夹即可新建一个group，在此文件夹中新建task文件，并将pid写入该文件，即可实现对该进程的资源控制。groups可以限制blkio、cpu、cpuacct、cpuset、devices、freezer、memory、net_cls、ns九大子系统的资源，以下是每个子系统的详细说明： blkio 这个子系统设置限制每个块设备的输入输出控制。例如:磁盘，光盘以及usb等等。 cpu 这个子系统使用调度程序为cgroup任务提供cpu的访问。 cpuacct 产生cgroup任务的cpu资源报告。 cpuset 如果是多核心的cpu，这个子系统会为cgroup任务分配单独的cpu和内存。 devices 允许或拒绝cgroup任务对设备的访问。 freezer 暂停和恢复cgroup任务。 memory 设置每个cgroup的内存限制以及产生内存资源报告。 net_cls 标记每个网络包以供cgroup方便使用。 ns 名称空间子系统。 参考资料]]></content>
@@ -183,6 +170,21 @@
       <tags>
         <tag>笔记</tag>
         <tag>docker</tag>
+        <tag>内核</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Docker内核知识——AUFS及安全性]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94AUFS%E5%8F%8A%E5%AE%89%E5%85%A8%E6%80%A7%2F</url>
+    <content type="text"><![CDATA[关于 AUFS（联合文件系统） 的几个特点： AUFS 是一种联合文件系统，它把若干目录按照顺序和权限 mount 为一个目录并呈现出来 默认情况下，只有第一层（第一个目录）是可写的，其余层是只读的。 增加文件：默认情况下，新增的文件都会被放在最上面的可写层中。 删除文件：因为底下各层都是只读的，当需要删除这些层中的文件时，AUFS 使用 whiteout 机制，它的实现是通过在上层的可写的目录下建立对应的whiteout隐藏文件来实现的。 修改文件：AUFS 利用其 CoW （copy-on-write）特性来修改只读层中的文件。AUFS 工作在文件层面，因此，只要有对只读层中的文件做修改，不管修改数据的量的多少，在第一次修改时，文件都会被拷贝到可写层然后再被修改。 节省空间：AUFS 的 CoW 特性能够允许在多个容器之间共享分层，从而减少物理空间占用。 查找文件：AUFS 的查找性能在层数非常多时会出现下降，层数越多，查找性能越低，因此，在制作 Docker 镜像时要注意层数不要太多。 性能：AUFS 的 CoW 特性在写入大型文件时第一次会出现延迟。 一个Linux 系统之中 所有 Docker 容器都共享主机系统的 bootfs 即 Linux 内核 每个容器有自己的 rootfs，它来自不同的 Linux 发行版的基础镜像，包括 Ubuntu，Debian 和 SUSE 等 在操作系统镜像上面一层层附加应用程序的开源组件的镜像 所有基于一种基础镜像的容器都共享这种 rootfs 安全性: AppArmor, SELinux, GRSEC安全永远是相对的，这里有三个方面可以考虑Docker的安全特性: 由kernel namespaces和cgroups实现的Linux系统固有的安全标准; Docker Deamon的安全接口; Linux本身的安全加固解决方案,类如AppArmor, SELinux; 资料参考：内核知识资料AUFS安全性]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>docker</tag>
+        <tag>内核</tag>
       </tags>
   </entry>
   <entry>
