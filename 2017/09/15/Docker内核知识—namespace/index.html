@@ -69,7 +69,7 @@
 
 
 
-  <meta name="keywords" content="code,dp," />
+  <meta name="keywords" content="笔记,docker,内核," />
 
 
 
@@ -80,18 +80,18 @@
 
 
 
-<meta name="description" content="问题描述一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &amp;gt; 1  1  2 * 3你可以适当从袋子里移除一些球(可以移除0个,但是别移除完)，要使移除后的袋子是幸运的。现在让你编程计算一下你可">
-<meta name="keywords" content="code,dp">
+<meta name="description" content="为了在分布式的环境下进行通信和定位，容器必然需要一个独立的IP、端口、路由等等，自然就想到了网络的隔离。同时，你的容器还需要一个独立的主机名以便在网络中标识自己。想到网络，顺其自然就想到通信，也就想到了进程间通信的隔离。可能你也想到了权限的问题，对用户和用户组的隔离就实现了用户权限的隔离。最后，运行在容器中的应用需要有自己的PID,自然也需要与宿主机中的PID进行隔离。Linux内核中就提供了这六">
+<meta name="keywords" content="笔记,docker,内核">
 <meta property="og:type" content="article">
-<meta property="og:title" content="dp-求给定数组中和大于积的次数">
-<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/09/17/dp-求给定数组中和大于积的次数/index.html">
+<meta property="og:title" content="Docker内核知识——namespace">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/09/15/Docker内核知识—namespace/index.html">
 <meta property="og:site_name" content="Lander Blog">
-<meta property="og:description" content="问题描述一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &amp;gt; 1  1  2 * 3你可以适当从袋子里移除一些球(可以移除0个,但是别移除完)，要使移除后的袋子是幸运的。现在让你编程计算一下你可">
+<meta property="og:description" content="为了在分布式的环境下进行通信和定位，容器必然需要一个独立的IP、端口、路由等等，自然就想到了网络的隔离。同时，你的容器还需要一个独立的主机名以便在网络中标识自己。想到网络，顺其自然就想到通信，也就想到了进程间通信的隔离。可能你也想到了权限的问题，对用户和用户组的隔离就实现了用户权限的隔离。最后，运行在容器中的应用需要有自己的PID,自然也需要与宿主机中的PID进行隔离。Linux内核中就提供了这六">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-20T09:41:55.659Z">
+<meta property="og:updated_time" content="2017-10-26T08:54:46.639Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="dp-求给定数组中和大于积的次数">
-<meta name="twitter:description" content="问题描述一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &amp;gt; 1  1  2 * 3你可以适当从袋子里移除一些球(可以移除0个,但是别移除完)，要使移除后的袋子是幸运的。现在让你编程计算一下你可">
+<meta name="twitter:title" content="Docker内核知识——namespace">
+<meta name="twitter:description" content="为了在分布式的环境下进行通信和定位，容器必然需要一个独立的IP、端口、路由等等，自然就想到了网络的隔离。同时，你的容器还需要一个独立的主机名以便在网络中标识自己。想到网络，顺其自然就想到通信，也就想到了进程间通信的隔离。可能你也想到了权限的问题，对用户和用户组的隔离就实现了用户权限的隔离。最后，运行在容器中的应用需要有自己的PID,自然也需要与宿主机中的PID进行隔离。Linux内核中就提供了这六">
 
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/09/17/dp-求给定数组中和大于积的次数/"/>
+  <link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/09/15/Docker内核知识—namespace/"/>
 
 
 
 
 
-  <title>dp-求给定数组中和大于积的次数 | Lander Blog</title>
+  <title>Docker内核知识——namespace | Lander Blog</title>
   
 
 
@@ -308,7 +308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/17/dp-求给定数组中和大于积的次数/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/15/Docker内核知识—namespace/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Daichao">
@@ -325,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">dp-求给定数组中和大于积的次数</h1>
+          <h1 class="post-title" itemprop="name headline">Docker内核知识——namespace</h1>
         
 
         <div class="post-meta">
@@ -337,8 +337,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-17T00:08:12+08:00">
-                2017-09-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-15T00:08:12+08:00">
+                2017-09-15
               </time>
             
 
@@ -360,8 +360,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/code/" itemprop="url" rel="index">
-                    <span itemprop="name">code</span>
+                  <a href="/hexoblog/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
                   </a>
                 </span>
 
@@ -371,8 +371,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/code/dp/" itemprop="url" rel="index">
-                    <span itemprop="name">dp</span>
+                  <a href="/hexoblog/categories/笔记/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
                   </a>
                 </span>
 
@@ -382,19 +382,6 @@
             </span>
           
 
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/hexoblog/2017/09/17/dp-求给定数组中和大于积的次数/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/09/17/dp-求给定数组中和大于积的次数/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -424,10 +411,66 @@
       
 
       
-        <p>问题描述<br>一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。<br>例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &gt; 1 <em> 1 </em> 2 * 3<br>你可以适当从袋子里移除一些球(可以移除0个,但是别移除完)，要使移除后的袋子是幸运的。现在让你编程计算一下你可以获得的多少种不同的幸运的袋子。</p>
-<p>输入：<br>球号数组<br>输出<br>种类</p>
+        <p>为了在分布式的环境下进行通信和定位，容器必然需要一个独立的IP、端口、路由等等，自然就想到了网络的隔离。同时，你的容器还需要一个独立的主机名以便在网络中标识自己。想到网络，顺其自然就想到通信，也就想到了进程间通信的隔离。可能你也想到了权限的问题，对用户和用户组的隔离就实现了用户权限的隔离。最后，运行在容器中的应用需要有自己的PID,自然也需要与宿主机中的PID进行隔离。<br>Linux内核中就提供了这六种namespace隔离的系统调用，如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>Namespace</th>
+<th>系统调用参数</th>
+<th>隔离内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UTS</td>
+<td>CLONE_NEWUTS</td>
+<td>主机名与域名</td>
+</tr>
+<tr>
+<td>IPC</td>
+<td>CLONE_NEWIPC</td>
+<td>信号量、消息队列和共享内存</td>
+</tr>
+<tr>
+<td>PID</td>
+<td>CLONE_NEWPID</td>
+<td>进程编号</td>
+</tr>
+<tr>
+<td>Network</td>
+<td>CLONE_NEWNET</td>
+<td>网络设备、网络栈、端口等等</td>
+</tr>
+<tr>
+<td>Mount</td>
+<td>CLONE_NEWNS</td>
+<td>挂载点（文件系统）</td>
+</tr>
+<tr>
+<td>User</td>
+<td>CLONE_NEWUSER</td>
+<td>用户和用户组</td>
+</tr>
+</tbody>
+</table>
+<p>实现轻量级虚拟化（容器）服务。在同一个namespace下的进程可以感知彼此的变化，而对外界的进程一无所知。这样就可以让容器中的进程产生错觉，仿佛自己置身于一个独立的系统环境中，以此达到独立和隔离的目的。</p>
 <hr>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#-*- coding:utf-8 -*-</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">isluck</span><span class="params">(nums)</span>:</span> <span class="comment">#幸运袋子判断函数</span></div><div class="line">    sum=<span class="number">0</span></div><div class="line">    mul=<span class="number">1</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> nums:</div><div class="line">        sum +=i</div><div class="line">        mul *=i</div><div class="line">    <span class="keyword">if</span> sum&gt;mul:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">composite</span><span class="params">(array,Sum,multiply)</span>:</span> <span class="comment">#从小到大的规划过程</span></div><div class="line">    count=<span class="number">0</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(len(array)):</div><div class="line">        <span class="keyword">if</span> i&gt;<span class="number">0</span> <span class="keyword">and</span> array[i]==array[i<span class="number">-1</span>]:</div><div class="line">            <span class="keyword">continue</span></div><div class="line">        Sum+=array[i]</div><div class="line">        multiply*=array[i]</div><div class="line">        <span class="keyword">if</span> Sum&gt;multiply:</div><div class="line">            count+=<span class="number">1</span>+composite(array[i+<span class="number">1</span>:], Sum, multiply) <span class="comment"># 当序列中的数值都比较大的时候能够满足要求，那数值小的也更加容易满足</span></div><div class="line">        <span class="keyword">elif</span> array[i]==<span class="number">1</span>:</div><div class="line">            count+=composite(array[i+<span class="number">1</span>:], Sum, multiply) <span class="comment"># 1为特殊情况，当为1的时候，和一定一直大于乘积，所以需要累加</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">break</span></div><div class="line">        Sum-=array[i] <span class="comment">#如果不满足，回退为上一状态</span></div><div class="line">        multiply/=array[i] </div><div class="line">    <span class="keyword">return</span> count</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    n=raw_input()</div><div class="line">    array=raw_input().split()</div><div class="line">    array=[int(i) <span class="keyword">for</span> i <span class="keyword">in</span> array]</div><div class="line">    array.sort() <span class="comment">#首先对其从小到大排列</span></div><div class="line">    <span class="keyword">print</span> composite(array,<span class="number">0</span>,<span class="number">1</span>)</div><div class="line">main()</div></pre></td></tr></table></figure>
+<p><strong><code>六种namespace具体介绍</code></strong></p>
+<p><strong>UTS namespace</strong><br>提供了主机名和域名的隔离，这样每个容器就可以拥有了独立的主机名和域名，在网络上可以被视作一个独立的节点而非宿主机上的一个进程。Docker中，每个镜像基本都以自己所提供的服务命名了自己的hostname而没有对宿主机产生任何影响，用的就是这个原理。</p>
+<p><strong>IPC</strong><br>容器中进程间通信采用的方法包括常见的信号量、消息队列和共享内存。然而与虚拟机不同的是，容器内部进程间通信对宿主机来说，实际上是具有相同PID namespace中的进程间通信，因此需要一个唯一的标识符来进行区别。申请IPC资源就申请了这样一个全局唯一的32位ID，所以IPC namespace中实际上包含了系统IPC标识符以及实现POSIX消息队列的文件系统。在同一个IPC namespace下的进程彼此可见，而与其他的IPC namespace下的进程则互相不可见。目前使用IPC namespace机制的系统不多，其中比较有名的有PostgreSQL。Docker本身通过socket或tcp进行通信</p>
+<p><strong>PID namespace</strong><br>隔离非常实用，它对进程PID重新标号，即两个不同namespace下的进程可以有同一个PID。每个PID namespace都有自己的计数程序。内核为所有的PID namespace维护了一个树状结构，最顶层的是系统初始时创建的，我们称之为root namespace。他创建的新PID namespace就称之为child namespace（树的子节点），而原先的PID namespace就是新创建的PID namespace的parent namespace（树的父节点）。通过这种方式，不同的PID namespaces会形成一个等级体系。所属的父节点可以看到子节点中的进程，并可以通过信号等方式对子节点中的进程产生影响。反过来，子节点不能看到父节点PID namespace中的任何内容。由此产生如下结论<br><a href="http://blog.dotcloud.com/under-the-hood-linux-kernels-on-dotcloud-part" target="_blank" rel="external">部分内容引自</a></p>
+<ul>
+<li>每个PID namespace中的第一个进程“PID 1“，都会像传统Linux中的init进程一样拥有特权，起特殊作用。</li>
+<li>一个namespace中的进程，不可能通过kill或ptrace影响父节点或者兄弟节点中的进程，因为其他节点的PID在这个namespace中没有任何意义。</li>
+<li>如果你在新的PID namespace中重新挂载/proc文件系统，会发现其下只显示同属一个PID namespace中的其他进程。</li>
+<li>在root namespace中可以看到所有的进程，并且递归包含所有子节点中的进程。</li>
+</ul>
+<p>在外部监控Docker中运行程序的方法：监控Docker Daemon所在的PID namespace下的所有进程即其子进程，再进行删选即可<br>附：Docker Daemon是Docker架构中运行在后台的守护进程，大致可以分为Docker Server、Engine和Job三部分。Docker Daemon可以认为是通过Docker Server模块接受Docker Client的请求，并在Engine中处理请求，然后根据请求类型，创建出指定的Job并运行，运行过程的作用有以下几种可能：向Docker Registry获取镜像，通过graphdriver执行容器镜像的本地化操作，通过networkdriver执行容器网络环境的配置，通过execdriver执行容器内部运行的执行工作等。<br><a href="http://www.infoq.com/cn/articles/docker-source-code-analysis-part3/" target="_blank" rel="external">docker Daemon</a></p>
+<p><strong>Mount namespace</strong><br>通过隔离文件系统挂载点对隔离文件系统提供支持，它是历史上第一个Linux namespace，所以它的标识位比较特殊，就是CLONE_NEWNS。隔离后，不同mount namespace中的文件结构发生变化也互不影响。你可以通过/proc/[pid]/mounts查看到所有挂载在当前namespace中的文件系统，还可以通过/proc/[pid]/mountstats看到mount namespace中文件设备的统计信息，包括挂载文件的名字、文件系统类型、挂载位置等等。<br>进程在创建mount namespace时，会把当前的文件结构复制给新的namespace。新namespace中的所有mount操作都只影响自身的文件系统，而对外界不会产生任何影响。这样做非常严格地实现了隔离，但是某些情况可能并不适用。比如父节点namespace中的进程挂载了一张CD-ROM，这时子节点namespace拷贝的目录结构就无法自动挂载上这张CD-ROM，因为这种操作会影响到父节点的文件系统。<br>挂载状态：共享挂载（shared）、从属挂载（slave）、共享/从属挂载（shared and slave）、私有挂载（private）、不可绑定挂载（unbindable）</p>
+<p><strong>Network namespace</strong><br>Network namespace主要提供了关于网络资源的隔离，包括网络设备、IPv4和IPv6协议栈、IP路由表、防火墙、/proc/net目录、/sys/class/net目录、端口（socket）等等。一个物理的网络设备最多存在在一个network namespace中，你可以通过创建veth pair（虚拟网络设备对：有两端，类似管道，如果数据从一端传入另一端也能接收到，反之亦然）在不同的network namespace间创建通道，以此达到通信的目的。</p>
+<p><strong>User namespaces</strong><br>User namespace主要隔离了安全相关的标识符（identifiers）和属性（attributes），包括用户ID、用户组ID、root目录、key（指密钥）以及特殊权限。说得通俗一点，一个普通用户的进程通过clone()创建的新进程在新user namespace中可以拥有不同的用户和用户组。这意味着一个进程在容器外属于一个没有特权的普通用户，但是他创建的容器进程却属于拥有所有权限的超级用户，这个技术为容器提供了极大的自由。</p>
+<p><a href="http://www.infoq.com/cn/articles/docker-kernel-knowledge-namespace-resource-isolation" target="_blank" rel="external">参考资料来源</a></p>
+
       
     </div>
     
@@ -444,9 +487,11 @@
       
         <div class="post-tags">
           
-            <a href="/hexoblog/tags/code/" rel="tag"># code</a>
+            <a href="/hexoblog/tags/笔记/" rel="tag"># 笔记</a>
           
-            <a href="/hexoblog/tags/dp/" rel="tag"># dp</a>
+            <a href="/hexoblog/tags/docker/" rel="tag"># docker</a>
+          
+            <a href="/hexoblog/tags/内核/" rel="tag"># 内核</a>
           
         </div>
       
@@ -459,8 +504,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/hexoblog/2017/09/17/sort用法/" rel="next" title="sort用法">
-                <i class="fa fa-chevron-left"></i> sort用法
+              <a href="/hexoblog/2017/09/14/ubuntu下安装dockers/" rel="next" title="ubuntu下安装dockers">
+                <i class="fa fa-chevron-left"></i> ubuntu下安装dockers
               </a>
             
           </div>
@@ -469,8 +514,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/hexoblog/2017/09/18/dp-求数组连续最大和/" rel="prev" title="dp-求数组连续最大和">
-                dp-求数组连续最大和 <i class="fa fa-chevron-right"></i>
+              <a href="/hexoblog/2017/09/16/dp-求两个字符串的最大公共子序列/" rel="prev" title="dp-求两个字符串的最大公共子序列">
+                dp-求两个字符串的最大公共子序列 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -499,20 +544,6 @@
 
 
           
-
-  
-    <div class="comments" id="comments">
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    </div>
-
-  
-
-
 
         </div>
         
@@ -801,18 +832,6 @@
       <script id="dsq-count-scr" src="https://Dc.disqus.com/count.js" async></script>
     
 
-    
-      <script type="text/javascript">
-        var disqus_config = function () {
-          this.page.url = 'https://github.com/dclarken/hexoblog/2017/09/17/dp-求给定数组中和大于积的次数/';
-          this.page.identifier = '2017/09/17/dp-求给定数组中和大于积的次数/';
-          this.page.title = 'dp-求给定数组中和大于积的次数';
-        };
-        var d = document, s = d.createElement('script');
-        s.src = 'https://Dc.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      </script>
     
 
   

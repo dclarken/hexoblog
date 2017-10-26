@@ -108,19 +108,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[sort用法]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F17%2Fsort%E7%94%A8%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[Python中的sort()方法使用基础文档：格式：12sorted(iterable[, cmp[, key[, reverse]]])iterable.sort(cmp[, key[, reverse]]) 参数解释： iterable指定要排序的list或者iterable，不用多说； cmp为函数，指定排序时进行比较的函数，可以指定一个函数或者lambda函数，如：students为类对象的list，没个成员有三个域，用sorted进行比较时可以自己定cmp函数，例如这里要通过比较第三个数据成员来排序，代码可以这样写： 12students = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10)]sorted(students, key=lambda student : student[2]) key为函数，指定取待排序元素的哪一项进行排序，函数用上面的例子来说明，代码如下： 1sorted(students, key=lambda student : student[2]) key指定的lambda函数功能是去元素student的第三个域（即：student[2]），因此sorted排序时，会以students所有元素的第三个域来进行排序。 reverse实现降序排序，需要提供一个布尔值，默认为False（升序排列）。]]></content>
-      <categories>
-        <category>笔记</category>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[dp-求给定数组中和大于积的次数]]></title>
     <url>%2Fhexoblog%2F2017%2F09%2F17%2Fdp-%E6%B1%82%E7%BB%99%E5%AE%9A%E6%95%B0%E7%BB%84%E4%B8%AD%E5%92%8C%E5%A4%A7%E4%BA%8E%E7%A7%AF%E7%9A%84%E6%AC%A1%E6%95%B0%2F</url>
     <content type="text"><![CDATA[问题描述一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &gt; 1 1 2 * 3你可以适当从袋子里移除一些球(可以移除0个,但是别移除完)，要使移除后的袋子是幸运的。现在让你编程计算一下你可以获得的多少种不同的幸运的袋子。 输入：球号数组输出种类 123456789101112131415161718192021222324252627282930313233343536#-*- coding:utf-8 -*-def isluck(nums): #幸运袋子判断函数 sum=0 mul=1 for i in nums: sum +=i mul *=i if sum&gt;mul: return True else: return False def composite(array,Sum,multiply): #从小到大的规划过程 count=0 for i in xrange(len(array)): if i&gt;0 and array[i]==array[i-1]: continue Sum+=array[i] multiply*=array[i] if Sum&gt;multiply: count+=1+composite(array[i+1:], Sum, multiply) # 当序列中的数值都比较大的时候能够满足要求，那数值小的也更加容易满足 elif array[i]==1: count+=composite(array[i+1:], Sum, multiply) # 1为特殊情况，当为1的时候，和一定一直大于乘积，所以需要累加 else: break Sum-=array[i] #如果不满足，回退为上一状态 multiply/=array[i] return countdef main(): n=raw_input() array=raw_input().split() array=[int(i) for i in array] array.sort() #首先对其从小到大排列 print composite(array,0,1)main()]]></content>
@@ -131,6 +118,19 @@
       <tags>
         <tag>code</tag>
         <tag>dp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[sort用法]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F17%2Fsort%E7%94%A8%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[Python中的sort()方法使用基础文档：格式：12sorted(iterable[, cmp[, key[, reverse]]])iterable.sort(cmp[, key[, reverse]]) 参数解释： iterable指定要排序的list或者iterable，不用多说； cmp为函数，指定排序时进行比较的函数，可以指定一个函数或者lambda函数，如：students为类对象的list，没个成员有三个域，用sorted进行比较时可以自己定cmp函数，例如这里要通过比较第三个数据成员来排序，代码可以这样写： 12students = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10)]sorted(students, key=lambda student : student[2]) key为函数，指定取待排序元素的哪一项进行排序，函数用上面的例子来说明，代码如下： 1sorted(students, key=lambda student : student[2]) key指定的lambda函数功能是去元素student的第三个域（即：student[2]），因此sorted排序时，会以students所有元素的第三个域来进行排序。 reverse实现降序排序，需要提供一个布尔值，默认为False（升序排列）。]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -147,6 +147,20 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Docker内核知识——namespace]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F15%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94namespace%2F</url>
+    <content type="text"><![CDATA[为了在分布式的环境下进行通信和定位，容器必然需要一个独立的IP、端口、路由等等，自然就想到了网络的隔离。同时，你的容器还需要一个独立的主机名以便在网络中标识自己。想到网络，顺其自然就想到通信，也就想到了进程间通信的隔离。可能你也想到了权限的问题，对用户和用户组的隔离就实现了用户权限的隔离。最后，运行在容器中的应用需要有自己的PID,自然也需要与宿主机中的PID进行隔离。Linux内核中就提供了这六种namespace隔离的系统调用，如下表所示。 Namespace 系统调用参数 隔离内容 UTS CLONE_NEWUTS 主机名与域名 IPC CLONE_NEWIPC 信号量、消息队列和共享内存 PID CLONE_NEWPID 进程编号 Network CLONE_NEWNET 网络设备、网络栈、端口等等 Mount CLONE_NEWNS 挂载点（文件系统） User CLONE_NEWUSER 用户和用户组 实现轻量级虚拟化（容器）服务。在同一个namespace下的进程可以感知彼此的变化，而对外界的进程一无所知。这样就可以让容器中的进程产生错觉，仿佛自己置身于一个独立的系统环境中，以此达到独立和隔离的目的。 六种namespace具体介绍 UTS namespace提供了主机名和域名的隔离，这样每个容器就可以拥有了独立的主机名和域名，在网络上可以被视作一个独立的节点而非宿主机上的一个进程。Docker中，每个镜像基本都以自己所提供的服务命名了自己的hostname而没有对宿主机产生任何影响，用的就是这个原理。 IPC容器中进程间通信采用的方法包括常见的信号量、消息队列和共享内存。然而与虚拟机不同的是，容器内部进程间通信对宿主机来说，实际上是具有相同PID namespace中的进程间通信，因此需要一个唯一的标识符来进行区别。申请IPC资源就申请了这样一个全局唯一的32位ID，所以IPC namespace中实际上包含了系统IPC标识符以及实现POSIX消息队列的文件系统。在同一个IPC namespace下的进程彼此可见，而与其他的IPC namespace下的进程则互相不可见。目前使用IPC namespace机制的系统不多，其中比较有名的有PostgreSQL。Docker本身通过socket或tcp进行通信 PID namespace隔离非常实用，它对进程PID重新标号，即两个不同namespace下的进程可以有同一个PID。每个PID namespace都有自己的计数程序。内核为所有的PID namespace维护了一个树状结构，最顶层的是系统初始时创建的，我们称之为root namespace。他创建的新PID namespace就称之为child namespace（树的子节点），而原先的PID namespace就是新创建的PID namespace的parent namespace（树的父节点）。通过这种方式，不同的PID namespaces会形成一个等级体系。所属的父节点可以看到子节点中的进程，并可以通过信号等方式对子节点中的进程产生影响。反过来，子节点不能看到父节点PID namespace中的任何内容。由此产生如下结论部分内容引自 每个PID namespace中的第一个进程“PID 1“，都会像传统Linux中的init进程一样拥有特权，起特殊作用。 一个namespace中的进程，不可能通过kill或ptrace影响父节点或者兄弟节点中的进程，因为其他节点的PID在这个namespace中没有任何意义。 如果你在新的PID namespace中重新挂载/proc文件系统，会发现其下只显示同属一个PID namespace中的其他进程。 在root namespace中可以看到所有的进程，并且递归包含所有子节点中的进程。 在外部监控Docker中运行程序的方法：监控Docker Daemon所在的PID namespace下的所有进程即其子进程，再进行删选即可附：Docker Daemon是Docker架构中运行在后台的守护进程，大致可以分为Docker Server、Engine和Job三部分。Docker Daemon可以认为是通过Docker Server模块接受Docker Client的请求，并在Engine中处理请求，然后根据请求类型，创建出指定的Job并运行，运行过程的作用有以下几种可能：向Docker Registry获取镜像，通过graphdriver执行容器镜像的本地化操作，通过networkdriver执行容器网络环境的配置，通过execdriver执行容器内部运行的执行工作等。docker Daemon Mount namespace通过隔离文件系统挂载点对隔离文件系统提供支持，它是历史上第一个Linux namespace，所以它的标识位比较特殊，就是CLONE_NEWNS。隔离后，不同mount namespace中的文件结构发生变化也互不影响。你可以通过/proc/[pid]/mounts查看到所有挂载在当前namespace中的文件系统，还可以通过/proc/[pid]/mountstats看到mount namespace中文件设备的统计信息，包括挂载文件的名字、文件系统类型、挂载位置等等。进程在创建mount namespace时，会把当前的文件结构复制给新的namespace。新namespace中的所有mount操作都只影响自身的文件系统，而对外界不会产生任何影响。这样做非常严格地实现了隔离，但是某些情况可能并不适用。比如父节点namespace中的进程挂载了一张CD-ROM，这时子节点namespace拷贝的目录结构就无法自动挂载上这张CD-ROM，因为这种操作会影响到父节点的文件系统。挂载状态：共享挂载（shared）、从属挂载（slave）、共享/从属挂载（shared and slave）、私有挂载（private）、不可绑定挂载（unbindable） Network namespaceNetwork namespace主要提供了关于网络资源的隔离，包括网络设备、IPv4和IPv6协议栈、IP路由表、防火墙、/proc/net目录、/sys/class/net目录、端口（socket）等等。一个物理的网络设备最多存在在一个network namespace中，你可以通过创建veth pair（虚拟网络设备对：有两端，类似管道，如果数据从一端传入另一端也能接收到，反之亦然）在不同的network namespace间创建通道，以此达到通信的目的。 User namespacesUser namespace主要隔离了安全相关的标识符（identifiers）和属性（attributes），包括用户ID、用户组ID、root目录、key（指密钥）以及特殊权限。说得通俗一点，一个普通用户的进程通过clone()创建的新进程在新user namespace中可以拥有不同的用户和用户组。这意味着一个进程在容器外属于一个没有特权的普通用户，但是他创建的容器进程却属于拥有所有权限的超级用户，这个技术为容器提供了极大的自由。 参考资料来源]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>docker</tag>
+        <tag>内核</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[ubuntu下安装dockers]]></title>
     <url>%2Fhexoblog%2F2017%2F09%2F14%2Fubuntu%E4%B8%8B%E5%AE%89%E8%A3%85dockers%2F</url>
     <content type="text"><![CDATA[安装文档资料dockers安装troubleshooting资料内核变更docker再Linux的kernel3.8上运行最佳。利用 uname -r命令查看当前系统版本的内核，内核版本不满足要求，升级内核：12sudo apt-get install linux-image-generic-lts-raring linux-headers-generic-lts-raringsudo apt-get install --install-recommends linux-generic-lts-raring xserver-xorg-lts-raring libgl1-mesa-glx-lts-raring~sudo reboot 重启ubuntu 更新apt-get的安装源1root@linuxidc:~# vi /etc/apt/sources.list 是包管理工具 apt 所用的记录软件包仓库位置的配置文件/etc/apt/sources.list 详解删除里面的所有内容，把下面的安装源写入 12345678910deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiversedeb http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiversedeb http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiversedeb http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiversedeb http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiversedeb-src http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiversedeb-src http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiversedeb-src http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiversedeb-src http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiversedeb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse 然后更新apt-get，利用apt-get安装docker.io123root@linuxidc:~#apt-get updateroot@linuxidc:~#apt-get install docker.ioroot@linuxidc:~# service docker.io restart或者 service docker start 错误信息●报错1：1FATA[0000] Post http:///var/run/docker.sock/v1.18/images/create?fromImage=wpscanteam%2Fvulnerablewordpress%3Alatest: dial unix /var/run/docker.sock: no such file or directory. Are you trying to connect to a TLS-enabled daemon without TLS? 解决办法：12$ sudo touch /var/run/docker.sock$ sudo docker -d touch命令有两个功能：一是用于把已存在文件的时间标签更新为系统当前的时间（默认方式），它们的数据将原封不动地保留下来；二是用来创建新的空文件。文档资料1~docker -d :Run container in background and print container ID 运行容量并且打印容器ID文档资料2 ●报错2：123456INFO[0000] +job serveapi(unix:///var/run/docker.sock) INFO[0000] Listening for HTTP on unix (/var/run/docker.sock) INFO[0000] +job init_networkdriver() INFO[0000] -job init_networkdriver() = OK (0) WARN[0000] Your kernel does not support cgroup swap limit. FATA[0000] Shutting down daemon due to errors: Error loading docker apparmor profile: fork/exec /sbin/apparmor_parser: no such file 解决办法：1$ sudo apt-get install apparmor Apparmor—Linux内核中的强制访问控制系统，是Linux内核的一个安全模块，AppArmor允许系统管理员将每个程序与一个安全配置文件关联，从而限制程序的功能。简单的说，AppArmor是与SELinux类似的一个访问控制系统，通过它你可以指定程序可以读、写或运行哪些文件，是否可以打开网络端口等。作为对传统Unix的自主访问控制模块的补充，AppArmor提供了强制访问控制机制，它已经被整合到2.6版本的Linux内核中。Apparmor]]></content>
@@ -160,9 +174,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Docker内核知识——Cgroup控制组]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94Cgroup%E6%8E%A7%E5%88%B6%E7%BB%84%2F</url>
-    <content type="text"><![CDATA[Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太多的资源而影响到其它进程；另一方面，在系统资源耗尽的时候，linux 内核会触发 OOM，这会让一些被杀掉的进程成了无辜的替死鬼。因此，为了让容器中的进程更加可控，Docker 使用 Linux cgroups 来限制容器中的进程允许使用的系统资源。Linux Cgroup 可​​​让​​​您​​​为​​​系​​​统​​​中​​​所​​​运​​​行​​​任​​​务​​​（进​​​程​​​）的​​​用​​​户​​​定​​​义​​​组​​​群​​​分​​​配​​​资​​​源​​​ — 比​​​如​​​ CPU 时​​​间​​​、​​​系​​​统​​​内​​​存​​​、​​​网​​​络​​​带​​​宽​​​或​​​者​​​这​​​些​​​资​​​源​​​的​​​组​​​合​​​。​​​您​​​可​​​以​​​监​​​控​​​您​​​配​​​置​​​的​​​ cgroup，拒​​​绝​​​ cgroup 访​​​问​​​某​​​些​​​资​​​源​​​，甚​​​至​​​在​​​运​​​行​​​的​​​系​​​统​​​中​​​动​​​态​​​配​​​置​​​您​​​的​​​ cgroup。所以，可以将 controll groups 理解为 controller （system resource） （for） （process）groups，也就是是说它以一组进程为目标进行系统资源分配和控制。功能： Resource limitation: 限制资源使用，比如内存使用上限以及文件系统的缓存限制。 Prioritization: 优先级控制，比如：CPU利用和磁盘IO吞吐。 Accounting: 一些审计或一些统计，主要目的是为了计费。 Control: 挂起进程，恢复执行进程。 使​​​用​​​ cgroup，系​​​统​​​管​​​理​​​员​​​可​​​更​​​具​​​体​​​地​​​控​​​制​​​对​​​系​​​统​​​资​​​源​​​的​​​分​​​配​​​、​​​优​​​先​​​顺​​​序​​​、​​​拒​​​绝​​​、​​​管​​​理​​​和​​​监​​​控​​​。​​​可​​​更​​​好​​​地​​​根​​​据​​​任​​​务​​​和​​​用​​​户​​​分​​​配​​​硬​​​件​​​资​​​源​​​，提​​​高​​​总​​​体​​​效​​​率​​​。 在实践中：系统管理员一般会利用CGroup做下面这些事（有点像为某个虚拟机分配资源似的）： 隔离一个进程集合（比如：nginx的所有进程），并限制他们所消费的资源，比如绑定CPU的核。 为这组进程分配其足够使用的内存 为这组进程分配相应的网络带宽和磁盘存储限制 限制访问某些设备（通过设置设备的白名单） 子系统说明cgroups 实现了对资源的配额和度量。cgroups 的使用非常简单，提供类似文件的接口，在 /cgroup目录下新建一个文件夹即可新建一个group，在此文件夹中新建task文件，并将pid写入该文件，即可实现对该进程的资源控制。groups可以限制blkio、cpu、cpuacct、cpuset、devices、freezer、memory、net_cls、ns九大子系统的资源，以下是每个子系统的详细说明： blkio 这个子系统设置限制每个块设备的输入输出控制。例如:磁盘，光盘以及usb等等。 cpu 这个子系统使用调度程序为cgroup任务提供cpu的访问。 cpuacct 产生cgroup任务的cpu资源报告。 cpuset 如果是多核心的cpu，这个子系统会为cgroup任务分配单独的cpu和内存。 devices 允许或拒绝cgroup任务对设备的访问。 freezer 暂停和恢复cgroup任务。 memory 设置每个cgroup的内存限制以及产生内存资源报告。 net_cls 标记每个网络包以供cgroup方便使用。 ns 名称空间子系统。 参考资料]]></content>
+    <title><![CDATA[Docker内核知识——AUFS及安全性]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94AUFS%E5%8F%8A%E5%AE%89%E5%85%A8%E6%80%A7%2F</url>
+    <content type="text"><![CDATA[关于 AUFS（联合文件系统） 的几个特点： AUFS 是一种联合文件系统，它把若干目录按照顺序和权限 mount 为一个目录并呈现出来 默认情况下，只有第一层（第一个目录）是可写的，其余层是只读的。 增加文件：默认情况下，新增的文件都会被放在最上面的可写层中。 删除文件：因为底下各层都是只读的，当需要删除这些层中的文件时，AUFS 使用 whiteout 机制，它的实现是通过在上层的可写的目录下建立对应的whiteout隐藏文件来实现的。 修改文件：AUFS 利用其 CoW （copy-on-write）特性来修改只读层中的文件。AUFS 工作在文件层面，因此，只要有对只读层中的文件做修改，不管修改数据的量的多少，在第一次修改时，文件都会被拷贝到可写层然后再被修改。 节省空间：AUFS 的 CoW 特性能够允许在多个容器之间共享分层，从而减少物理空间占用。 查找文件：AUFS 的查找性能在层数非常多时会出现下降，层数越多，查找性能越低，因此，在制作 Docker 镜像时要注意层数不要太多。 性能：AUFS 的 CoW 特性在写入大型文件时第一次会出现延迟。 一个Linux 系统之中 所有 Docker 容器都共享主机系统的 bootfs 即 Linux 内核 每个容器有自己的 rootfs，它来自不同的 Linux 发行版的基础镜像，包括 Ubuntu，Debian 和 SUSE 等 在操作系统镜像上面一层层附加应用程序的开源组件的镜像 所有基于一种基础镜像的容器都共享这种 rootfs 安全性: AppArmor, SELinux, GRSEC安全永远是相对的，这里有三个方面可以考虑Docker的安全特性: 由kernel namespaces和cgroups实现的Linux系统固有的安全标准; Docker Deamon的安全接口; Linux本身的安全加固解决方案,类如AppArmor, SELinux; 资料参考：内核知识资料AUFS安全性]]></content>
       <categories>
         <category>笔记</category>
         <category>docker</category>
@@ -174,9 +188,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Docker内核知识——AUFS及安全性]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94AUFS%E5%8F%8A%E5%AE%89%E5%85%A8%E6%80%A7%2F</url>
-    <content type="text"><![CDATA[关于 AUFS（联合文件系统） 的几个特点： AUFS 是一种联合文件系统，它把若干目录按照顺序和权限 mount 为一个目录并呈现出来 默认情况下，只有第一层（第一个目录）是可写的，其余层是只读的。 增加文件：默认情况下，新增的文件都会被放在最上面的可写层中。 删除文件：因为底下各层都是只读的，当需要删除这些层中的文件时，AUFS 使用 whiteout 机制，它的实现是通过在上层的可写的目录下建立对应的whiteout隐藏文件来实现的。 修改文件：AUFS 利用其 CoW （copy-on-write）特性来修改只读层中的文件。AUFS 工作在文件层面，因此，只要有对只读层中的文件做修改，不管修改数据的量的多少，在第一次修改时，文件都会被拷贝到可写层然后再被修改。 节省空间：AUFS 的 CoW 特性能够允许在多个容器之间共享分层，从而减少物理空间占用。 查找文件：AUFS 的查找性能在层数非常多时会出现下降，层数越多，查找性能越低，因此，在制作 Docker 镜像时要注意层数不要太多。 性能：AUFS 的 CoW 特性在写入大型文件时第一次会出现延迟。 一个Linux 系统之中 所有 Docker 容器都共享主机系统的 bootfs 即 Linux 内核 每个容器有自己的 rootfs，它来自不同的 Linux 发行版的基础镜像，包括 Ubuntu，Debian 和 SUSE 等 在操作系统镜像上面一层层附加应用程序的开源组件的镜像 所有基于一种基础镜像的容器都共享这种 rootfs 安全性: AppArmor, SELinux, GRSEC安全永远是相对的，这里有三个方面可以考虑Docker的安全特性: 由kernel namespaces和cgroups实现的Linux系统固有的安全标准; Docker Deamon的安全接口; Linux本身的安全加固解决方案,类如AppArmor, SELinux; 资料参考：内核知识资料AUFS安全性]]></content>
+    <title><![CDATA[Docker内核知识——Cgroup控制组]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94Cgroup%E6%8E%A7%E5%88%B6%E7%BB%84%2F</url>
+    <content type="text"><![CDATA[Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太多的资源而影响到其它进程；另一方面，在系统资源耗尽的时候，linux 内核会触发 OOM，这会让一些被杀掉的进程成了无辜的替死鬼。因此，为了让容器中的进程更加可控，Docker 使用 Linux cgroups 来限制容器中的进程允许使用的系统资源。Linux Cgroup 可​​​让​​​您​​​为​​​系​​​统​​​中​​​所​​​运​​​行​​​任​​​务​​​（进​​​程​​​）的​​​用​​​户​​​定​​​义​​​组​​​群​​​分​​​配​​​资​​​源​​​ — 比​​​如​​​ CPU 时​​​间​​​、​​​系​​​统​​​内​​​存​​​、​​​网​​​络​​​带​​​宽​​​或​​​者​​​这​​​些​​​资​​​源​​​的​​​组​​​合​​​。​​​您​​​可​​​以​​​监​​​控​​​您​​​配​​​置​​​的​​​ cgroup，拒​​​绝​​​ cgroup 访​​​问​​​某​​​些​​​资​​​源​​​，甚​​​至​​​在​​​运​​​行​​​的​​​系​​​统​​​中​​​动​​​态​​​配​​​置​​​您​​​的​​​ cgroup。所以，可以将 controll groups 理解为 controller （system resource） （for） （process）groups，也就是是说它以一组进程为目标进行系统资源分配和控制。功能： Resource limitation: 限制资源使用，比如内存使用上限以及文件系统的缓存限制。 Prioritization: 优先级控制，比如：CPU利用和磁盘IO吞吐。 Accounting: 一些审计或一些统计，主要目的是为了计费。 Control: 挂起进程，恢复执行进程。 使​​​用​​​ cgroup，系​​​统​​​管​​​理​​​员​​​可​​​更​​​具​​​体​​​地​​​控​​​制​​​对​​​系​​​统​​​资​​​源​​​的​​​分​​​配​​​、​​​优​​​先​​​顺​​​序​​​、​​​拒​​​绝​​​、​​​管​​​理​​​和​​​监​​​控​​​。​​​可​​​更​​​好​​​地​​​根​​​据​​​任​​​务​​​和​​​用​​​户​​​分​​​配​​​硬​​​件​​​资​​​源​​​，提​​​高​​​总​​​体​​​效​​​率​​​。 在实践中：系统管理员一般会利用CGroup做下面这些事（有点像为某个虚拟机分配资源似的）： 隔离一个进程集合（比如：nginx的所有进程），并限制他们所消费的资源，比如绑定CPU的核。 为这组进程分配其足够使用的内存 为这组进程分配相应的网络带宽和磁盘存储限制 限制访问某些设备（通过设置设备的白名单） 子系统说明cgroups 实现了对资源的配额和度量。cgroups 的使用非常简单，提供类似文件的接口，在 /cgroup目录下新建一个文件夹即可新建一个group，在此文件夹中新建task文件，并将pid写入该文件，即可实现对该进程的资源控制。groups可以限制blkio、cpu、cpuacct、cpuset、devices、freezer、memory、net_cls、ns九大子系统的资源，以下是每个子系统的详细说明： blkio 这个子系统设置限制每个块设备的输入输出控制。例如:磁盘，光盘以及usb等等。 cpu 这个子系统使用调度程序为cgroup任务提供cpu的访问。 cpuacct 产生cgroup任务的cpu资源报告。 cpuset 如果是多核心的cpu，这个子系统会为cgroup任务分配单独的cpu和内存。 devices 允许或拒绝cgroup任务对设备的访问。 freezer 暂停和恢复cgroup任务。 memory 设置每个cgroup的内存限制以及产生内存资源报告。 net_cls 标记每个网络包以供cgroup方便使用。 ns 名称空间子系统。 参考资料]]></content>
       <categories>
         <category>笔记</category>
         <category>docker</category>
