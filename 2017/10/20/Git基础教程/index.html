@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Lander Blog">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2017/10/26/59f1c96ce21d3.jpg">
-<meta property="og:updated_time" content="2017-10-27T01:33:59.712Z">
+<meta property="og:updated_time" content="2017-10-27T01:48:02.371Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git基础教程">
 <meta name="twitter:image" content="https://i.loli.net/2017/10/26/59f1c96ce21d3.jpg">
@@ -467,6 +467,8 @@
 <h2 id="添加一个文件夹并且上传到github："><a href="#添加一个文件夹并且上传到github：" class="headerlink" title="添加一个文件夹并且上传到github："></a>添加一个文件夹并且上传到github：</h2><p>其实这个和上传文件的原理一样，github支持在上传某个文件夹下的文件的时，将文件夹也上传。所以：</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">mkdir</span> CodeCut</div><div class="line">$ <span class="keyword">cd</span> CodeCut</div><div class="line">$ touch test.txt</div><div class="line">$ git <span class="built_in">add</span> <span class="string">"test.txt"</span></div><div class="line">$ git commit -<span class="keyword">m</span> <span class="string">" add test.txt"</span></div><div class="line">$ git push</div></pre></td></tr></table></figure>
 <h2 id="本地更改目录结构同步到远程仓库："><a href="#本地更改目录结构同步到远程仓库：" class="headerlink" title="本地更改目录结构同步到远程仓库："></a>本地更改目录结构同步到远程仓库：</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ git mv filefrom dir/  #移动操作</div><div class="line">$ …#多次移动操作</div><div class="line">$ git <span class="built_in">add</span> .</div><div class="line">$ git commit -<span class="keyword">m</span> <span class="string">"Modified directory structure"</span></div><div class="line">$ git push origin master</div></pre></td></tr></table></figure>
+<p>文件改名</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ git mv oldfile newfile  #改名操作</div><div class="line">$ …#多次改名操作</div><div class="line">$ git <span class="built_in">add</span> .</div><div class="line">$ git commit -<span class="keyword">m</span> <span class="string">"Change file name"</span></div><div class="line">$ git push origin master</div></pre></td></tr></table></figure>
 <p><a href="http://www.yiibai.com/git/git_move_operation.html" target="_blank" rel="external">git移动操作资料</a></p>
 <p>资料参考：<br><a href="https://www.liaoxuefeng.com/" target="_blank" rel="external">廖学峰官方网站</a><br><a href="http://blog.csdn.net/u011471873/article/details/51462871" target="_blank" rel="external">error: failed to push some refs to ‘git@github.com:</a><br><a href="http://blog.csdn.net/u012385190/article/details/70670213" target="_blank" rel="external">error:Cannot pull with rebase</a></p>
 
