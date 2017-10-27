@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[装饰器]]></title>
+    <url>%2Fhexoblog%2F2017%2F10%2F21%2F%E8%A3%85%E9%A5%B0%E5%99%A8%2F</url>
+    <content type="text"><![CDATA[本文转载至廖雪峰装饰器资料该文对装饰器的解释比较利于理解。由于函数也是一个对象，而且函数对象可以被赋值给变量，所以，通过变量也能调用该函数。123456&gt;&gt;&gt; def now():... print('2015-3-25')...&gt;&gt;&gt; f = now&gt;&gt;&gt; f()2015-3-25 函数对象有一个name属性，可以拿到函数的名字： 1234&gt;&gt;&gt; now.__name__'now'&gt;&gt;&gt; f.__name__'now' 现在，假设我们要增强now()函数的功能，比如，在函数调用前后自动打印日志，但又不希望修改now()函数的定义，这种在代码运行期间动态增加功能的方式，称之为“装饰器”（Decorator）。 本质上，decorator就是一个返回函数的高阶函数。所以，我们要定义一个能打印日志的decorator，可以定义如下： 12345def log(func): def wrapper(*args, **kw): print('call %s():' % func.__name__) return func(*args, **kw) return wrapper 观察上面的log，因为它是一个decorator，所以接受一个函数作为参数，并返回一个函数。我们要借助Python的@语法，把decorator置于函数的定义处： 123@logdef now(): print('2015-3-25') 调用now()函数，不仅会运行now()函数本身，还会在运行now()函数前打印一行日志： 123&gt;&gt;&gt; now()call now():2015-3-25 把@log放到now()函数的定义处，相当于执行了语句： now = log(now)由于log()是一个decorator，返回一个函数，所以，原来的now()函数仍然存在，只是现在同名的now变量指向了新的函数，于是调用now()将执行新函数，即在log()函数中返回的wrapper()函数。 wrapper()函数的参数定义是(args, **kw)，因此，wrapper()函数可以接受任意参数的调用，支持一维数组\args以及二维数组**kw。在wrapper()函数内，首先打印日志，再紧接着调用原始函数。 如果decorator本身需要传入参数，那就需要编写一个返回decorator的高阶函数，写出来会更复杂。比如，要自定义log的文本： 1234567def log(text): def decorator(func): def wrapper(*args, **kw): print('%s %s():' % (text, func.__name__)) return func(*args, **kw) return wrapper return decorator 这个3层嵌套的decorator用法如下： 123@log('execute')def now(): print('2015-3-25') 执行结果如下： 123&gt;&gt;&gt; now()execute now():2015-3-25 和两层嵌套的decorator相比，3层嵌套的效果是这样的： 1&gt;&gt;&gt; now = log('execute')(now) 我们来剖析上面的语句，首先执行log(‘execute’)，返回的是decorator函数，再调用返回的函数，参数是now函数，返回值最终是wrapper函数。 以上两种decorator的定义都没有问题，但还差最后一步。因为我们讲了函数也是对象，它有name等属性，但你去看经过decorator装饰之后的函数，它们的name已经从原来的’now’变成了’wrapper’： 12&gt;&gt;&gt; now.__name__'wrapper' 因为返回的那个wrapper()函数名字就是’wrapper’，所以，需要把原始函数的name等属性复制到wrapper()函数中，否则，有些依赖函数签名的代码执行就会出错。 不需要编写wrapper.name = func.name这样的代码，Python内置的functools.wraps就是干这个事的，所以，一个完整的decorator的写法如下： 12345678import functoolsdef log(func): @functools.wraps(func) def wrapper(*args, **kw): print('call %s():' % func.__name__) return func(*args, **kw) return wrapper 或者针对带参数的decorator： 12345678910import functoolsdef log(text): def decorator(func): @functools.wraps(func) def wrapper(*args, **kw): print('%s %s():' % (text, func.__name__)) return func(*args, **kw) return wrapper return decorator import functools是导入functools模块。模块的概念稍候讲解。现在，只需记住在定义wrapper()的前面加上@functools.wraps(func)即可。 小结 在面向对象（OOP）的设计模式中，decorator被称为装饰模式。OOP的装饰模式需要通过继承和组合来实现，而Python除了能支持OOP的decorator外，直接从语法层次支持decorator。Python的decorator可以用函数实现，也可以用类实现。decorator可以增强函数的功能，定义起来虽然有点复杂，但使用起来非常灵活和方便。]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>python</tag>
+        <tag>装饰器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Git基础教程]]></title>
     <url>%2Fhexoblog%2F2017%2F10%2F20%2FGit%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%2F</url>
     <content type="text"><![CDATA[新建一个仓库添加本地上传服务：现在的情景:你已经在本地创建了一个Git仓库后，又想在GitHub创建一个Git仓库，并且让这两个仓库进行远程同步，这样，GitHub上的仓库既可以作为备份，又可以让其他人通过该仓库来协作，真是一举多得。对于新创建的仓库，从本地做备份到github网站上gitbash的代码段如下： 123456$ echo "# learngit.github.io" &gt;&gt; README.md$ git init$ git add README.md$ git commit -m "first commit"$ git remote add origin git@github.com:dclarken/dai.github.io.git$ git push -u origin master 操作解释： 新建一个README文件； 初始化本地文件得到一个.git的隐藏文件，用于追踪地位； 添加README文件到缓存区； 给刚刚添加的文件记录cmmit信息，便于以后管理，并且通过该操作将缓存区的文件上传到master分支上； 在本地远程建立与github仓库的连接； 利用push将上传到master的文件发布到github网站上； error:src refspec master does not match any 原因：引起该错误的原因是，目录中没有文件，空目录是不能提交上去的 解决方法： 1234$ touch README$ git add README $ git commit -m 'first commit'$ git push origin master 本地和远程仓库建立连接之后，如何添加和修改文件：123$ git add "filename" 添加文件到缓存区 ；$ git commit -m "add/update…."给刚刚添加的文件记录cmmit信息；$ git push 利用push将上传到master的文件发布到github网站上； 本地删除文件并且同步到仓库上：123$ git rm filename$ git commit -m "remove filename"$ git push 对于新建和删除修改文件的小结：这些操作都需要三个步骤： 修改/删除/新建 添加commit git push上传到github 另外：git pull –rebase 从github上下拉到本地，进行同步工作，加上–rebase可以避免跳入merge commit窗口，从而导致的无用记录,一般来说在网页上直接操作即使没有添加commit也会自动添加，但是为了记录好看还是养成加–rebase的习惯吧聊下git pull –rebasegit status可以查看当前的修改情况git checkout – file 让这个文件回到最近一次git commit或git add时的状态。git reset HEAD file可以把暂存区的修改撤销掉（unstage），重新放回工作区 将一个已有的github仓库clone到新创建的learngit以及本地仓库中： 在github上创建项目 使用 git clone git@github.com:dclarken/dclarken.github.io.git克隆到本地 编辑项目 git add “dclarken.github.io/“ git commit -m “clone dclarken.github.io/ “ git push origin master 将本地更改推送到远程master分支。 如果在github的remote上已经有了文件，会出现错误。此时应当先pull一下，即：git pull origin master 上传时候的某报错：1234567To github.com:dclarken/learngit.git ! [rejected] master -&gt; master (non-fast-forward)error: failed to push some refs to 'git@github.com:dclarken/learngit.git'hint: Updates were rejected because the tip of your current branch is behindhint: its remote counterpart. Integrate the remote changes (e.g.hint: 'git pull ...') before pushing again.hint: See the 'Note about fast-forwards' in 'git push --help' for details. 原因：GitHub远程仓库中的README.md文件不在本地仓库中。 解决方案： 12$ git pull --rebase origin master$ git push -u origin master 若此时又出现报错或者在平时也有这种报错： 1Git Cannot rebase: You have unstaged changes. 原因：那说明有修改过的文件 解决方案： 123$ git stash$ git pull --rebase （每次push之前最好这样做一次）$ git push origin master 之后用git stash pop stash 解析： git stash 可用来暂存当前正在进行的工作， 比如想pull 最新代码， 又不想加新commit， 或者另外一种情况，为了fix 一个紧急的bug, 先stash, 使返回到自己上一个commit, 改完bug之后再stash pop, 继续原来的工作。所以以前自己在网页上面直接上传代码时，经常不写commit于是在想要添加本地管理的时候，会出现以上报错。 基础命令： 123$ git stash$ do some work$ git stash pop 添加一个文件夹并且上传到github：其实这个和上传文件的原理一样，github支持在上传某个文件夹下的文件的时，将文件夹也上传。所以： 123456$ mkdir CodeCut$ cd CodeCut$ touch test.txt$ git add "test.txt"$ git commit -m " add test.txt"$ git push 本地更改目录结构同步到远程仓库：12345$ git mv filefrom dir/ #移动操作$ …#多次移动操作$ git add .$ git commit -m "Modified directory structure"$ git push origin master 文件改名 12345$ git mv oldfile newfile #改名操作$ …#多次改名操作$ git add .$ git commit -m "Change file name"$ git push origin master git移动操作资料 资料参考：廖学峰官方网站error: failed to push some refs to ‘git@github.com:error:Cannot pull with rebase]]></content>
@@ -108,19 +122,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[sort用法]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F17%2Fsort%E7%94%A8%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[Python中的sort()方法使用基础文档：格式：12sorted(iterable[, cmp[, key[, reverse]]])iterable.sort(cmp[, key[, reverse]]) 参数解释： iterable指定要排序的list或者iterable，不用多说； cmp为函数，指定排序时进行比较的函数，可以指定一个函数或者lambda函数，如：students为类对象的list，没个成员有三个域，用sorted进行比较时可以自己定cmp函数，例如这里要通过比较第三个数据成员来排序，代码可以这样写： 12students = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10)]sorted(students, key=lambda student : student[2]) key为函数，指定取待排序元素的哪一项进行排序，函数用上面的例子来说明，代码如下： 1sorted(students, key=lambda student : student[2]) key指定的lambda函数功能是去元素student的第三个域（即：student[2]），因此sorted排序时，会以students所有元素的第三个域来进行排序。 reverse实现降序排序，需要提供一个布尔值，默认为False（升序排列）。]]></content>
-      <categories>
-        <category>笔记</category>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[dp-求给定数组中和大于积的次数]]></title>
     <url>%2Fhexoblog%2F2017%2F09%2F17%2Fdp-%E6%B1%82%E7%BB%99%E5%AE%9A%E6%95%B0%E7%BB%84%E4%B8%AD%E5%92%8C%E5%A4%A7%E4%BA%8E%E7%A7%AF%E7%9A%84%E6%AC%A1%E6%95%B0%2F</url>
     <content type="text"><![CDATA[问题描述一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &gt; 1 1 2 * 3你可以适当从袋子里移除一些球(可以移除0个,但是别移除完)，要使移除后的袋子是幸运的。现在让你编程计算一下你可以获得的多少种不同的幸运的袋子。 输入：球号数组输出种类 123456789101112131415161718192021222324252627282930313233343536#-*- coding:utf-8 -*-def isluck(nums): #幸运袋子判断函数 sum=0 mul=1 for i in nums: sum +=i mul *=i if sum&gt;mul: return True else: return False def composite(array,Sum,multiply): #从小到大的规划过程 count=0 for i in xrange(len(array)): if i&gt;0 and array[i]==array[i-1]: continue Sum+=array[i] multiply*=array[i] if Sum&gt;multiply: count+=1+composite(array[i+1:], Sum, multiply) # 当序列中的数值都比较大的时候能够满足要求，那数值小的也更加容易满足 elif array[i]==1: count+=composite(array[i+1:], Sum, multiply) # 1为特殊情况，当为1的时候，和一定一直大于乘积，所以需要累加 else: break Sum-=array[i] #如果不满足，回退为上一状态 multiply/=array[i] return countdef main(): n=raw_input() array=raw_input().split() array=[int(i) for i in array] array.sort() #首先对其从小到大排列 print composite(array,0,1)main()]]></content>
@@ -131,6 +132,19 @@
       <tags>
         <tag>code</tag>
         <tag>dp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[sort用法]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F17%2Fsort%E7%94%A8%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[Python中的sort()方法使用基础文档：格式：12sorted(iterable[, cmp[, key[, reverse]]])iterable.sort(cmp[, key[, reverse]]) 参数解释： iterable指定要排序的list或者iterable，不用多说； cmp为函数，指定排序时进行比较的函数，可以指定一个函数或者lambda函数，如：students为类对象的list，没个成员有三个域，用sorted进行比较时可以自己定cmp函数，例如这里要通过比较第三个数据成员来排序，代码可以这样写： 12students = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10)]sorted(students, key=lambda student : student[2]) key为函数，指定取待排序元素的哪一项进行排序，函数用上面的例子来说明，代码如下： 1sorted(students, key=lambda student : student[2]) key指定的lambda函数功能是去元素student的第三个域（即：student[2]），因此sorted排序时，会以students所有元素的第三个域来进行排序。 reverse实现降序排序，需要提供一个布尔值，默认为False（升序排列）。]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -174,6 +188,20 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Docker内核知识——Cgroup控制组]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94Cgroup%E6%8E%A7%E5%88%B6%E7%BB%84%2F</url>
+    <content type="text"><![CDATA[Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太多的资源而影响到其它进程；另一方面，在系统资源耗尽的时候，linux 内核会触发 OOM，这会让一些被杀掉的进程成了无辜的替死鬼。因此，为了让容器中的进程更加可控，Docker 使用 Linux cgroups 来限制容器中的进程允许使用的系统资源。Linux Cgroup 可​​​让​​​您​​​为​​​系​​​统​​​中​​​所​​​运​​​行​​​任​​​务​​​（进​​​程​​​）的​​​用​​​户​​​定​​​义​​​组​​​群​​​分​​​配​​​资​​​源​​​ — 比​​​如​​​ CPU 时​​​间​​​、​​​系​​​统​​​内​​​存​​​、​​​网​​​络​​​带​​​宽​​​或​​​者​​​这​​​些​​​资​​​源​​​的​​​组​​​合​​​。​​​您​​​可​​​以​​​监​​​控​​​您​​​配​​​置​​​的​​​ cgroup，拒​​​绝​​​ cgroup 访​​​问​​​某​​​些​​​资​​​源​​​，甚​​​至​​​在​​​运​​​行​​​的​​​系​​​统​​​中​​​动​​​态​​​配​​​置​​​您​​​的​​​ cgroup。所以，可以将 controll groups 理解为 controller （system resource） （for） （process）groups，也就是是说它以一组进程为目标进行系统资源分配和控制。功能： Resource limitation: 限制资源使用，比如内存使用上限以及文件系统的缓存限制。 Prioritization: 优先级控制，比如：CPU利用和磁盘IO吞吐。 Accounting: 一些审计或一些统计，主要目的是为了计费。 Control: 挂起进程，恢复执行进程。 使​​​用​​​ cgroup，系​​​统​​​管​​​理​​​员​​​可​​​更​​​具​​​体​​​地​​​控​​​制​​​对​​​系​​​统​​​资​​​源​​​的​​​分​​​配​​​、​​​优​​​先​​​顺​​​序​​​、​​​拒​​​绝​​​、​​​管​​​理​​​和​​​监​​​控​​​。​​​可​​​更​​​好​​​地​​​根​​​据​​​任​​​务​​​和​​​用​​​户​​​分​​​配​​​硬​​​件​​​资​​​源​​​，提​​​高​​​总​​​体​​​效​​​率​​​。 在实践中：系统管理员一般会利用CGroup做下面这些事（有点像为某个虚拟机分配资源似的）： 隔离一个进程集合（比如：nginx的所有进程），并限制他们所消费的资源，比如绑定CPU的核。 为这组进程分配其足够使用的内存 为这组进程分配相应的网络带宽和磁盘存储限制 限制访问某些设备（通过设置设备的白名单） 子系统说明cgroups 实现了对资源的配额和度量。cgroups 的使用非常简单，提供类似文件的接口，在 /cgroup目录下新建一个文件夹即可新建一个group，在此文件夹中新建task文件，并将pid写入该文件，即可实现对该进程的资源控制。groups可以限制blkio、cpu、cpuacct、cpuset、devices、freezer、memory、net_cls、ns九大子系统的资源，以下是每个子系统的详细说明： blkio 这个子系统设置限制每个块设备的输入输出控制。例如:磁盘，光盘以及usb等等。 cpu 这个子系统使用调度程序为cgroup任务提供cpu的访问。 cpuacct 产生cgroup任务的cpu资源报告。 cpuset 如果是多核心的cpu，这个子系统会为cgroup任务分配单独的cpu和内存。 devices 允许或拒绝cgroup任务对设备的访问。 freezer 暂停和恢复cgroup任务。 memory 设置每个cgroup的内存限制以及产生内存资源报告。 net_cls 标记每个网络包以供cgroup方便使用。 ns 名称空间子系统。 参考资料]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>docker</tag>
+        <tag>内核</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[贪心算法饭店招待问题]]></title>
     <url>%2Fhexoblog%2F2017%2F09%2F14%2F%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E9%A5%AD%E5%BA%97%E6%8B%9B%E5%BE%85%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[问题描述：某餐馆有n张桌子，每张桌子有一个参数：a 可容纳的最大人数； 有m批客人，每批客人有两个参数:b人数，c预计消费金额。在不允许拼桌的情况下，请实现一个算法选择其中一部分客人，使得总预计消费金额最大 基本思路：桌子序列升序排列，客人按照预定花钱多少降序排序，然后贪心法从钱多的客人开始招呼。在遍历能容得下第i批客人的时候需要二分查找去找否则超时。 输入：3 52 4 21 33 53 75 91 10输出：20 1234567891011121314151617181920212223242526272829303132333435363738394041#coding:utf-8def main(): n,m=[int(i) for i in raw_input().split()] a=[int(i) for i in raw_input().split()] guest=[] for i in range(m): guest.append([int(i) for i in raw_input().split()]) print(func(n,m,a,guest))def func(n,m,a,guest): a.sort() value = 0 count = 0 guest.sort(key=lambda x:x[1], reverse=True) i = 0 j = 0 while i &lt; m: index=search(a,guest[i][0]) if index&gt;0: j = j+1 value +=guest[i][1] del a[index] if j == n: break i=i+1 return valuedef search(nums,target): if target&lt;=nums[0]: return 0 if target&gt;nums[-1]: return -1 l=0 r=len(nums)-1 while (l+1)!=r: mid=(l+r)/2 if target&lt;=nums[mid]: r=mid else: l=mid return rmain()]]></content>
@@ -201,20 +229,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Docker内核知识——Cgroup控制组]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94Cgroup%E6%8E%A7%E5%88%B6%E7%BB%84%2F</url>
-    <content type="text"><![CDATA[Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太多的资源而影响到其它进程；另一方面，在系统资源耗尽的时候，linux 内核会触发 OOM，这会让一些被杀掉的进程成了无辜的替死鬼。因此，为了让容器中的进程更加可控，Docker 使用 Linux cgroups 来限制容器中的进程允许使用的系统资源。Linux Cgroup 可​​​让​​​您​​​为​​​系​​​统​​​中​​​所​​​运​​​行​​​任​​​务​​​（进​​​程​​​）的​​​用​​​户​​​定​​​义​​​组​​​群​​​分​​​配​​​资​​​源​​​ — 比​​​如​​​ CPU 时​​​间​​​、​​​系​​​统​​​内​​​存​​​、​​​网​​​络​​​带​​​宽​​​或​​​者​​​这​​​些​​​资​​​源​​​的​​​组​​​合​​​。​​​您​​​可​​​以​​​监​​​控​​​您​​​配​​​置​​​的​​​ cgroup，拒​​​绝​​​ cgroup 访​​​问​​​某​​​些​​​资​​​源​​​，甚​​​至​​​在​​​运​​​行​​​的​​​系​​​统​​​中​​​动​​​态​​​配​​​置​​​您​​​的​​​ cgroup。所以，可以将 controll groups 理解为 controller （system resource） （for） （process）groups，也就是是说它以一组进程为目标进行系统资源分配和控制。功能： Resource limitation: 限制资源使用，比如内存使用上限以及文件系统的缓存限制。 Prioritization: 优先级控制，比如：CPU利用和磁盘IO吞吐。 Accounting: 一些审计或一些统计，主要目的是为了计费。 Control: 挂起进程，恢复执行进程。 使​​​用​​​ cgroup，系​​​统​​​管​​​理​​​员​​​可​​​更​​​具​​​体​​​地​​​控​​​制​​​对​​​系​​​统​​​资​​​源​​​的​​​分​​​配​​​、​​​优​​​先​​​顺​​​序​​​、​​​拒​​​绝​​​、​​​管​​​理​​​和​​​监​​​控​​​。​​​可​​​更​​​好​​​地​​​根​​​据​​​任​​​务​​​和​​​用​​​户​​​分​​​配​​​硬​​​件​​​资​​​源​​​，提​​​高​​​总​​​体​​​效​​​率​​​。 在实践中：系统管理员一般会利用CGroup做下面这些事（有点像为某个虚拟机分配资源似的）： 隔离一个进程集合（比如：nginx的所有进程），并限制他们所消费的资源，比如绑定CPU的核。 为这组进程分配其足够使用的内存 为这组进程分配相应的网络带宽和磁盘存储限制 限制访问某些设备（通过设置设备的白名单） 子系统说明cgroups 实现了对资源的配额和度量。cgroups 的使用非常简单，提供类似文件的接口，在 /cgroup目录下新建一个文件夹即可新建一个group，在此文件夹中新建task文件，并将pid写入该文件，即可实现对该进程的资源控制。groups可以限制blkio、cpu、cpuacct、cpuset、devices、freezer、memory、net_cls、ns九大子系统的资源，以下是每个子系统的详细说明： blkio 这个子系统设置限制每个块设备的输入输出控制。例如:磁盘，光盘以及usb等等。 cpu 这个子系统使用调度程序为cgroup任务提供cpu的访问。 cpuacct 产生cgroup任务的cpu资源报告。 cpuset 如果是多核心的cpu，这个子系统会为cgroup任务分配单独的cpu和内存。 devices 允许或拒绝cgroup任务对设备的访问。 freezer 暂停和恢复cgroup任务。 memory 设置每个cgroup的内存限制以及产生内存资源报告。 net_cls 标记每个网络包以供cgroup方便使用。 ns 名称空间子系统。 参考资料]]></content>
-      <categories>
-        <category>笔记</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>docker</tag>
-        <tag>内核</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[BGP的工作原理]]></title>
     <url>%2Fhexoblog%2F2017%2F09%2F12%2FBGP%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%2F</url>
     <content type="text"><![CDATA[在我们使用AWS提供的硬件VPN服务时，可以使用静态和动态的方式构建隧道。静态的是指事先知道对方的公网IP，在两个IP之间写好静态的路由，构建一条加密的隧道动态是指使用BGP协议来自动学习路由。 BGP(Border Gateway Protocol)边界网关协议，TCP 179BGP是一种在自治系统（AS）之间动态交换路由信息的路由协议。一个自治系统的经典定义是在一个管理机构控制之下的一组路由器，它使用IGP和普通度量值向其他自治系统转发报文。在BGP中使用自治系统这个术语是为了强调这样一个事实：一个自治系统的管理对于其他自治系统而言是提供一个统一的内部选路计划，它为那些通过它可以到达的网络提供了一个一致的描述。BGP,边界网关协议，是自主网络系统中网关之间交换器路由信息的协议。边界网关协议常常应用于互联网的网关之间。路由表包含已知路由器的列表、路由器能够达到的地址以及到达每个路由器的路径的跳数。BGP报文的四种类型： 报文Open：打招呼“你好，跟我交个朋友吧！” KeepAlive：我还活着呢，别不理我 Update：有新闻…… Notification：我不跟你玩了! BGP协议中消息的应用通过TCP建立BGP连接时，发送open消息连接建立后，如果有路由需要发送或路由变化时，发送UPDATE消息通告对端路由信息稳定后此时要定时发送KEEPALIVE消息（60s）以保持BGP连接的有效性当本地BGP在运行中发现错误时，要发送NOTIFICATION消息通告BGP对端 BGP择路的13个规则 忽略下一跳不可达的路由 忽略不同步的IBGP路由 首选具有最大权重优先，思科私有。(local to router) 首选具有最大本地优先级优先。(global within AS) 首选具有始发本地的路由的路由器优先，(next hop=0.0.0.0) 首选具有最短AS-PATH的路由。 首选具有最小的源码的路由，IGP〈EBP〈incomplete 当所有路由的AS号都相同的时候，首选MED最低的路由，在所有AS号码相同的时候比较MED 首选具有EBGP〉联盟EBGP&gt;IBGP 首选具有最近的IGP邻居路由器优先，metric 首选具有最老的路由优先（注意：现在这条基本不用） 首选具有最低ROUTER-ID的路由。(2个BGP地址不能建邻) 首选具有最低的neighbor的IP地址]]></content>
@@ -229,20 +243,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[vector用法]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F12%2Fvector%E7%94%A8%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[文档来自vector(向量): C++中的一种数据结构,确切的说是一个类.它相当于一个动态的数组,当程序员无法知道自己需要的数组的规模多大时,用其来解决问题可以达到最大节约空间的目的.文件包含:首先在程序开头处加上#include以包含所需要的类文件vector还有一定要加上using namespace std;变量声明:声明一个int向量以替代一维的数组:vector a;用vector代替二维数组.其实只要声明一个一维数组向量即可,而一个数组的名字其实代表的是它的首地址,所以只要声明一个地址的向量即可,即:vector a.同理想用向量代替三维数组也是一样,vector a;再往上面依此类推.int可以改成其他的如char、string甚至是strcut。具体的用法以及函数调用: 1.push_back 在数组的最后添加一个数据 2.pop_back 去掉数组的最后一个数据 3.at 得到编号位置的数据 4.begin 得到数组头的指针 5.end 得到数组的最后一个单元+1的指针 6．front 得到数组头的引用 7.back 得到数组的最后一个单元的引用 8.max_size 得到vector最大可以是多大 9.capacity 当前vector分配的大小 10.size 当前使用数据的大小 11.resize 改变当前使用数据的大小，如果它比当前使用的大者填充默认值 12.reserve 改变当前vecotr所分配空间的大小 13.erase 删除指针指向的数据项 14.clear 清空当前的vector 15.rbegin 将vector反转后的开始指针返回(其实就是原来的end-1) 16.rend 将vector反转构的结束指针返回(其实就是原来的begin-1) 17.empty 判断vector是否为空 18.swap 与另一个vector交换数据详细的函数实现功能: c.clear() 移除容器中所有数据。 c.empty() 判断容器是否为空。 c.erase(pos) 删除pos位置的数据 c.erase(beg,end) 删除[beg,end]区间的数据 如： vec.erase(vec.begin()+2);删除第3个元素 c.front() 传回第一个数据。 c.insert(pos,elem) 在pos位置插入一个elem拷贝 c.pop_back() 删除最后一个数据。 c.push_back(elem) 在尾部加入一个数据。 c.resize(num) 重新设置该容器的大小 c.size() 回容器中实际数据的个数。 c.begin() 返回指向容器第一个元素的迭代器 c.end() 返回指向容器最后一个元素的迭代器 c1.swap(c2)==swap(c1,c2) 将c1和c2元素互换。两操作相同。 #include&lt;algorithm&gt;中的泛函算法搜索算法：find() 、search() 、count() 、find_if() 、search_if() 、count_if()分类排序：sort() 、merge()删除算法：unique() 、remove()生成和变异：generate() 、fill() 、transformation() 、copy()关系算法：equal() 、min() 、max()1sort(v1.begin(),vi.begin()+v1.size/2）; 对v1的前半段元素排序，默认是从小到大排序，即默认为冒泡排序。1sort(v1.begin(),v1.end()); 对整个vector做排序定义排序比较函数：1234bool cmp(const int &amp;a,const int &amp;b)&#123; return a&gt;b;&#125; 调用时:sort(vec.begin(),vec.end(),cmp)，这样就降序排序。其他功能: c.at(idx) 传回索引idx所指的数据，如果idx越界，抛出out_of_range。 c.back() 传回最后一个数据，不检查这个数据是否存在。 c.front() 传回地一个数据。 get_allocator 使用构造函数返回一个拷贝。 c.rbegin() 传回一个逆向队列的第一个数据。 c.rend() 传回一个逆向队列的最后一个数据的下一个位置。]]></content>
-      <categories>
-        <category>笔记</category>
-        <category>c++</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>数据结构</tag>
-        <tag>c++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[linux服务器查看性能的几个命令]]></title>
     <url>%2Fhexoblog%2F2017%2F09%2F12%2Flinux%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9F%A5%E7%9C%8B%E6%80%A7%E8%83%BD%E7%9A%84%E5%87%A0%E4%B8%AA%E5%91%BD%E4%BB%A4%2F</url>
     <content type="text"><![CDATA[一、uptime命令 12$ uptime23:51:26 up 21:31, 1 user, load average: 30.02, 26.43, 19.02 这个命令可以快速查看机器的负载情况。在Linux系统中，这些数据表示等待CPU资源的进程和阻塞在不可中断IO进程（进程状态为D）的数量。这些数据可以让我们对系统资源使用有一个宏观的了解。命令的输出分别表示1分钟、5分钟、15分钟的平均负载情况。通过这三个数据，可以了解服务器负载是在趋于紧张还是趋于缓解。如果1分钟平均负载很高，而15分钟平均负载很低，说明服务器正在命令高负载情况，需要进一步排查CPU资源都消耗在了哪里。反之，如果15分钟平均负载很高，1分钟平均负载较低，则有可能是CPU资源紧张时刻已经过去。上面例子中的输出，可以看见最近1分钟的平均负载非常高，且远高于最近15分钟负载，因此我们需要继续排查当前系统中有什么进程消耗了大量的资源。可以通过下文将会介绍的vmstat、mpstat等命令进一步排查。 二、dmesg命令 1234567$ dmesg | tail[1880957.563150] perl invoked oom-killer: gfp_mask=0x280da, order=0, oom_score_adj=0[...][1880957.563400] Out of memory: Kill process 18694 (perl) score 246 or sacrifice child[1880957.563408] Killed process 18694 (perl) total-vm:1972392kB, anon-rss:1953348kB, file-rss:0kB[2320864.954447] TCP: Possible SYN flooding on port 7001. Droppingrequest. Check SNMP counters. 该命令会输出系统日志的最后10行。示例中的输出，可以看见一次内核的oom kill和一次TCP丢包。这些日志可以帮助排查性能问题。千万不要忘了这一步。 三、vmstat命令 12345678$ vmstat 1procs ---------memory---------- ---swap-- -----io---- -system-- ------cpu-----r b swpd free buff cache si so bi bo in cs us sy id wa st34 0 0 200889792 73708 591828 0 0 0 5 6 10 96 1 3 0 032 0 0 200889920 73708 591860 0 0 0 592 13284 4282 98 1 1 0 032 0 0 200890112 73708 591860 0 0 0 0 9501 2154 99 1 0 0 032 0 0 200889568 73712 591856 0 0 0 48 11900 2459 99 0 0 0 032 0 0 200890208 73712 591860 0 0 0 0 15898 4840 98 1 1 0 0 vmstat(8) 命令，每行会输出一些系统核心指标，这些指标可以让我们更详细的了解系统状态。后面跟的参数1，表示每秒输出一次统计信息，表头提示了每一列的含义，这几介绍一些和性能调优相关的列： r：等待在CPU资源的进程数。这个数据比平均负载更加能够体现CPU负载情况，数据中不包含等待IO的进程。如果这个数值大于机器CPU核数，那么机器的CPU资源已经饱和。 free：系统可用内存数（以千字节为单位），如果剩余内存不足，也会导致系统性能问题。下文介绍到的free命令，可以更详细的了解系统内存的使用情况。 si，so：交换区写入和读取的数量。如果这个数据不为0，说明系统已经在使用交换区（swap），机器物理内存已经不足。 us, sy, id, wa, st：这些都代表了CPU时间的消耗，它们分别表示用户时间（user）、系统（内核）时间（sys）、空闲时间（idle）、IO等待时间（wait）和被偷走的时间（stolen，一般被其他虚拟机消耗）。 上述这些CPU时间，可以让我们很快了解CPU是否出于繁忙状态。一般情况下，如果用户时间和系统时间相加非常大，CPU出于忙于执行指令。如果IO等待时间很长，那么系统的瓶颈可能在磁盘IO。 示例命令的输出可以看见，大量CPU时间消耗在用户态，也就是用户应用程序消耗了CPU时间。这不一定是性能问题，需要结合r队列，一起分析。 四、mpstat命令 123456789$ mpstat -P ALL 1Linux 3.13.0-49-generic (titanclusters-xxxxx) 07/14/2015 _x86_64_ (32 CPU)07:38:49 PM CPU %usr %nice %sys %iowait %irq %soft %steal %guest %gnice %idle07:38:50 PM all 98.47 0.00 0.75 0.00 0.00 0.00 0.00 0.00 0.00 0.7807:38:50 PM 0 96.04 0.00 2.97 0.00 0.00 0.00 0.00 0.00 0.00 0.9907:38:50 PM 1 97.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 2.0007:38:50 PM 2 98.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 1.0007:38:50 PM 3 96.97 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 3.03[...] 该命令可以显示每个CPU的占用情况，如果有一个CPU占用率特别高，那么有可能是一个单线程应用程序引起的。 五、pidstat命令 1234567891011121314$ pidstat 1Linux 3.13.0-49-generic (titanclusters-xxxxx) 07/14/2015 _x86_64_ (32 CPU)07:41:02 PM UID PID %usr %system %guest %CPU CPU Command07:41:03 PM 0 9 0.00 0.94 0.00 0.94 1 rcuos/007:41:03 PM 0 4214 5.66 5.66 0.00 11.32 15 mesos-slave07:41:03 PM 0 4354 0.94 0.94 0.00 1.89 8 java07:41:03 PM 0 6521 1596.23 1.89 0.00 1598.11 27 java07:41:03 PM 0 6564 1571.70 7.55 0.00 1579.25 28 java07:41:03 PM 60004 60154 0.94 4.72 0.00 5.66 9 pidstat07:41:03 PM UID PID %usr %system %guest %CPU CPU Command07:41:04 PM 0 4214 6.00 2.00 0.00 8.00 15 mesos-slave07:41:04 PM 0 6521 1590.00 1.00 0.00 1591.00 27 java07:41:04 PM 0 6564 1573.00 10.00 0.00 1583.00 28 java07:41:04 PM 108 6718 1.00 0.00 0.00 1.00 0 snmp-pass07:41:04 PM 60004 60154 1.00 4.00 0.00 5.00 9 pidstat pidstat命令输出进程的CPU占用率，该命令会持续输出，并且不会覆盖之前的数据，可以方便观察系统动态。如上的输出，可以看见两个JAVA进程占用了将近1600%的CPU时间，既消耗了大约16个CPU核心的运算资源。 六、iostat命令 123456789101112$ iostat -xz 1Linux 3.13.0-49-generic (titanclusters-xxxxx) 07/14/2015 _x86_64_ (32 CPU)avg-cpu: %user %nice %system %iowait %steal %idle73.96 0.00 3.73 0.03 0.06 22.21Device: rrqm/s wrqm/s r/s w/s rkB/s wkB/s avgrq-sz avgqu-sz await r_await w_await svctm %utilxvda 0.00 0.23 0.21 0.18 4.52 2.08 34.37 0.00 9.98 13.80 5.42 2.44 0.09xvdb 0.01 0.00 1.02 8.94 127.97 598.53 145.79 0.00 0.43 1.78 0.28 0.25 0.25xvdc 0.01 0.00 1.02 8.86 127.79 595.94 146.50 0.00 0.45 1.82 0.30 0.27 0.26dm-0 0.00 0.00 0.69 2.32 10.47 31.69 28.01 0.01 3.23 0.71 3.98 0.13 0.04dm-1 0.00 0.00 0.00 0.94 0.01 3.78 8.00 0.33 345.84 0.04 346.81 0.01 0.00dm-2 0.00 0.00 0.09 0.07 1.35 0.36 22.50 0.00 2.55 0.23 5.62 1.78 0.03[...] iostat命令主要用于查看机器磁盘IO情况。该命令输出的列，主要含义是： r/s, w/s, rkB/s, wkB/s：分别表示每秒读写次数和每秒读写数据量（千字节）。读写量过大，可能会引起性能问题。 await：IO操作的平均等待时间，单位是毫秒。这是应用程序在和磁盘交互时，需要消耗的时间，包括IO等待和实际操作的耗时。如果这个数值过大，可能是硬件设备遇到了瓶颈或者出现故障。 avgqu-sz：向设备发出的请求平均数量。如果这个数值大于1，可能是硬件设备已经饱和（部分前端硬件设备支持并行写入）。 %util：设备利用率。这个数值表示设备的繁忙程度，经验值是如果超过60，可能会影响IO性能（可以参照IO操作平均等待时间）。如果到达100%，说明硬件设备已经饱和。 如果显示的是逻辑设备的数据，那么设备利用率不代表后端实际的硬件设备已经饱和。值得注意的是，即使IO性能不理想，也不一定意味这应用程序性能会不好，可以利用诸如预读取、写缓存等策略提升应用性能。 七、free命令 12345$ free -mtotal used free shared buffers cachedMem: 245998 24545 221453 83 59 541-/+ buffers/cache: 23944 222053Swap: 0 0 0 free命令可以查看系统内存的使用情况，-m参数表示按照兆字节展示。最后两列分别表示用于IO缓存的内存数，和用于文件系统页缓存的内存数。需要注意的是，第二行-/+ buffers/cache，看上去缓存占用了大量内存空间。这是Linux系统的内存使用策略，尽可能的利用内存，如果应用程序需要内存，这部分内存会立即被回收并分配给应用程序。因此，这部分内存一般也被当成是可用内存。如果可用内存非常少，系统可能会动用交换区（如果配置了的话），这样会增加IO开销（可以在iostat命令中提现），降低系统性能。 八、sar命令 12345678910$ sar -n DEV 1Linux 3.13.0-49-generic (titanclusters-xxxxx) 07/14/2015 _x86_64_ (32 CPU)12:16:48 AM IFACE rxpck/s txpck/s rxkB/s txkB/s rxcmp/s txcmp/s rxmcst/s %ifutil12:16:49 AM eth0 18763.00 5032.00 20686.42 478.30 0.00 0.00 0.00 0.0012:16:49 AM lo 14.00 14.00 1.36 1.36 0.00 0.00 0.00 0.0012:16:49 AM docker0 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.0012:16:49 AM IFACE rxpck/s txpck/s rxkB/s txkB/s rxcmp/s txcmp/s rxmcst/s %ifutil12:16:50 AM eth0 19763.00 5101.00 21999.10 482.56 0.00 0.00 0.00 0.0012:16:50 AM lo 20.00 20.00 3.25 3.25 0.00 0.00 0.00 0.0012:16:50 AM docker0 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 sar命令在这里可以查看网络设备的吞吐率。在排查性能问题时，可以通过网络设备的吞吐量，判断网络设备是否已经饱和。如示例输出中，eth0网卡设备，吞吐率大概在22 Mbytes/s，既176 Mbits/sec，没有达到1Gbit/sec的硬件上限。sar -n TCP,ETCP 112345678910$ sar -n TCP,ETCP 1Linux 3.13.0-49-generic (titanclusters-xxxxx) 07/14/2015 _x86_64_ (32 CPU)12:17:19 AM active/s passive/s iseg/s oseg/s12:17:20 AM 1.00 0.00 10233.00 18846.0012:17:19 AM atmptf/s estres/s retrans/s isegerr/s orsts/s12:17:20 AM 0.00 0.00 0.00 0.00 0.0012:17:20 AM active/s passive/s iseg/s oseg/s12:17:21 AM 1.00 0.00 8359.00 6039.0012:17:20 AM atmptf/s estres/s retrans/s isegerr/s orsts/s12:17:21 AM 0.00 0.00 0.00 0.00 0.00 sar命令在这里用于查看TCP连接状态，其中包括： active/s：每秒本地发起的TCP连接数，既通过connect调用创建的TCP连接； passive/s：每秒远程发起的TCP连接数，即通过accept调用创建的TCP连接； retrans/s：每秒TCP重传数量； TCP连接数可以用来判断性能问题是否由于建立了过多的连接，进一步可以判断是主动发起的连接，还是被动接受的连接。TCP重传可能是因为网络环境恶劣，或者服务器压 sar命令也可以查看指定pid的信息 1$ sar -x pid 1 1000 九、top命令 123456789101112131415161718$ toptop - 00:15:40 up 21:56, 1 user, load average: 31.09, 29.87, 29.92Tasks: 871 total, 1 running, 868 sleeping, 0 stopped, 2 zombie%Cpu(s): 96.8 us, 0.4 sy, 0.0 ni, 2.7 id, 0.1 wa, 0.0 hi, 0.0 si, 0.0 stKiB Mem: 25190241+total, 24921688 used, 22698073+free, 60448 buffersKiB Swap: 0 total, 0 used, 0 free. 554208 cached MemPID USER PR NI VIRT RES SHR S %CPU %MEM TIME+ COMMAND20248 root 20 0 0.227t 0.012t 18748 S 3090 5.2 29812:58 java4213 root 20 0 2722544 64640 44232 S 23.5 0.0 233:35.37 mesos-slave66128 titancl+ 20 0 24344 2332 1172 R 1.0 0.0 0:00.07 top5235 root 20 0 38.227g 547004 49996 S 0.7 0.2 2:02.74 java4299 root 20 0 20.015g 2.682g 16836 S 0.3 1.1 33:14.42 java 1 root 20 0 33620 2920 1496 S 0.0 0.0 0:03.82 init2 root 20 0 0 0 0 S 0.0 0.0 0:00.02 kthreadd3 root 20 0 0 0 0 S 0.0 0.0 0:05.35 ksoftirqd/05 root 0 -20 0 0 0 S 0.0 0.0 0:00.00 kworker/0:0H6 root 20 0 0 0 0 S 0.0 0.0 0:06.94 kworker/u256:08 root 20 0 0 0 0 S 0.0 0.0 2:38.05 rcu_sched top命令包含了前面好几个命令的检查的内容。比如系统负载情况（uptime）、系统内存使用情况（free）、系统CPU使用情况（vmstat）等。因此通过这个命令，可以相对全面的查看系统负载的来源。同时，top命令支持排序，可以按照不同的列排序，方便查找出诸如内存占用最多的进程、CPU占用率最高的进程等。但是，top命令相对于前面一些命令，输出是一个瞬间值，如果不持续盯着，可能会错过一些线索。这时可能需要暂停top命令刷新，来记录和比对数据。]]></content>
@@ -254,6 +254,20 @@
         <tag>笔记</tag>
         <tag>Linux</tag>
         <tag>监控</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[vector用法]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F12%2Fvector%E7%94%A8%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[文档来自vector(向量): C++中的一种数据结构,确切的说是一个类.它相当于一个动态的数组,当程序员无法知道自己需要的数组的规模多大时,用其来解决问题可以达到最大节约空间的目的.文件包含:首先在程序开头处加上#include以包含所需要的类文件vector还有一定要加上using namespace std;变量声明:声明一个int向量以替代一维的数组:vector a;用vector代替二维数组.其实只要声明一个一维数组向量即可,而一个数组的名字其实代表的是它的首地址,所以只要声明一个地址的向量即可,即:vector a.同理想用向量代替三维数组也是一样,vector a;再往上面依此类推.int可以改成其他的如char、string甚至是strcut。具体的用法以及函数调用: 1.push_back 在数组的最后添加一个数据 2.pop_back 去掉数组的最后一个数据 3.at 得到编号位置的数据 4.begin 得到数组头的指针 5.end 得到数组的最后一个单元+1的指针 6．front 得到数组头的引用 7.back 得到数组的最后一个单元的引用 8.max_size 得到vector最大可以是多大 9.capacity 当前vector分配的大小 10.size 当前使用数据的大小 11.resize 改变当前使用数据的大小，如果它比当前使用的大者填充默认值 12.reserve 改变当前vecotr所分配空间的大小 13.erase 删除指针指向的数据项 14.clear 清空当前的vector 15.rbegin 将vector反转后的开始指针返回(其实就是原来的end-1) 16.rend 将vector反转构的结束指针返回(其实就是原来的begin-1) 17.empty 判断vector是否为空 18.swap 与另一个vector交换数据详细的函数实现功能: c.clear() 移除容器中所有数据。 c.empty() 判断容器是否为空。 c.erase(pos) 删除pos位置的数据 c.erase(beg,end) 删除[beg,end]区间的数据 如： vec.erase(vec.begin()+2);删除第3个元素 c.front() 传回第一个数据。 c.insert(pos,elem) 在pos位置插入一个elem拷贝 c.pop_back() 删除最后一个数据。 c.push_back(elem) 在尾部加入一个数据。 c.resize(num) 重新设置该容器的大小 c.size() 回容器中实际数据的个数。 c.begin() 返回指向容器第一个元素的迭代器 c.end() 返回指向容器最后一个元素的迭代器 c1.swap(c2)==swap(c1,c2) 将c1和c2元素互换。两操作相同。 #include&lt;algorithm&gt;中的泛函算法搜索算法：find() 、search() 、count() 、find_if() 、search_if() 、count_if()分类排序：sort() 、merge()删除算法：unique() 、remove()生成和变异：generate() 、fill() 、transformation() 、copy()关系算法：equal() 、min() 、max()1sort(v1.begin(),vi.begin()+v1.size/2）; 对v1的前半段元素排序，默认是从小到大排序，即默认为冒泡排序。1sort(v1.begin(),v1.end()); 对整个vector做排序定义排序比较函数：1234bool cmp(const int &amp;a,const int &amp;b)&#123; return a&gt;b;&#125; 调用时:sort(vec.begin(),vec.end(),cmp)，这样就降序排序。其他功能: c.at(idx) 传回索引idx所指的数据，如果idx越界，抛出out_of_range。 c.back() 传回最后一个数据，不检查这个数据是否存在。 c.front() 传回地一个数据。 get_allocator 使用构造函数返回一个拷贝。 c.rbegin() 传回一个逆向队列的第一个数据。 c.rend() 传回一个逆向队列的最后一个数据的下一个位置。]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>c++</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>数据结构</tag>
+        <tag>c++</tag>
       </tags>
   </entry>
   <entry>
@@ -390,18 +404,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[article title]]></title>
-    <url>%2Fhexoblog%2F2017%2F08%2F12%2Farticle-title%2F</url>
-    <content type="text"><![CDATA[Welcome to dclarken’s page!8.12 is my first day for writing!First of all,I want to say thank you to my best friends :Dachang,Hongwei,Jingchang,Xidun,Yue,YunhaoBest wishes to all of you!]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-        <tag>freinds</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[AWS简称及基本架构介绍]]></title>
     <url>%2Fhexoblog%2F2017%2F08%2F12%2FAWS%E7%AE%80%E7%A7%B0%E5%8F%8A%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D%2F</url>
     <content type="text"><![CDATA[文档教程位置 AWS整体架构 ·VPC：·私有网络AWS 云中逻辑隔离的虚拟网络。从所选的范围内定义 VPC 的 IP 地址空间 对VPC的IP寻CIDR块的控制 为您的VPC CIDR块划分子网的能力 网络访问控制列表 多个IP地址和多个弹性网络接口（ENI）的分配 通过私有连接将VPC和现场IT基础设施连接 ·常见的路由：·路由表的将决定子网的功能 IGW：提供对internet的访问，公有子网带通过IGW实现进/出站internet连接 VGW：提供对数据中心的访问，虚拟专用网关 NAT 网关：一项高度可用的托管网络地址转换 (NAT) 服务，可便于私有子网中的资源访问 Internet，可以在官方AMI上直接启动NAT网关实例，私有子网通过公有子网中运行NAT的Amazon EC2实例实现的出战Internet连接。 VPC对等：与NACL和安全组一起维护VPC的安全，允许在对等VPC之间路由流量，这样两个VPC中的实例可以彼此通信，就像在同一个网络中一样。两个对等的VPC不能具有CIDR块重叠的CIDR块。 ·ELB：·Elastic Load Balancing 弹性负载均衡， 在多个 Amazon EC2 实例之间自动分配应用程序的传入流量，软件负载均衡。 在同一区域可用区实例之间实现均衡 根据用户定义的运行状况检查检测状况欠佳的实例 SSL终端支持自动一证书 ·EC2：·Elastic Compute Cloud 一种 Web 服务，云计算服务平台，用于计算相当于一个虚拟机，可以在云中提供安全并且大小可调的计算容量。该服务旨在让开发人员能够更轻松地进行 Web 规模的云计算。让使用者可以租用云端电脑运行所需应用的系统。类型：C3计算优化、R3内存优化、G2 GPU优化、I2 HS1存储优化 ENI：弹性网络接口，创建的EC2实例具有的虚拟网络接口，具有属性如下：MAC地址、主要私有IP地址，一个或多个次要私有IP地址、每个私有IP地址都有弹性EIP、公有IP地址、安全组、目标检查标记、说明。使用案例：创建管理网络；许可身份验证；在VPC中使用网络和安全性设备 EIP：专为动态云计算设计的静态IP地址，EIP与AWS账号关联，而不是与特定实例关联；而公有IP地址也称为动态IP地址与实例相关。 IGW：整体网关 ALB：Application Load Balancer ALB是位于OSI模型第七层的负载均衡器，因此它能根据网络包的内容将该网络包路由到不同的后端服务。现有的负载均衡器多是位于OSI模型第四层的TCP/UDP均衡器。与这些均衡器不同的是，ALB将检查网络包的内容，并将该网络包发送给适当的服务。当前，ALB支持基于URL对路由流量定义多至十条的独立规则。 Amazon CloudWatch是一项针对 AWS 云资源和在 AWS 上运行的应用程序进行监控的服务。CPU 使用率、数据传输和磁盘使用活动等，弹性负载均衡器、Amazon SQS 队列、Amazon SNS 主题等更多 Amazon CloudFront 是一种全球内容分发网络 (CDN) 服务，用于内容传输，可以安全地以低延迟和高传输速度向浏览者分发数据、视频、应用程序和 API。建或修改现有 AWS CloudFormation 模板。一个描述了您的所有资源及其属性的模板。 Amazon Simple Storage Service (Amazon S3)对象存储，使您能够轻松实用地大规模收集、存储和分析数据，而不管格式如何。S3 是专为从任意位置存储和检索任意大小的数据而构建的对象存储，包括来自网站和移动应用程序、公司应用程序的数据以及来自 IoT 传感器或设备的数据。S3可与CloudFront(CDN)结合使用，可以利用分布式网络给边远地区加速 一个对象的大小可以达到5TB 每个对象存储在存储桶中，通过开发人员分配的唯一密钥进行检索 无限的存储、无限的对象 原生在线HTTP/S访问 通过在同一区域不同可用区间进行复制，持久性 面对Internet的对象存储 Amazon Route 53是一种可用性高、可扩展性强的云域名系统 (DNS) Web 服务，用于DNS域名服务。 IAM：Identity and Access Management“身份识别与访问管理”，身份管理 DMZ英文“demilitarized zone”的缩写，中文名称为“隔离区”，也称“非军事化区”。它是为了解决安装防火墙后外部网络的访问用户不能访问内部网络服务器的问题，而设立的一个非安全系统与安全系统之间的缓冲区。该缓冲区位于企业内部网络和外部网络之间的小网络区域内。在这个小网络区域内可以放置一些必须公开的服务器设施，如企业Web服务器、FTP服务器和论坛等。另一方面，通过这样一个DMZ区域，更加有效地保护了内部网络。因为这种网络部署，比起一般的防火墙方案，对来自外网的攻击者来说又多了一道关卡。 本地存储本地存储适合临时存储不断变化的信息（如缓冲区、缓存、暂存数据和其他临时内容），或者在实例机群内复制的数据。 EBS数据块存储 Elastic Block Store，相当于虚拟机硬盘，最大为1TB。实例依靠虚拟网络连接装载，持久性存储，可以重新附加在其他的EC2实例，利用快照实现，一个EC2实例可以有多个EBS卷，但是多个EC2不能共享卷。应用场景：简单硬盘设备；经常更改数据；对原始、未格式化数据块级别存储的访问权。 EBS快照存储在S3中 RDSAmazon Relational Database Service (Amazon RDS) 是一种可让用户在云中轻松设置、操作和扩展关系数据库的 Web 服务。它在管理耗时的数据库管理任务的同时，提供经济实用的可调容量，使您能够腾出时间专注于应用程序和业务。 RDS 让您能够访问非常熟悉的 MySQL、MariaDB、Oracle、Microsoft SQL Server 或 PostgreSQL 数据库引擎的功能。 AWS Elastic Beanstalk是一项易于使用的服务，用于在熟悉的服务器（例如 Apache 、Nginx、Passenger 和 IIS）上部署和扩展使用 Java、.NET、PHP、Node.js、Python、Ruby、GO 和 Docker 开发的 Web 应用程序和服务。上传代码，Elastic Beanstalk 即可自动处理从容量预置、负载均衡、自动扩展到应用程序运行状况监控的部署。同时，您能够完全控制为应用程序提供支持的 AWS 资源，并可随时访问基础资源。 AWS SQS、SNS、SWF消息发送各个工作流用 Amazon ElastiCache缓存 Amazon Glacier存档，将设置了生命周期规则（如90天）的S3存档，成本极低的存档存储服务，能够提供高耐久性存储，极低成本存储，允许在3-5小时内检索数据。可以利用Storage Gateway进行场外备份 安全性SSL加密型终端节点、AES-256自动加密数据、IAM策略指定账户中的哪些用户有权对特定文件库执行操作 Amazon Simple Email Service电子邮件Auto Scaling自动扩大或缩小Amazon EC2容量；响应需求峰值；当需求下降时，削减不需要的实例以节省费用；根据一天中的时间、按指标或通过API自动扩展 AMI亚马逊系统映像，提供启动实例所需的信息 AWS Direct Connect建立从本地设施到Amazon VPC的专用网络链接，建立AWS和数据中心、办公室或托管环境之间建立私有连接。 MSDNMicrosoft Developer Network用来帮助开发人员使用Microsoft产品和技术]]></content>
@@ -424,6 +426,18 @@
       </categories>
       <tags>
         <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[article title]]></title>
+    <url>%2Fhexoblog%2F2017%2F08%2F12%2Farticle-title%2F</url>
+    <content type="text"><![CDATA[Welcome to dclarken’s page!8.12 is my first day for writing!First of all,I want to say thank you to my best friends :Dachang,Hongwei,Jingchang,Xidun,Yue,YunhaoBest wishes to all of you!]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>freinds</tag>
       </tags>
   </entry>
   <entry>

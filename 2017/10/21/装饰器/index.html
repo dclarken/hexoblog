@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="笔记,AWS,架构," />
+  <meta name="keywords" content="笔记,python,装饰器," />
 
 
 
@@ -79,20 +79,17 @@
 
 
 
-<meta name="description" content="文档教程位置 AWS整体架构 ·VPC：·私有网络AWS 云中逻辑隔离的虚拟网络。从所选的范围内定义 VPC 的 IP 地址空间  对VPC的IP寻CIDR块的控制 为您的VPC CIDR块划分子网的能力 网络访问控制列表 多个IP地址和多个弹性网络接口（ENI）的分配 通过私有连接将VPC和现场IT基础设施连接  ·常见的路由：·路由表的将决定子网的功能  IGW：提供对internet的访问，">
-<meta name="keywords" content="笔记,AWS,架构">
+<meta name="keywords" content="笔记,python,装饰器">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AWS简称及基本架构介绍">
-<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/08/12/AWS简称及基本架构介绍/index.html">
+<meta property="og:title" content="装饰器">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/10/21/装饰器/index.html">
 <meta property="og:site_name" content="Lander Blog">
-<meta property="og:description" content="文档教程位置 AWS整体架构 ·VPC：·私有网络AWS 云中逻辑隔离的虚拟网络。从所选的范围内定义 VPC 的 IP 地址空间  对VPC的IP寻CIDR块的控制 为您的VPC CIDR块划分子网的能力 网络访问控制列表 多个IP地址和多个弹性网络接口（ENI）的分配 通过私有连接将VPC和现场IT基础设施连接  ·常见的路由：·路由表的将决定子网的功能  IGW：提供对internet的访问，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.loli.net/2017/10/21/59ea9bac76764.png">
-<meta property="og:updated_time" content="2017-10-21T00:59:18.730Z">
+<meta property="og:image" content="https://i.loli.net/2017/10/27/59f2a591c7383.jpg">
+<meta property="og:updated_time" content="2017-10-27T03:19:22.268Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AWS简称及基本架构介绍">
-<meta name="twitter:description" content="文档教程位置 AWS整体架构 ·VPC：·私有网络AWS 云中逻辑隔离的虚拟网络。从所选的范围内定义 VPC 的 IP 地址空间  对VPC的IP寻CIDR块的控制 为您的VPC CIDR块划分子网的能力 网络访问控制列表 多个IP地址和多个弹性网络接口（ENI）的分配 通过私有连接将VPC和现场IT基础设施连接  ·常见的路由：·路由表的将决定子网的功能  IGW：提供对internet的访问，">
-<meta name="twitter:image" content="https://i.loli.net/2017/10/21/59ea9bac76764.png">
+<meta name="twitter:title" content="装饰器">
+<meta name="twitter:image" content="https://i.loli.net/2017/10/27/59f2a591c7383.jpg">
 
 
 
@@ -122,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/08/12/AWS简称及基本架构介绍/"/>
+  <link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/10/21/装饰器/"/>
 
 
 
 
 
-  <title>AWS简称及基本架构介绍 | Lander Blog</title>
+  <title>装饰器 | Lander Blog</title>
   
 
 
@@ -311,7 +308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/08/12/AWS简称及基本架构介绍/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/10/21/装饰器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Daichao">
@@ -328,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">AWS简称及基本架构介绍</h1>
+          <h1 class="post-title" itemprop="name headline">装饰器</h1>
         
 
         <div class="post-meta">
@@ -340,8 +337,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-12T00:08:12+08:00">
-                2017-08-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-21T00:08:12+08:00">
+                2017-10-21
               </time>
             
 
@@ -374,8 +371,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/笔记/AWS/" itemprop="url" rel="index">
-                    <span itemprop="name">AWS</span>
+                  <a href="/hexoblog/categories/笔记/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
                   </a>
                 </span>
 
@@ -414,62 +411,39 @@
       
 
       
-        <p><img src="https://i.loli.net/2017/10/21/59ea9bac76764.png" alt="tu"><br><a href="https://aws.amazon.com/cn/documentation/" target="_blank" rel="external">文档教程位置</a></p>
-<p><code>AWS整体架构</code></p>
-<p>·VPC：·<br>私有网络AWS 云中逻辑隔离的虚拟网络。从所选的范围内定义 VPC 的 IP 地址空间</p>
-<ul>
-<li>对VPC的IP寻CIDR块的控制</li>
-<li>为您的VPC CIDR块划分子网的能力</li>
-<li>网络访问控制列表</li>
-<li>多个IP地址和多个弹性网络接口（ENI）的分配</li>
-<li>通过私有连接将VPC和现场IT基础设施连接</li>
-</ul>
-<p>·常见的路由：·<br>路由表的将决定子网的功能</p>
-<ul>
-<li>IGW：提供对internet的访问，公有子网带通过IGW实现进/出站internet连接</li>
-<li>VGW：提供对数据中心的访问，虚拟专用网关</li>
-<li>NAT 网关：一项高度可用的托管网络地址转换 (NAT) 服务，可便于私有子网中的资源访问 Internet，可以在官方AMI上直接启动NAT网关实例，私有子网通过公有子网中运行NAT的Amazon EC2实例实现的出战Internet连接。</li>
-<li>VPC对等：与NACL和安全组一起维护VPC的安全，允许在对等VPC之间路由流量，这样两个VPC中的实例可以彼此通信，就像在同一个网络中一样。两个对等的VPC不能具有CIDR块重叠的CIDR块。</li>
-</ul>
-<p>·ELB：·<br>Elastic Load Balancing 弹性负载均衡，</p>
-<ul>
-<li>在多个 Amazon EC2 实例之间自动分配应用程序的传入流量，软件负载均衡。</li>
-<li>在同一区域可用区实例之间实现均衡</li>
-<li>根据用户定义的运行状况检查检测状况欠佳的实例</li>
-<li>SSL终端支持自动一证书</li>
-</ul>
-<p>·EC2：·<br>Elastic Compute Cloud  一种 Web 服务，云计算服务平台，用于计算相当于一个虚拟机，可以在云中提供安全并且大小可调的计算容量。该服务旨在让开发人员能够更轻松地进行 Web 规模的云计算。让使用者可以租用云端电脑运行所需应用的系统。<br>类型：C3计算优化、R3内存优化、G2 GPU优化、I2  HS1存储优化</p>
-<p><code>ENI：</code><br>弹性网络接口，创建的EC2实例具有的虚拟网络接口，具有属性如下：MAC地址、主要私有IP地址，一个或多个次要私有IP地址、每个私有IP地址都有弹性EIP、公有IP地址、安全组、目标检查标记、说明。使用案例：创建管理网络；许可身份验证；在VPC中使用网络和安全性设备</p>
-<p><code>EIP：</code><br>专为动态云计算设计的静态IP地址，EIP与AWS账号关联，而不是与特定实例关联；而公有IP地址也称为动态IP地址与实例相关。</p>
-<p><code>IGW：</code><br>整体网关</p>
-<p><code>ALB：</code><br>Application Load Balancer ALB是位于OSI模型第七层的负载均衡器，因此它能根据网络包的内容将该网络包路由到不同的后端服务。现有的负载均衡器多是位于OSI模型第四层的TCP/UDP均衡器。与这些均衡器不同的是，ALB将检查网络包的内容，并将该网络包发送给适当的服务。当前，ALB支持基于URL对路由流量定义多至十条的独立规则。</p>
-<p><code>Amazon CloudWatch</code><br>是一项针对 AWS 云资源和在 AWS 上运行的应用程序进行监控的服务。CPU 使用率、数据传输和磁盘使用活动等，弹性负载均衡器、Amazon SQS 队列、Amazon SNS 主题等更多</p>
-<p><code>Amazon CloudFront</code><br> 是一种全球内容分发网络 (CDN) 服务，用于内容传输，可以安全地以低延迟和高传输速度向浏览者分发数据、视频、应用程序和 API。建或修改现有 AWS CloudFormation 模板。一个描述了您的所有资源及其属性的模板。</p>
-<p> <code>Amazon Simple Storage Service (Amazon S3)</code>对象存储，使您能够轻松实用地大规模收集、存储和分析数据，而不管格式如何。S3 是专为从任意位置存储和检索任意大小的数据而构建的对象存储，包括来自网站和移动应用程序、公司应用程序的数据以及来自 IoT 传感器或设备的数据。S3可与CloudFront(CDN)结合使用，可以利用分布式网络给边远地区加速</p>
-<ul>
-<li>一个对象的大小可以达到5TB</li>
-<li>每个对象存储在存储桶中，通过开发人员分配的唯一密钥进行检索</li>
-<li>无限的存储、无限的对象</li>
-<li>原生在线HTTP/S访问</li>
-<li>通过在同一区域不同可用区间进行复制，持久性</li>
-<li>面对Internet的对象存储</li>
-</ul>
-<p><code>Amazon Route 53</code><br>是一种可用性高、可扩展性强的云域名系统 (DNS) Web 服务，用于DNS域名服务。</p>
-<p><code>IAM：Identity and Access Management</code><br>“身份识别与访问管理”，身份管理</p>
-<p><code>DMZ</code><br>英文“demilitarized zone”的缩写，中文名称为“隔离区”，也称“非军事化区”。它是为了解决安装防火墙后外部网络的访问用户不能访问内部网络服务器的问题，而设立的一个非安全系统与安全系统之间的缓冲区。该缓冲区位于企业内部网络和外部网络之间的小网络区域内。在这个小网络区域内可以放置一些必须公开的服务器设施，如企业Web服务器、FTP服务器和论坛等。另一方面，通过这样一个DMZ区域，更加有效地保护了内部网络。因为这种网络部署，比起一般的防火墙方案，对来自外网的攻击者来说又多了一道关卡。</p>
-<p><code>本地存储</code><br>本地存储适合临时存储不断变化的信息（如缓冲区、缓存、暂存数据和其他临时内容），或者在实例机群内复制的数据。</p>
-<p><code>EBS</code><br>数据块存储 Elastic Block Store，相当于虚拟机硬盘，最大为1TB。实例依靠虚拟网络连接装载，持久性存储，可以重新附加在其他的EC2实例，利用快照实现，一个EC2实例可以有多个EBS卷，但是多个EC2不能共享卷。应用场景：简单硬盘设备；经常更改数据；对原始、未格式化数据块级别存储的访问权。</p>
-<p><code>EBS快照</code><br>存储在S3中</p>
-<p><code>RDS</code><br>Amazon Relational Database Service (Amazon RDS) 是一种可让用户在云中轻松设置、操作和扩展关系数据库的 Web 服务。它在管理耗时的数据库管理任务的同时，提供经济实用的可调容量，使您能够腾出时间专注于应用程序和业务。 RDS 让您能够访问非常熟悉的 MySQL、MariaDB、Oracle、Microsoft SQL Server 或 PostgreSQL 数据库引擎的功能。</p>
-<p><code>AWS Elastic Beanstalk</code><br>是一项易于使用的服务，用于在熟悉的服务器（例如 Apache 、Nginx、Passenger 和 IIS）上部署和扩展使用 Java、.NET、PHP、Node.js、Python、Ruby、GO 和 Docker 开发的 Web 应用程序和服务。上传代码，Elastic Beanstalk 即可自动处理从容量预置、负载均衡、自动扩展到应用程序运行状况监控的部署。同时，您能够完全控制为应用程序提供支持的 AWS 资源，并可随时访问基础资源。</p>
-<p><code>AWS SQS、SNS、SWF</code><br>消息发送各个工作流用</p>
-<p><code>Amazon ElastiCache</code><br>缓存</p>
-<p><code>Amazon Glacier</code><br>存档，将设置了生命周期规则（如90天）的S3存档，成本极低的存档存储服务，能够提供高耐久性存储，极低成本存储，允许在3-5小时内检索数据。可以利用Storage Gateway进行场外备份</p>
-<p><code>安全性</code><br>SSL加密型终端节点、AES-256自动加密数据、IAM策略指定账户中的哪些用户有权对特定文件库执行操作</p>
-<p><code>Amazon Simple Email Service</code><br>电子邮件<br><code>Auto Scaling</code><br>自动扩大或缩小Amazon EC2容量；响应需求峰值；当需求下降时，削减不需要的实例以节省费用；根据一天中的时间、按指标或通过API自动扩展</p>
-<p><code>AMI</code><br>亚马逊系统映像，提供启动实例所需的信息</p>
-<p><code>AWS Direct Connect</code><br>建立从本地设施到Amazon VPC的专用网络链接，建立AWS和数据中心、办公室或托管环境之间建立私有连接。</p>
-<p><code>MSDN</code><br>Microsoft Developer Network用来帮助开发人员使用Microsoft产品和技术</p>
+        <p><img src="https://i.loli.net/2017/10/27/59f2a591c7383.jpg" alt="mahua"><br><a id="more"></a></p>
+<p><a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014318435599930270c0381a3b44db991cd6d858064ac0000" target="_blank" rel="external">本文转载至廖雪峰装饰器资料</a><br>该文对装饰器的解释比较利于理解。<br>由于函数也是一个对象，而且函数对象可以被赋值给变量，所以，通过变量也能调用该函数。<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; def now():</div><div class="line">...     <span class="keyword">print</span>(<span class="string">'2015-3-25'</span>)</div><div class="line">...</div><div class="line">&gt;&gt;&gt; <span class="keyword">f</span> = now</div><div class="line">&gt;&gt;&gt; <span class="keyword">f</span>()</div><div class="line"><span class="number">2015</span>-<span class="number">3</span>-<span class="number">25</span></div></pre></td></tr></table></figure></p>
+<p>函数对象有一个<strong>name</strong>属性，可以拿到函数的名字：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; now.__name__</div><div class="line"><span class="string">'now'</span></div><div class="line">&gt;&gt;&gt; <span class="keyword">f</span>.__name__</div><div class="line"><span class="string">'now'</span></div></pre></td></tr></table></figure>
+<p>现在，假设我们要增强now()函数的功能，比如，在函数调用前后自动打印日志，但又不希望修改now()函数的定义，这种在代码运行期间动态增加功能的方式，称之为“装饰器”（Decorator）。</p>
+<p>本质上，decorator就是一个返回函数的高阶函数。所以，我们要定义一个能打印日志的decorator，可以定义如下：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">def <span class="built_in">log</span>(func):</div><div class="line">    def wrapper(*<span class="keyword">args</span>, **kw):</div><div class="line">        <span class="keyword">print</span>(<span class="string">'call %s():'</span> % func.__name__)</div><div class="line">        <span class="keyword">return</span> func(*<span class="keyword">args</span>, **kw)</div><div class="line">    <span class="keyword">return</span> wrapper</div></pre></td></tr></table></figure>
+<p>观察上面的log，因为它是一个decorator，所以接受一个函数作为参数，并返回一个函数。我们要借助Python的@语法，把decorator置于函数的定义处：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@log</div><div class="line">def now():</div><div class="line">    <span class="keyword">print</span>(<span class="string">'2015-3-25'</span>)</div></pre></td></tr></table></figure>
+<p>调用now()函数，不仅会运行now()函数本身，还会在运行now()函数前打印一行日志：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; now()</div><div class="line"><span class="keyword">call</span> now():</div><div class="line"><span class="number">2015</span>-<span class="number">3</span>-<span class="number">25</span></div></pre></td></tr></table></figure>
+<p>把@log放到now()函数的定义处，相当于执行了语句：</p>
+<p>now = log(now)<br>由于log()是一个decorator，返回一个函数，所以，原来的now()函数仍然存在，只是现在同名的now变量指向了新的函数，于是调用now()将执行新函数，即在log()函数中返回的wrapper()函数。</p>
+<p>wrapper()函数的参数定义是(<em>args, **kw)，因此，wrapper()函数可以接受任意参数的调用，支持一维数组\</em>args以及二维数组**kw。在wrapper()函数内，首先打印日志，再紧接着调用原始函数。</p>
+<p>如果decorator本身需要传入参数，那就需要编写一个返回decorator的高阶函数，写出来会更复杂。比如，要自定义log的文本：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">def <span class="built_in">log</span>(text):</div><div class="line">    def decorator(func):</div><div class="line">        def wrapper(*<span class="keyword">args</span>, **kw):</div><div class="line">            <span class="keyword">print</span>(<span class="string">'%s %s():'</span> % (text, func.__name__))</div><div class="line">            <span class="keyword">return</span> func(*<span class="keyword">args</span>, **kw)</div><div class="line">        <span class="keyword">return</span> wrapper</div><div class="line">    <span class="keyword">return</span> decorator</div></pre></td></tr></table></figure>
+<p>这个3层嵌套的decorator用法如下：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@log(<span class="string">'execute'</span>)</div><div class="line">def now():</div><div class="line">    <span class="keyword">print</span>(<span class="string">'2015-3-25'</span>)</div></pre></td></tr></table></figure>
+<p>执行结果如下：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; now()</div><div class="line"><span class="keyword">execute</span> now():</div><div class="line"><span class="number">2015</span>-<span class="number">3</span>-<span class="number">25</span></div></pre></td></tr></table></figure>
+<p>和两层嵌套的decorator相比，3层嵌套的效果是这样的：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; now = <span class="built_in">log</span>(<span class="string">'execute'</span>)(now)</div></pre></td></tr></table></figure>
+<p>我们来剖析上面的语句，首先执行log(‘execute’)，返回的是decorator函数，再调用返回的函数，参数是now函数，返回值最终是wrapper函数。</p>
+<p>以上两种decorator的定义都没有问题，但还差最后一步。因为我们讲了函数也是对象，它有<strong>name</strong>等属性，但你去看经过decorator装饰之后的函数，它们的<strong>name</strong>已经从原来的’now’变成了’wrapper’：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; now.__name__</div><div class="line"><span class="string">'wrapper'</span></div></pre></td></tr></table></figure>
+<p>因为返回的那个wrapper()函数名字就是’wrapper’，所以，需要把原始函数的<strong>name</strong>等属性复制到wrapper()函数中，否则，有些依赖函数签名的代码执行就会出错。</p>
+<p>不需要编写wrapper.<strong>name</strong> = func.<strong>name</strong>这样的代码，Python内置的functools.wraps就是干这个事的，所以，一个完整的decorator的写法如下：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">import functools</div><div class="line"></div><div class="line">def <span class="built_in">log</span>(func):</div><div class="line">    @functools.wraps(func)</div><div class="line">    def wrapper(*<span class="keyword">args</span>, **kw):</div><div class="line">        <span class="keyword">print</span>(<span class="string">'call %s():'</span> % func.__name__)</div><div class="line">        <span class="keyword">return</span> func(*<span class="keyword">args</span>, **kw)</div><div class="line">    <span class="keyword">return</span> wrapper</div></pre></td></tr></table></figure>
+<p>或者针对带参数的decorator：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">import functools</div><div class="line"></div><div class="line">def <span class="built_in">log</span>(text):</div><div class="line">    def decorator(func):</div><div class="line">        @functools.wraps(func)</div><div class="line">        def wrapper(*<span class="keyword">args</span>, **kw):</div><div class="line">            <span class="keyword">print</span>(<span class="string">'%s %s():'</span> % (text, func.__name__))</div><div class="line">            <span class="keyword">return</span> func(*<span class="keyword">args</span>, **kw)</div><div class="line">        <span class="keyword">return</span> wrapper</div><div class="line">    <span class="keyword">return</span> decorator</div></pre></td></tr></table></figure>
+<p>import functools是导入functools模块。模块的概念稍候讲解。现在，只需记住在定义wrapper()的前面加上@functools.wraps(func)即可。</p>
+<p>小结</p>
+<p>在面向对象（OOP）的设计模式中，decorator被称为装饰模式。OOP的装饰模式需要通过继承和组合来实现，而Python除了能支持OOP的decorator外，直接从语法层次支持decorator。Python的decorator可以用函数实现，也可以用类实现。<br>decorator可以增强函数的功能，定义起来虽然有点复杂，但使用起来非常灵活和方便。</p>
 
       
     </div>
@@ -489,9 +463,9 @@
           
             <a href="/hexoblog/tags/笔记/" rel="tag"># 笔记</a>
           
-            <a href="/hexoblog/tags/AWS/" rel="tag"># AWS</a>
+            <a href="/hexoblog/tags/python/" rel="tag"># python</a>
           
-            <a href="/hexoblog/tags/架构/" rel="tag"># 架构</a>
+            <a href="/hexoblog/tags/装饰器/" rel="tag"># 装饰器</a>
           
         </div>
       
@@ -504,8 +478,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/hexoblog/2017/08/12/title/" rel="next" title="title">
-                <i class="fa fa-chevron-left"></i> title
+              <a href="/hexoblog/2017/10/20/Git基础教程/" rel="next" title="Git基础教程">
+                <i class="fa fa-chevron-left"></i> Git基础教程
               </a>
             
           </div>
@@ -513,10 +487,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/hexoblog/2017/08/12/四七层模型协议比较/" rel="prev" title="四七层模型协议比较">
-                四七层模型协议比较 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
