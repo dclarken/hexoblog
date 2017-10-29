@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Lander Blog">
 <meta property="og:description" content="配置文件 轮询均衡策略的配置  12345ProxyPass /balancer://proxy/      #注意这里以&quot;/&quot;结尾&amp;lt;Proxy balancer://proxy&amp;gt;      BalancerMember http://192.168.6.37:6888/      BalancerMember http://192.168.6.38:6888/&amp;lt;/Proxy&amp;g">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-29T13:47:47.451Z">
+<meta property="og:updated_time" content="2017-10-29T13:48:58.971Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Apache负载均衡">
 <meta name="twitter:description" content="配置文件 轮询均衡策略的配置  12345ProxyPass /balancer://proxy/      #注意这里以&quot;/&quot;结尾&amp;lt;Proxy balancer://proxy&amp;gt;      BalancerMember http://192.168.6.37:6888/      BalancerMember http://192.168.6.38:6888/&amp;lt;/Proxy&amp;g">
@@ -419,7 +419,7 @@
 <ul>
 <li>按权重分配均衡策略的配置</li>
 </ul>
-<p>ProxyPass /balancer://proxy/       ProxyPass / balancer://proxy/协议地址可以随便定义。<br>ProxyPass指令允许你将一个远端服务器映射到本地服务器的URL空间中，此时本地服务器并不充当代理角色，而是充当远程服务器的一个镜像。path是一个本地虚拟路径名，url是一个指向远程服务器的部分URL，并且不允许包含查询字符串。<br>ProxyPass文档：来自 <a href="http://www.jinbuguo.com/apache/menu22/mod/mod_proxy.html#proxypass" target="_blank" rel="external">http://www.jinbuguo.com/apache/menu22/mod/mod_proxy.html#proxypass</a> </p>
+<p>ProxyPass /balancer://proxy/       ProxyPass / balancer://proxy/协议地址可以随便定义。<br>ProxyPass指令允许你将一个远端服务器映射到本地服务器的URL空间中，此时本地服务器并不充当代理角色，而是充当远程服务器的一个镜像。path是一个本地虚拟路径名，url是一个指向远程服务器的部分URL，并且不允许包含查询字符串。<br><a href="http://www.jinbuguo.com/apache/menu22/mod/mod_proxy.html#proxypass" target="_blank" rel="external">ProxyPass文档</a></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;Proxy balancer://proxy&gt;</div><div class="line">       BalancerMember http://<span class="number">192.168</span>.<span class="number">6.37</span>:<span class="number">6888</span>/ loadfactor=<span class="number">3</span></div><div class="line">       BalancerMember http://<span class="number">192.168</span>.<span class="number">6.38</span>:<span class="number">6888</span>/ loadfactor=<span class="number">1</span></div><div class="line">&lt;/Proxy&gt;</div></pre></td></tr></table></figure>
 <p>参数”loadfactor”表示后台服务器负载到由Apache发送请求的权值,该值默认为1，可以将该值设置为1到100之间的任何值。</p>
 <ul>
