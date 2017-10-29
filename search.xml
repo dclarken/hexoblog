@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Apache负载均衡]]></title>
+    <url>%2Fhexoblog%2F2017%2F10%2F22%2FApache%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%2F</url>
+    <content type="text"><![CDATA[配置文件 轮询均衡策略的配置 12345ProxyPass /balancer://proxy/ #注意这里以"/"结尾&lt;Proxy balancer://proxy&gt; BalancerMember http://192.168.6.37:6888/ BalancerMember http://192.168.6.38:6888/&lt;/Proxy&gt; 按权重分配均衡策略的配置 ProxyPass /balancer://proxy/ ProxyPass / balancer://proxy/协议地址可以随便定义。ProxyPass指令允许你将一个远端服务器映射到本地服务器的URL空间中，此时本地服务器并不充当代理角色，而是充当远程服务器的一个镜像。path是一个本地虚拟路径名，url是一个指向远程服务器的部分URL，并且不允许包含查询字符串。ProxyPass文档：来自 http://www.jinbuguo.com/apache/menu22/mod/mod_proxy.html#proxypass 1234&lt;Proxy balancer://proxy&gt; BalancerMember http://192.168.6.37:6888/ loadfactor=3 BalancerMember http://192.168.6.38:6888/ loadfactor=1&lt;/Proxy&gt; 参数”loadfactor”表示后台服务器负载到由Apache发送请求的权值,该值默认为1，可以将该值设置为1到100之间的任何值。 权重请求响应负载均衡策略的配置 12345ProxyPass / balancer://proxy/ lbmethod=bytraffic 理解为LB的参数是流量&lt;Proxy balancer://proxy&gt; BalancerMember http://192.168.6.37:6888/ loadfactor=3 BalancerMember http://192.168.6.38:6888/ loadfactor=1&lt;/Proxy&gt; 参数“lbmethod=bytraffic”表示后台服务器负载请求和响应的字节数，处理字节数的多少是以权值的方式来表示的。(1)均衡配置，(2)是以请求数作为权重负载均衡的，(3)是以流量为权重负载均衡的，这是最大的区别。lbmethod表示负载均衡的算法,lbmethod可能的取值有： lbmethod=byrequests 按照请求次数均衡(默认) lbmethod=bytraffic 按照流量均衡，权重表示处理的比特流数据的权重 lbmethod=bybusyness 按照繁忙程度均衡(总是分配给活跃请求数最少的服务器) httpd.conf 配置文件分为3个部分 Httpd.conf文件的路径：/etc/httpd/conf/httpd.conf或者/usr/local/apache2/conf/httpd.conf分别对应的是RPM包安装和源码包安装两种安装方式的配置文件位置第一部分：服务器全局环境配置第二部分：本地服务器响应外部请求的处理方式的配置第三部分：虚拟主机的配置 主要配置过程1、查看是否有mod_proxy_http.so、mod_proxy_balancer.so、mod_proxy.so三个模块 1$ll /usr/local/apache2/modules mod_proxy是一种分工合作的的形式，通过主服务器跳转到各台主机负责不同的任务而实现任务分工，这种形式不能实现负载均衡，只能提供主服务器的访问跳转Apache模块mod_proxy文档Apache的代理功能(除mod_proxy以外)被划分到了几个不同的模块中：mod_proxy_http, mod_proxy_ftp, mod_proxy_ajp, mod_proxy_balancer, mod_proxy_connect 。这样，如果想使用一个或多个代理功能，就必须将mod_proxy和对应的模块同时加载到服务器中(静态连接或用LoadModule动态加载)。mod_proxy_balancer是mod_proxy的扩展，提供负载平衡支持，通过mod_proxy_balancer.so包实现负载平衡，公司生产服务器暂时就采用这种方式，粗略查看该文档发现，apache的balancer模块支持论询方式的负载均衡。apache模块mod_proxy_balancer文档 2、加载模块 apache模块安装：来自 http://unixboy.iteye.com/blog/577981 该模块可以是apache自己所拥有的模块 ，也可以是第三方模块。加载第三方模块的方法： 编译并安装已发布的Apache模块或者第三方模块，比如编译mod_foo.c为mod_foo.so的DSO模块，利用GCC编译的相关知识如：./configure 、 make install等 配置Apache以便以后安装共享模块 用apxs在Apache源码树以外编译并安装第三方模块，如：/apxs -c -i 共享模块编译完毕后，必须在httpd.conf中用LoadModule指令使Apache启用该模块，如： LoadModule proxy_module Apxs-Apache扩展工具Apache DSO模块原理 apxs是一个为Apache HTTP服务器编译和安装扩展模块的工具，用于编译一个或多个源程序或目标代码文件为动态共享对象，使之可以用由mod_so提供的LoadModule指令在运行时加载到Apache服务器中。DSO究竟是什么？事实上DSO是Dynamic SharedObjects（动态共享目标）的缩写，它是现代Unix派生出来的操作系统都存在着的一种动态连接机制。它提供了一种在运行时将特殊格式的代码，在程序运行需要时，将需要的部分从外存调入内存执行的方法。-c：属于 DSO编译选项此选项表示需要执行编译操作。它首先会编译C源程序(.c)files为对应的目标代码文件(.o)，然后连接这些目标代码和files中其余的目标代码文件(.o和.a)，以生成动态共享对象dsofile 。如果没有指定 -o 选项，则此输出文件名由files中的第一个文件名推测得到，也就是默认为mod_name.so 。-i：DSO的安装和配置选项此选项表示需要执行安装操作，以安装一个或多个动态共享对象到服务器的modules目录中。 1234# cd /usr/local/src/httpd-2.2.23/modules/proxy/# /usr/local/apache2/bin/apxs -c -i mod_proxy.c proxy_util.c# /usr/local/apache2/bin/apxs -c -i mod_proxy_balancer.c# /usr/local/apache2/bin/apxs -c -i mod_proxy_http.c 3、修改http.conf配置文件 1234567891011# vim /usr/local/apache2/conf/httpd.conf LoadModule proxy_module modules/mod_proxy.so LoadModule proxy_connect_module modules/mod_proxy_connect.so LoadModule proxy_balancer_module modules/mod_proxy_balancer.so LoadModule proxy_http_module modules/mod_proxy_http.so ProxyRequests Off &lt;Proxy balancer://clusterphpinfo&gt; BalancerMember http://10.0.2.203:80 loadfactor=1;BalancerMember 及其后面的URL表示要配置的后台服务器、test表示该服务器下的项目名称 BalancerMember http://10.0.2.204:80 loadfactor=1;参数”loadfactor”表示后台服务器负载到由Apache发送请求的权值,该值默认为1 &lt;/Proxy&gt; ProxyPass / balancer://clusterphpinfo 用于做反向代理的配置，一般开启ProxyPass，ProxyRequests应该设置为off，即为关闭正向代理请求。 4、重启httpd服务 1# service httpd restart或者利用apachectl控制台操作# apachectl httpd restart 5、通过apache将后端服务器做出主从,只需要在从服务器后面添加status=+H 12# vim /usr/local/apache2/conf/httpd.conf BalancerMember http://10.0.2.204:80 loadfactor=1 status=+H 热备份(Hot Standby) ：热备份的实现很简单，只需添加 status=+H 属性，就可以把某台服务器指定为备份服务器：请求总是流向服务器，一旦服务器挂掉，Apache会检测到错误并把请求分流给备份服务器。Apache会每隔几分钟检测一下原服务器的状况，如果原服务器恢复，就继续使用原服务器。 参考资料：Apache负载均衡的实现Apache负载均衡之Apache Proxy方式Apache负载均衡策略（轮询方式）Apache策略原则apache模块mod_proxy_balancer文档]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>Linux</tag>
+        <tag>apache</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[装饰器]]></title>
     <url>%2Fhexoblog%2F2017%2F10%2F21%2F%E8%A3%85%E9%A5%B0%E5%99%A8%2F</url>
     <content type="text"><![CDATA[本文转载至廖雪峰装饰器资料该文对装饰器的解释比较利于理解。由于函数也是一个对象，而且函数对象可以被赋值给变量，所以，通过变量也能调用该函数。123456&gt;&gt;&gt; def now():... print('2015-3-25')...&gt;&gt;&gt; f = now&gt;&gt;&gt; f()2015-3-25 函数对象有一个name属性，可以拿到函数的名字： 1234&gt;&gt;&gt; now.__name__'now'&gt;&gt;&gt; f.__name__'now' 现在，假设我们要增强now()函数的功能，比如，在函数调用前后自动打印日志，但又不希望修改now()函数的定义，这种在代码运行期间动态增加功能的方式，称之为“装饰器”（Decorator）。 本质上，decorator就是一个返回函数的高阶函数。所以，我们要定义一个能打印日志的decorator，可以定义如下： 12345def log(func): def wrapper(*args, **kw): print('call %s():' % func.__name__) return func(*args, **kw) return wrapper 观察上面的log，因为它是一个decorator，所以接受一个函数作为参数，并返回一个函数。我们要借助Python的@语法，把decorator置于函数的定义处： 123@logdef now(): print('2015-3-25') 调用now()函数，不仅会运行now()函数本身，还会在运行now()函数前打印一行日志： 123&gt;&gt;&gt; now()call now():2015-3-25 把@log放到now()函数的定义处，相当于执行了语句： now = log(now)由于log()是一个decorator，返回一个函数，所以，原来的now()函数仍然存在，只是现在同名的now变量指向了新的函数，于是调用now()将执行新函数，即在log()函数中返回的wrapper()函数。 wrapper()函数的参数定义是(args, **kw)，因此，wrapper()函数可以接受任意参数的调用，支持一维数组\args以及二维数组**kw。在wrapper()函数内，首先打印日志，再紧接着调用原始函数。 如果decorator本身需要传入参数，那就需要编写一个返回decorator的高阶函数，写出来会更复杂。比如，要自定义log的文本： 1234567def log(text): def decorator(func): def wrapper(*args, **kw): print('%s %s():' % (text, func.__name__)) return func(*args, **kw) return wrapper return decorator 这个3层嵌套的decorator用法如下： 123@log('execute')def now(): print('2015-3-25') 执行结果如下： 123&gt;&gt;&gt; now()execute now():2015-3-25 和两层嵌套的decorator相比，3层嵌套的效果是这样的： 1&gt;&gt;&gt; now = log('execute')(now) 我们来剖析上面的语句，首先执行log(‘execute’)，返回的是decorator函数，再调用返回的函数，参数是now函数，返回值最终是wrapper函数。 以上两种decorator的定义都没有问题，但还差最后一步。因为我们讲了函数也是对象，它有name等属性，但你去看经过decorator装饰之后的函数，它们的name已经从原来的’now’变成了’wrapper’，但是在装饰器函数当中，now.name是正常的，只有在经过乐装饰器函数之后，函数名字发生了变化： 12&gt;&gt;&gt; now.__name__'wrapper' 因为返回的那个wrapper()函数名字就是’wrapper’，所以，需要把原始函数的name等属性复制到wrapper()函数中，否则，有些依赖函数签名的代码执行就会出错。 不需要编写wrapper.name = func.name这样的代码，Python内置的functools.wraps就是干这个事的，所以，一个完整的decorator的写法如下： 12345678import functoolsdef log(func): @functools.wraps(func) def wrapper(*args, **kw): print('call %s():' % func.__name__) return func(*args, **kw) return wrapper 或者针对带参数的decorator： 12345678910import functoolsdef log(text): def decorator(func): @functools.wraps(func) def wrapper(*args, **kw): print('%s %s():' % (text, func.__name__)) return func(*args, **kw) return wrapper return decorator import functools是导入functools模块。模块的概念稍候讲解。现在，只需记住在定义wrapper()的前面加上@functools.wraps(func)即可。 小结 在面向对象（OOP）的设计模式中，decorator被称为装饰模式。OOP的装饰模式需要通过继承和组合来实现，而Python除了能支持OOP的decorator外，直接从语法层次支持decorator。Python的decorator可以用函数实现，也可以用类实现。decorator可以增强函数的功能，定义起来虽然有点复杂，但使用起来非常灵活和方便。 样例学习： 1234567891011121314151617181920212223242526272829303132#coding:utf-8import functoolsdef log(text): def decorator(func): @functools.wraps(func) def wrapper(*args, **kw): if hasattr(text, '__call__'): print('%s():' % (func.__name__)) else: print('%s %s():' % (text, func.__name__)) func(*args, **kw) print('end\n') return wrapper if hasattr(text, '__call__'): return decorator(text) else: return decorator@logdef newnow(): print('这是不带参数的')@log("I'm 参数。")def newnow2(): print('带了参数') newnow()print(newnow.__name__)newnow2()print(newnow2.__name__) 结果：newnow():这是不带参数的end I’m 参数。 newnow2():带了参数end]]></content>
@@ -199,19 +213,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[贪心算法饭店招待问题]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F14%2F%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E9%A5%AD%E5%BA%97%E6%8B%9B%E5%BE%85%E9%97%AE%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[问题描述：某餐馆有n张桌子，每张桌子有一个参数：a 可容纳的最大人数； 有m批客人，每批客人有两个参数:b人数，c预计消费金额。在不允许拼桌的情况下，请实现一个算法选择其中一部分客人，使得总预计消费金额最大 基本思路：桌子序列升序排列，客人按照预定花钱多少降序排序，然后贪心法从钱多的客人开始招呼。在遍历能容得下第i批客人的时候需要二分查找去找否则超时。 输入：3 52 4 21 33 53 75 91 10输出：20 1234567891011121314151617181920212223242526272829303132333435363738394041#coding:utf-8def main(): n,m=[int(i) for i in raw_input().split()] a=[int(i) for i in raw_input().split()] guest=[] for i in range(m): guest.append([int(i) for i in raw_input().split()]) print(func(n,m,a,guest))def func(n,m,a,guest): a.sort() value = 0 count = 0 guest.sort(key=lambda x:x[1], reverse=True) i = 0 j = 0 while i &lt; m: index=search(a,guest[i][0]) if index&gt;0: j = j+1 value +=guest[i][1] del a[index] if j == n: break i=i+1 return valuedef search(nums,target): if target&lt;=nums[0]: return 0 if target&gt;nums[-1]: return -1 l=0 r=len(nums)-1 while (l+1)!=r: mid=(l+r)/2 if target&lt;=nums[mid]: r=mid else: l=mid return rmain()]]></content>
-      <categories>
-        <category>code</category>
-        <category>贪心</category>
-      </categories>
-      <tags>
-        <tag>code</tag>
-        <tag>贪心</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Docker内核知识——Cgroup控制组]]></title>
     <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94Cgroup%E6%8E%A7%E5%88%B6%E7%BB%84%2F</url>
     <content type="text"><![CDATA[Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太多的资源而影响到其它进程；另一方面，在系统资源耗尽的时候，linux 内核会触发 OOM，这会让一些被杀掉的进程成了无辜的替死鬼。因此，为了让容器中的进程更加可控，Docker 使用 Linux cgroups 来限制容器中的进程允许使用的系统资源。Linux Cgroup 可​​​让​​​您​​​为​​​系​​​统​​​中​​​所​​​运​​​行​​​任​​​务​​​（进​​​程​​​）的​​​用​​​户​​​定​​​义​​​组​​​群​​​分​​​配​​​资​​​源​​​ — 比​​​如​​​ CPU 时​​​间​​​、​​​系​​​统​​​内​​​存​​​、​​​网​​​络​​​带​​​宽​​​或​​​者​​​这​​​些​​​资​​​源​​​的​​​组​​​合​​​。​​​您​​​可​​​以​​​监​​​控​​​您​​​配​​​置​​​的​​​ cgroup，拒​​​绝​​​ cgroup 访​​​问​​​某​​​些​​​资​​​源​​​，甚​​​至​​​在​​​运​​​行​​​的​​​系​​​统​​​中​​​动​​​态​​​配​​​置​​​您​​​的​​​ cgroup。所以，可以将 controll groups 理解为 controller （system resource） （for） （process）groups，也就是是说它以一组进程为目标进行系统资源分配和控制。功能： Resource limitation: 限制资源使用，比如内存使用上限以及文件系统的缓存限制。 Prioritization: 优先级控制，比如：CPU利用和磁盘IO吞吐。 Accounting: 一些审计或一些统计，主要目的是为了计费。 Control: 挂起进程，恢复执行进程。 使​​​用​​​ cgroup，系​​​统​​​管​​​理​​​员​​​可​​​更​​​具​​​体​​​地​​​控​​​制​​​对​​​系​​​统​​​资​​​源​​​的​​​分​​​配​​​、​​​优​​​先​​​顺​​​序​​​、​​​拒​​​绝​​​、​​​管​​​理​​​和​​​监​​​控​​​。​​​可​​​更​​​好​​​地​​​根​​​据​​​任​​​务​​​和​​​用​​​户​​​分​​​配​​​硬​​​件​​​资​​​源​​​，提​​​高​​​总​​​体​​​效​​​率​​​。 在实践中：系统管理员一般会利用CGroup做下面这些事（有点像为某个虚拟机分配资源似的）： 隔离一个进程集合（比如：nginx的所有进程），并限制他们所消费的资源，比如绑定CPU的核。 为这组进程分配其足够使用的内存 为这组进程分配相应的网络带宽和磁盘存储限制 限制访问某些设备（通过设置设备的白名单） 子系统说明cgroups 实现了对资源的配额和度量。cgroups 的使用非常简单，提供类似文件的接口，在 /cgroup目录下新建一个文件夹即可新建一个group，在此文件夹中新建task文件，并将pid写入该文件，即可实现对该进程的资源控制。groups可以限制blkio、cpu、cpuacct、cpuset、devices、freezer、memory、net_cls、ns九大子系统的资源，以下是每个子系统的详细说明： blkio 这个子系统设置限制每个块设备的输入输出控制。例如:磁盘，光盘以及usb等等。 cpu 这个子系统使用调度程序为cgroup任务提供cpu的访问。 cpuacct 产生cgroup任务的cpu资源报告。 cpuset 如果是多核心的cpu，这个子系统会为cgroup任务分配单独的cpu和内存。 devices 允许或拒绝cgroup任务对设备的访问。 freezer 暂停和恢复cgroup任务。 memory 设置每个cgroup的内存限制以及产生内存资源报告。 net_cls 标记每个网络包以供cgroup方便使用。 ns 名称空间子系统。 参考资料]]></content>
@@ -223,6 +224,19 @@
         <tag>笔记</tag>
         <tag>docker</tag>
         <tag>内核</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[贪心算法饭店招待问题]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F14%2F%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E9%A5%AD%E5%BA%97%E6%8B%9B%E5%BE%85%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[问题描述：某餐馆有n张桌子，每张桌子有一个参数：a 可容纳的最大人数； 有m批客人，每批客人有两个参数:b人数，c预计消费金额。在不允许拼桌的情况下，请实现一个算法选择其中一部分客人，使得总预计消费金额最大 基本思路：桌子序列升序排列，客人按照预定花钱多少降序排序，然后贪心法从钱多的客人开始招呼。在遍历能容得下第i批客人的时候需要二分查找去找否则超时。 输入：3 52 4 21 33 53 75 91 10输出：20 1234567891011121314151617181920212223242526272829303132333435363738394041#coding:utf-8def main(): n,m=[int(i) for i in raw_input().split()] a=[int(i) for i in raw_input().split()] guest=[] for i in range(m): guest.append([int(i) for i in raw_input().split()]) print(func(n,m,a,guest))def func(n,m,a,guest): a.sort() value = 0 count = 0 guest.sort(key=lambda x:x[1], reverse=True) i = 0 j = 0 while i &lt; m: index=search(a,guest[i][0]) if index&gt;0: j = j+1 value +=guest[i][1] del a[index] if j == n: break i=i+1 return valuedef search(nums,target): if target&lt;=nums[0]: return 0 if target&gt;nums[-1]: return -1 l=0 r=len(nums)-1 while (l+1)!=r: mid=(l+r)/2 if target&lt;=nums[mid]: r=mid else: l=mid return rmain()]]></content>
+      <categories>
+        <category>code</category>
+        <category>贪心</category>
+      </categories>
+      <tags>
+        <tag>code</tag>
+        <tag>贪心</tag>
       </tags>
   </entry>
   <entry>
@@ -415,17 +429,15 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[AWS简称及基本架构介绍]]></title>
-    <url>%2Fhexoblog%2F2017%2F08%2F12%2FAWS%E7%AE%80%E7%A7%B0%E5%8F%8A%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D%2F</url>
-    <content type="text"><![CDATA[文档教程位置 AWS整体架构 ·VPC：·私有网络AWS 云中逻辑隔离的虚拟网络。从所选的范围内定义 VPC 的 IP 地址空间 对VPC的IP寻CIDR块的控制 为您的VPC CIDR块划分子网的能力 网络访问控制列表 多个IP地址和多个弹性网络接口（ENI）的分配 通过私有连接将VPC和现场IT基础设施连接 ·常见的路由：·路由表的将决定子网的功能 IGW：提供对internet的访问，公有子网带通过IGW实现进/出站internet连接 VGW：提供对数据中心的访问，虚拟专用网关 NAT 网关：一项高度可用的托管网络地址转换 (NAT) 服务，可便于私有子网中的资源访问 Internet，可以在官方AMI上直接启动NAT网关实例，私有子网通过公有子网中运行NAT的Amazon EC2实例实现的出战Internet连接。 VPC对等：与NACL和安全组一起维护VPC的安全，允许在对等VPC之间路由流量，这样两个VPC中的实例可以彼此通信，就像在同一个网络中一样。两个对等的VPC不能具有CIDR块重叠的CIDR块。 ·ELB：·Elastic Load Balancing 弹性负载均衡， 在多个 Amazon EC2 实例之间自动分配应用程序的传入流量，软件负载均衡。 在同一区域可用区实例之间实现均衡 根据用户定义的运行状况检查检测状况欠佳的实例 SSL终端支持自动一证书 ·EC2：·Elastic Compute Cloud 一种 Web 服务，云计算服务平台，用于计算相当于一个虚拟机，可以在云中提供安全并且大小可调的计算容量。该服务旨在让开发人员能够更轻松地进行 Web 规模的云计算。让使用者可以租用云端电脑运行所需应用的系统。类型：C3计算优化、R3内存优化、G2 GPU优化、I2 HS1存储优化 ENI：弹性网络接口，创建的EC2实例具有的虚拟网络接口，具有属性如下：MAC地址、主要私有IP地址，一个或多个次要私有IP地址、每个私有IP地址都有弹性EIP、公有IP地址、安全组、目标检查标记、说明。使用案例：创建管理网络；许可身份验证；在VPC中使用网络和安全性设备 EIP：专为动态云计算设计的静态IP地址，EIP与AWS账号关联，而不是与特定实例关联；而公有IP地址也称为动态IP地址与实例相关。 IGW：整体网关 ALB：Application Load Balancer ALB是位于OSI模型第七层的负载均衡器，因此它能根据网络包的内容将该网络包路由到不同的后端服务。现有的负载均衡器多是位于OSI模型第四层的TCP/UDP均衡器。与这些均衡器不同的是，ALB将检查网络包的内容，并将该网络包发送给适当的服务。当前，ALB支持基于URL对路由流量定义多至十条的独立规则。 Amazon CloudWatch是一项针对 AWS 云资源和在 AWS 上运行的应用程序进行监控的服务。CPU 使用率、数据传输和磁盘使用活动等，弹性负载均衡器、Amazon SQS 队列、Amazon SNS 主题等更多 Amazon CloudFront 是一种全球内容分发网络 (CDN) 服务，用于内容传输，可以安全地以低延迟和高传输速度向浏览者分发数据、视频、应用程序和 API。建或修改现有 AWS CloudFormation 模板。一个描述了您的所有资源及其属性的模板。 Amazon Simple Storage Service (Amazon S3)对象存储，使您能够轻松实用地大规模收集、存储和分析数据，而不管格式如何。S3 是专为从任意位置存储和检索任意大小的数据而构建的对象存储，包括来自网站和移动应用程序、公司应用程序的数据以及来自 IoT 传感器或设备的数据。S3可与CloudFront(CDN)结合使用，可以利用分布式网络给边远地区加速 一个对象的大小可以达到5TB 每个对象存储在存储桶中，通过开发人员分配的唯一密钥进行检索 无限的存储、无限的对象 原生在线HTTP/S访问 通过在同一区域不同可用区间进行复制，持久性 面对Internet的对象存储 Amazon Route 53是一种可用性高、可扩展性强的云域名系统 (DNS) Web 服务，用于DNS域名服务。 IAM：Identity and Access Management“身份识别与访问管理”，身份管理 DMZ英文“demilitarized zone”的缩写，中文名称为“隔离区”，也称“非军事化区”。它是为了解决安装防火墙后外部网络的访问用户不能访问内部网络服务器的问题，而设立的一个非安全系统与安全系统之间的缓冲区。该缓冲区位于企业内部网络和外部网络之间的小网络区域内。在这个小网络区域内可以放置一些必须公开的服务器设施，如企业Web服务器、FTP服务器和论坛等。另一方面，通过这样一个DMZ区域，更加有效地保护了内部网络。因为这种网络部署，比起一般的防火墙方案，对来自外网的攻击者来说又多了一道关卡。 本地存储本地存储适合临时存储不断变化的信息（如缓冲区、缓存、暂存数据和其他临时内容），或者在实例机群内复制的数据。 EBS数据块存储 Elastic Block Store，相当于虚拟机硬盘，最大为1TB。实例依靠虚拟网络连接装载，持久性存储，可以重新附加在其他的EC2实例，利用快照实现，一个EC2实例可以有多个EBS卷，但是多个EC2不能共享卷。应用场景：简单硬盘设备；经常更改数据；对原始、未格式化数据块级别存储的访问权。 EBS快照存储在S3中 RDSAmazon Relational Database Service (Amazon RDS) 是一种可让用户在云中轻松设置、操作和扩展关系数据库的 Web 服务。它在管理耗时的数据库管理任务的同时，提供经济实用的可调容量，使您能够腾出时间专注于应用程序和业务。 RDS 让您能够访问非常熟悉的 MySQL、MariaDB、Oracle、Microsoft SQL Server 或 PostgreSQL 数据库引擎的功能。 AWS Elastic Beanstalk是一项易于使用的服务，用于在熟悉的服务器（例如 Apache 、Nginx、Passenger 和 IIS）上部署和扩展使用 Java、.NET、PHP、Node.js、Python、Ruby、GO 和 Docker 开发的 Web 应用程序和服务。上传代码，Elastic Beanstalk 即可自动处理从容量预置、负载均衡、自动扩展到应用程序运行状况监控的部署。同时，您能够完全控制为应用程序提供支持的 AWS 资源，并可随时访问基础资源。 AWS SQS、SNS、SWF消息发送各个工作流用 Amazon ElastiCache缓存 Amazon Glacier存档，将设置了生命周期规则（如90天）的S3存档，成本极低的存档存储服务，能够提供高耐久性存储，极低成本存储，允许在3-5小时内检索数据。可以利用Storage Gateway进行场外备份 安全性SSL加密型终端节点、AES-256自动加密数据、IAM策略指定账户中的哪些用户有权对特定文件库执行操作 Amazon Simple Email Service电子邮件Auto Scaling自动扩大或缩小Amazon EC2容量；响应需求峰值；当需求下降时，削减不需要的实例以节省费用；根据一天中的时间、按指标或通过API自动扩展 AMI亚马逊系统映像，提供启动实例所需的信息 AWS Direct Connect建立从本地设施到Amazon VPC的专用网络链接，建立AWS和数据中心、办公室或托管环境之间建立私有连接。 MSDNMicrosoft Developer Network用来帮助开发人员使用Microsoft产品和技术]]></content>
+    <title><![CDATA[article title]]></title>
+    <url>%2Fhexoblog%2F2017%2F08%2F12%2Farticle-title%2F</url>
+    <content type="text"><![CDATA[Welcome to dclarken’s page!8.12 is my first day for writing!First of all,I want to say thank you to my best friends :Dachang,Hongwei,Jingchang,Xidun,Yue,YunhaoBest wishes to all of you!]]></content>
       <categories>
-        <category>笔记</category>
-        <category>AWS</category>
+        <category>随笔</category>
       </categories>
       <tags>
-        <tag>笔记</tag>
-        <tag>AWS</tag>
-        <tag>架构</tag>
+        <tag>随笔</tag>
+        <tag>freinds</tag>
       </tags>
   </entry>
   <entry>
@@ -440,15 +452,17 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[article title]]></title>
-    <url>%2Fhexoblog%2F2017%2F08%2F12%2Farticle-title%2F</url>
-    <content type="text"><![CDATA[Welcome to dclarken’s page!8.12 is my first day for writing!First of all,I want to say thank you to my best friends :Dachang,Hongwei,Jingchang,Xidun,Yue,YunhaoBest wishes to all of you!]]></content>
+    <title><![CDATA[AWS简称及基本架构介绍]]></title>
+    <url>%2Fhexoblog%2F2017%2F08%2F12%2FAWS%E7%AE%80%E7%A7%B0%E5%8F%8A%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D%2F</url>
+    <content type="text"><![CDATA[文档教程位置 AWS整体架构 ·VPC：·私有网络AWS 云中逻辑隔离的虚拟网络。从所选的范围内定义 VPC 的 IP 地址空间 对VPC的IP寻CIDR块的控制 为您的VPC CIDR块划分子网的能力 网络访问控制列表 多个IP地址和多个弹性网络接口（ENI）的分配 通过私有连接将VPC和现场IT基础设施连接 ·常见的路由：·路由表的将决定子网的功能 IGW：提供对internet的访问，公有子网带通过IGW实现进/出站internet连接 VGW：提供对数据中心的访问，虚拟专用网关 NAT 网关：一项高度可用的托管网络地址转换 (NAT) 服务，可便于私有子网中的资源访问 Internet，可以在官方AMI上直接启动NAT网关实例，私有子网通过公有子网中运行NAT的Amazon EC2实例实现的出战Internet连接。 VPC对等：与NACL和安全组一起维护VPC的安全，允许在对等VPC之间路由流量，这样两个VPC中的实例可以彼此通信，就像在同一个网络中一样。两个对等的VPC不能具有CIDR块重叠的CIDR块。 ·ELB：·Elastic Load Balancing 弹性负载均衡， 在多个 Amazon EC2 实例之间自动分配应用程序的传入流量，软件负载均衡。 在同一区域可用区实例之间实现均衡 根据用户定义的运行状况检查检测状况欠佳的实例 SSL终端支持自动一证书 ·EC2：·Elastic Compute Cloud 一种 Web 服务，云计算服务平台，用于计算相当于一个虚拟机，可以在云中提供安全并且大小可调的计算容量。该服务旨在让开发人员能够更轻松地进行 Web 规模的云计算。让使用者可以租用云端电脑运行所需应用的系统。类型：C3计算优化、R3内存优化、G2 GPU优化、I2 HS1存储优化 ENI：弹性网络接口，创建的EC2实例具有的虚拟网络接口，具有属性如下：MAC地址、主要私有IP地址，一个或多个次要私有IP地址、每个私有IP地址都有弹性EIP、公有IP地址、安全组、目标检查标记、说明。使用案例：创建管理网络；许可身份验证；在VPC中使用网络和安全性设备 EIP：专为动态云计算设计的静态IP地址，EIP与AWS账号关联，而不是与特定实例关联；而公有IP地址也称为动态IP地址与实例相关。 IGW：整体网关 ALB：Application Load Balancer ALB是位于OSI模型第七层的负载均衡器，因此它能根据网络包的内容将该网络包路由到不同的后端服务。现有的负载均衡器多是位于OSI模型第四层的TCP/UDP均衡器。与这些均衡器不同的是，ALB将检查网络包的内容，并将该网络包发送给适当的服务。当前，ALB支持基于URL对路由流量定义多至十条的独立规则。 Amazon CloudWatch是一项针对 AWS 云资源和在 AWS 上运行的应用程序进行监控的服务。CPU 使用率、数据传输和磁盘使用活动等，弹性负载均衡器、Amazon SQS 队列、Amazon SNS 主题等更多 Amazon CloudFront 是一种全球内容分发网络 (CDN) 服务，用于内容传输，可以安全地以低延迟和高传输速度向浏览者分发数据、视频、应用程序和 API。建或修改现有 AWS CloudFormation 模板。一个描述了您的所有资源及其属性的模板。 Amazon Simple Storage Service (Amazon S3)对象存储，使您能够轻松实用地大规模收集、存储和分析数据，而不管格式如何。S3 是专为从任意位置存储和检索任意大小的数据而构建的对象存储，包括来自网站和移动应用程序、公司应用程序的数据以及来自 IoT 传感器或设备的数据。S3可与CloudFront(CDN)结合使用，可以利用分布式网络给边远地区加速 一个对象的大小可以达到5TB 每个对象存储在存储桶中，通过开发人员分配的唯一密钥进行检索 无限的存储、无限的对象 原生在线HTTP/S访问 通过在同一区域不同可用区间进行复制，持久性 面对Internet的对象存储 Amazon Route 53是一种可用性高、可扩展性强的云域名系统 (DNS) Web 服务，用于DNS域名服务。 IAM：Identity and Access Management“身份识别与访问管理”，身份管理 DMZ英文“demilitarized zone”的缩写，中文名称为“隔离区”，也称“非军事化区”。它是为了解决安装防火墙后外部网络的访问用户不能访问内部网络服务器的问题，而设立的一个非安全系统与安全系统之间的缓冲区。该缓冲区位于企业内部网络和外部网络之间的小网络区域内。在这个小网络区域内可以放置一些必须公开的服务器设施，如企业Web服务器、FTP服务器和论坛等。另一方面，通过这样一个DMZ区域，更加有效地保护了内部网络。因为这种网络部署，比起一般的防火墙方案，对来自外网的攻击者来说又多了一道关卡。 本地存储本地存储适合临时存储不断变化的信息（如缓冲区、缓存、暂存数据和其他临时内容），或者在实例机群内复制的数据。 EBS数据块存储 Elastic Block Store，相当于虚拟机硬盘，最大为1TB。实例依靠虚拟网络连接装载，持久性存储，可以重新附加在其他的EC2实例，利用快照实现，一个EC2实例可以有多个EBS卷，但是多个EC2不能共享卷。应用场景：简单硬盘设备；经常更改数据；对原始、未格式化数据块级别存储的访问权。 EBS快照存储在S3中 RDSAmazon Relational Database Service (Amazon RDS) 是一种可让用户在云中轻松设置、操作和扩展关系数据库的 Web 服务。它在管理耗时的数据库管理任务的同时，提供经济实用的可调容量，使您能够腾出时间专注于应用程序和业务。 RDS 让您能够访问非常熟悉的 MySQL、MariaDB、Oracle、Microsoft SQL Server 或 PostgreSQL 数据库引擎的功能。 AWS Elastic Beanstalk是一项易于使用的服务，用于在熟悉的服务器（例如 Apache 、Nginx、Passenger 和 IIS）上部署和扩展使用 Java、.NET、PHP、Node.js、Python、Ruby、GO 和 Docker 开发的 Web 应用程序和服务。上传代码，Elastic Beanstalk 即可自动处理从容量预置、负载均衡、自动扩展到应用程序运行状况监控的部署。同时，您能够完全控制为应用程序提供支持的 AWS 资源，并可随时访问基础资源。 AWS SQS、SNS、SWF消息发送各个工作流用 Amazon ElastiCache缓存 Amazon Glacier存档，将设置了生命周期规则（如90天）的S3存档，成本极低的存档存储服务，能够提供高耐久性存储，极低成本存储，允许在3-5小时内检索数据。可以利用Storage Gateway进行场外备份 安全性SSL加密型终端节点、AES-256自动加密数据、IAM策略指定账户中的哪些用户有权对特定文件库执行操作 Amazon Simple Email Service电子邮件Auto Scaling自动扩大或缩小Amazon EC2容量；响应需求峰值；当需求下降时，削减不需要的实例以节省费用；根据一天中的时间、按指标或通过API自动扩展 AMI亚马逊系统映像，提供启动实例所需的信息 AWS Direct Connect建立从本地设施到Amazon VPC的专用网络链接，建立AWS和数据中心、办公室或托管环境之间建立私有连接。 MSDNMicrosoft Developer Network用来帮助开发人员使用Microsoft产品和技术]]></content>
       <categories>
-        <category>随笔</category>
+        <category>笔记</category>
+        <category>AWS</category>
       </categories>
       <tags>
-        <tag>随笔</tag>
-        <tag>freinds</tag>
+        <tag>笔记</tag>
+        <tag>AWS</tag>
+        <tag>架构</tag>
       </tags>
   </entry>
   <entry>
