@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="配置文件 轮询均衡策略的配置  12345ProxyPass /balancer://proxy/      #注意这里以&quot;/&quot;结尾&amp;lt;Proxy balancer://proxy&amp;gt;      BalancerMember http://192.168.6.37:6888/      BalancerMember http://192.168.6.38:6888/&amp;lt;/Proxy&amp;g">
 <meta name="keywords" content="笔记,Linux,apache">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Apache负载均衡">
 <meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/10/12/Apache负载均衡/index.html">
 <meta property="og:site_name" content="Lander Blog">
-<meta property="og:description" content="配置文件 轮询均衡策略的配置  12345ProxyPass /balancer://proxy/      #注意这里以&quot;/&quot;结尾&amp;lt;Proxy balancer://proxy&amp;gt;      BalancerMember http://192.168.6.37:6888/      BalancerMember http://192.168.6.38:6888/&amp;lt;/Proxy&amp;g">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-29T13:52:51.443Z">
+<meta property="og:image" content="https://i.loli.net/2017/10/30/59f67be7cdb8c.jpg">
+<meta property="og:updated_time" content="2017-10-30T01:11:43.331Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Apache负载均衡">
-<meta name="twitter:description" content="配置文件 轮询均衡策略的配置  12345ProxyPass /balancer://proxy/      #注意这里以&quot;/&quot;结尾&amp;lt;Proxy balancer://proxy&amp;gt;      BalancerMember http://192.168.6.37:6888/      BalancerMember http://192.168.6.38:6888/&amp;lt;/Proxy&amp;g">
+<meta name="twitter:image" content="https://i.loli.net/2017/10/30/59f67be7cdb8c.jpg">
 
 
 
@@ -412,7 +411,8 @@
       
 
       
-        <h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><ul>
+        <p><img src="https://i.loli.net/2017/10/30/59f67be7cdb8c.jpg" alt="mahua"><br><a id="more"></a></p>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><ul>
 <li>轮询均衡策略的配置</li>
 </ul>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ProxyPass /balancer://proxy/      #注意这里以<span class="string">"/"</span>结尾</div><div class="line">&lt;Proxy balancer://proxy&gt;</div><div class="line">      BalancerMember http://<span class="number">192.168</span>.<span class="number">6.37</span>:<span class="number">6888</span>/</div><div class="line">      BalancerMember http://<span class="number">192.168</span>.<span class="number">6.38</span>:<span class="number">6888</span>/</div><div class="line">&lt;/Proxy&gt;</div></pre></td></tr></table></figure>
