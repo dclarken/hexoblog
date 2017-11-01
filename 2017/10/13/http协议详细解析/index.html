@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Lander Blog">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2017/11/01/59f9532f55dc8.png">
-<meta property="og:updated_time" content="2017-11-01T05:37:22.884Z">
+<meta property="og:updated_time" content="2017-11-01T05:38:23.635Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="http协议详细解析">
 <meta name="twitter:image" content="https://i.loli.net/2017/11/01/59f9532f55dc8.png">
@@ -529,7 +529,7 @@
 </li>
 <li><p>协议分析的优势—HTTP分析器检测网络攻击<br>以模块化的方式对高层协议进行分析处理，将是未来入侵检测的方向。<br>HTTP及其代理的常用端口80、3128和8080在network部分用port标签进行了规定</p>
 </li>
-<li><p>HTTP协议Content Lenth限制漏洞导致拒绝服务攻击<br>使用POST方法时，可以设置ContentLenth来定义需要传送的数据长度，例如ContentLenth:999999999，在传送完成前，内 存不会释放，攻击者可以利用这个缺陷，连续向WEB服务器发送垃圾数据直至WEB服务器内存耗尽。这种攻击方法基本不会留下痕迹。<br><a href="http://www.cnpaf.net/Class/HTTP/0532918532667330.html" target="_blank" rel="external">http://www.cnpaf.net/Class/HTTP/0532918532667330.html</a></p>
+<li><p>HTTP协议Content Lenth限制漏洞导致拒绝服务攻击<br>使用POST方法时，可以设置ContentLenth来定义需要传送的数据长度，例如ContentLenth:999999999，在传送完成前，内存不会释放，攻击者可以利用这个缺陷，连续向WEB服务器发送垃圾数据直至WEB服务器内存耗尽。这种攻击方法基本不会留下痕迹。</p>
 </li>
 <li><p>利用HTTP协议的特性进行拒绝服务攻击的一些构思<br>服务器端忙于处理攻击者伪造的TCP连接请求而无暇理睬客户的正常请求（毕竟客户端的正常请求比率非常之小），此时从正常客户的角度看来，服务器失去响应，这种情况我们称作：服务器端受到了SYNFlood攻击（SYN洪水攻击）。<br>而Smurf、TearDrop等是利用ICMP报文来Flood和IP碎片攻击的。本文用“正常连接”的方法来产生拒绝服务攻击。<br>19端口在早期已经有人用来做Chargen攻击了，即Chargen_Denial_of_Service，但是！他们用的方法是在两台Chargen 服务器之间产生UDP连接，让服务器处理过多信息而DOWN掉，那么，干掉一台WEB服务器的条件就必须有2个：1.有Chargen服务2.有HTTP 服务<br>方法：攻击者伪造源IP给N台Chargen发送连接请求（Connect），Chargen接收到连接后就会返回每秒72字节的字符流（实际上根据网络实际情况，这个速度更快）给服务器。</p>
 </li>
