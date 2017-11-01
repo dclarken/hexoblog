@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Lander Blog">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2017/11/01/59f9532f55dc8.png">
-<meta property="og:updated_time" content="2017-11-01T05:10:45.142Z">
+<meta property="og:updated_time" content="2017-11-01T05:37:22.884Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="http协议详细解析">
 <meta name="twitter:image" content="https://i.loli.net/2017/11/01/59f9532f55dc8.png">
@@ -523,7 +523,6 @@
 <figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">HTTP/1.0 <span class="number">404</span> Not Found       //请求失败</div><div class="line"><span class="attribute">Date</span>: Thu, 08 Mar 2007 07:50:50 GMT</div><div class="line"><span class="attribute">Server</span>: Apache/2.0.54 &lt;Unix&gt;</div><div class="line"><span class="attribute">Last-Modified</span>: Thu, 30 Nov 2006 11:35:41 GMT</div><div class="line"><span class="attribute">ETag</span>: "6277a-415-e7c76980"</div><div class="line"><span class="attribute">Accept-Ranges</span>: bytes</div><div class="line"><span class="attribute">X-Powered-By</span>: mod_xlayout_jh/0.0.1vhs.markII.remix</div><div class="line"><span class="attribute">Vary</span>: Accept-Encoding</div><div class="line"><span class="attribute">Content-Type</span>: text/html</div><div class="line"><span class="attribute">X-Cache</span>: MISS from zjm152-78.sina.com.cn</div><div class="line"><span class="attribute">Via</span>: 1.0 zjm152-78.sina.com.cn:80&lt;squid/2.6.STABLES-20061207&gt;</div><div class="line"><span class="attribute">X-Cache</span>: MISS from th-143.sina.com.cn</div><div class="line"><span class="attribute">Connection</span>: close</div></pre></td></tr></table></figure>
 <p>失去了跟主机的连接</p>
 <p>按任意键继续…</p>
-<p>4 .注意事项：1、出现输入错误，则请求不会成功。<br>          2、报头域不分大小写。<br>          3、更深一步了解HTTP协议，可以查看RFC2616，在<a href="http://www.letf.org/rfc上找到该文件。" target="_blank" rel="external">http://www.letf.org/rfc上找到该文件。</a><br>          4、开发后台程序必须掌握http协议</p>
 <hr>
 <h2 id="HTTP协议相关技术补充"><a href="#HTTP协议相关技术补充" class="headerlink" title="HTTP协议相关技术补充"></a>HTTP协议相关技术补充</h2><ul>
 <li><p>基础：<br>  高层协议有：文件传输协议FTP、电子邮件传输协议SMTP、域名系统服务DNS、网络新闻传输协议NNTP和HTTP协议等<br>中介由三种：代理(Proxy)、网关(Gateway)和通道(Tunnel)，一个代理根据URI的绝对格式来接受请求，重写全部或部分消息，通过 URI的标识把已格式化过的请求发送到服务器。网关是一个接收代理，作为一些其它服务器的上层，并且如果必须的话，可以把请求翻译给下层的服务器协议。一 个通道作为不改变消息的两个连接之间的中继点。当通讯需要通过一个中介(例如：防火墙等)或者是中介不能识别消息的内容时，通道经常被使用。<br>  代理(Proxy)：一个中间程序，它可以充当一个服务器，也可以充当一个客户机，为其它客户机建立请求。请求是通过可能的翻译在内部或经过传递到其它的 服务器中。一个代理在发送请求信息之前，必须解释并且如果可能重写它。代理经常作为通过防火墙的客户机端的门户，代理还可以作为一个帮助应用来通过协议处 理没有被用户代理完成的请求。<br>网关(Gateway)：一个作为其它服务器中间媒介的服务器。与代理不同的是，网关接受请求就好象对被请求的资源来说它就是源服务器；发出请求的客户机并没有意识到它在同网关打交道。<br>网关经常作为通过防火墙的服务器端的门户，网关还可以作为一个协议翻译器以便存取那些存储在非HTTP系统中的资源。<br>  通道(Tunnel)：是作为两个连接中继的中介程序。一旦激活，通道便被认为不属于HTTP通讯，尽管通道可能是被一个HTTP请求初始化的。当被中继 的连接两端关闭时，通道便消失。当一个门户(Portal)必须存在或中介(Intermediary)不能解释中继的通讯时通道被经常使用。</p>
