@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="随笔,碎片," />
+  <meta name="keywords" content="笔记,python,time," />
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="巷陌乍晴，絮飞草上，断线纸鸢醉春风。  香径里少年寻觅，小楼上伊人望空。  素月当空，烛影更阑，傻傻少年思悠悠。  想着明儿把线断，借着由儿再寻楼。">
-<meta name="keywords" content="随笔,碎片">
+<meta name="keywords" content="笔记,python,time">
 <meta property="og:type" content="article">
-<meta property="og:title" content="碎片1">
-<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/05/12/碎片1/index.html">
+<meta property="og:title" content="time模块">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/08/12/time模块/index.html">
 <meta property="og:site_name" content="Lander Blog">
-<meta property="og:description" content="巷陌乍晴，絮飞草上，断线纸鸢醉春风。  香径里少年寻觅，小楼上伊人望空。  素月当空，烛影更阑，傻傻少年思悠悠。  想着明儿把线断，借着由儿再寻楼。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-21T13:34:23.983Z">
+<meta property="og:image" content="https://i.loli.net/2017/11/01/59f9890e94a1e.jpg">
+<meta property="og:updated_time" content="2017-11-01T08:49:20.068Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="碎片1">
-<meta name="twitter:description" content="巷陌乍晴，絮飞草上，断线纸鸢醉春风。  香径里少年寻觅，小楼上伊人望空。  素月当空，烛影更阑，傻傻少年思悠悠。  想着明儿把线断，借着由儿再寻楼。">
+<meta name="twitter:title" content="time模块">
+<meta name="twitter:image" content="https://i.loli.net/2017/11/01/59f9890e94a1e.jpg">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/05/12/碎片1/"/>
+  <link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/08/12/time模块/"/>
 
 
 
 
 
-  <title>碎片1 | Lander Blog</title>
+  <title>time模块 | Lander Blog</title>
   
 
 
@@ -309,7 +308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/05/12/碎片1/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/08/12/time模块/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Daichao">
@@ -326,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">碎片1</h1>
+          <h1 class="post-title" itemprop="name headline">time模块</h1>
         
 
         <div class="post-meta">
@@ -338,8 +337,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-12T00:08:12+08:00">
-                2017-05-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-12T00:08:12+08:00">
+                2017-08-12
               </time>
             
 
@@ -361,8 +360,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
+                  <a href="/hexoblog/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
                   </a>
                 </span>
 
@@ -372,8 +371,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/随笔/碎片/" itemprop="url" rel="index">
-                    <span itemprop="name">碎片</span>
+                  <a href="/hexoblog/categories/笔记/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
                   </a>
                 </span>
 
@@ -412,10 +411,29 @@
       
 
       
-        <p>巷陌乍晴，絮飞草上，断线纸鸢醉春风。 </p>
-<p>香径里少年寻觅，小楼上伊人望空。 </p>
-<p>素月当空，烛影更阑，傻傻少年思悠悠。 </p>
-<p>想着明儿把线断，借着由儿再寻楼。</p>
+        <p><img src="https://i.loli.net/2017/11/01/59f9890e94a1e.jpg" alt="mahua"><br><a id="more"></a><br>Python时间模块之Time模块解析<br><a href="http://blog.csdn.net/SeeTheWorld518/article/details/48314501" target="_blank" rel="external">文章转载来源</a><br>time模块。<br>在开始前，先说明几点：</p>
+<ul>
+<li>在Python中，通常有这几种方式表示时间：时间戳、格式化的时间字符串、元组（struct_time 共九种元素）。由于Python的time模块主要是调用C库实现的，所以在不同的平台可能会有所不同。</li>
+<li>时间戳（timestamp）的方式：时间戳表示是从1970年1月1号 00:00:00开始到现在按秒计算的偏移量。查看一下type(time.time())的返回值类型，可以看出是float类型。返回时间戳的函数主要有time()、clock()等。</li>
+<li>UTC（世界协调时），就是格林威治天文时间，也是世界标准时间。在中国为UTC+8。DST夏令时。</li>
+<li>元组方式：struct_time元组共有9个元素，返回struct_time的函数主要有gmtime()，localtime()，strptime()。</li>
+</ul>
+<h2 id="time-localtime-获取当前的时间"><a href="#time-localtime-获取当前的时间" class="headerlink" title="time.localtime()获取当前的时间"></a>time.localtime()获取当前的时间</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> time</div><div class="line">ls = time.localtime() 获取当前的时间，其生成的ls的数据结构为具有<span class="number">9</span>个元素的元组</div><div class="line">time.struct_time(tm_year=<span class="number">2015</span>, tm_mon=<span class="number">8</span>, tm_mday=<span class="number">24</span>, tm_hour=<span class="number">9</span>, tm_min=<span class="number">39</span>, tm_sec=<span class="number">38</span>, tm_wday=<span class="number">0</span>, tm_yday=<span class="number">236</span>, tm_isdst=<span class="number">0</span>)</div><div class="line">tm_year ：年</div><div class="line">tm_mon ：月（<span class="number">1</span><span class="number">-12</span>）</div><div class="line">tm_mday ：日（<span class="number">1</span><span class="number">-31</span>）</div><div class="line">tm_hour ：时（<span class="number">0</span><span class="number">-23</span>）</div><div class="line">tm_min ：分（<span class="number">0</span><span class="number">-59</span>）</div><div class="line">tm_sec ：秒（<span class="number">0</span><span class="number">-59</span>）</div><div class="line">tm_wday ：星期几（<span class="number">0</span><span class="number">-6</span>,<span class="number">0</span>表示周日）</div><div class="line">tm_yday ：一年中的第几天（<span class="number">1</span><span class="number">-366</span>）</div><div class="line">tm_isdst ：是否是夏令时（默认为<span class="number">-1</span>）</div></pre></td></tr></table></figure>
+<p>使用元组索引获取对应项的值，或者是使用成员符号调用。<br>调用年份的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>ls[<span class="number">0</span>]</div><div class="line"><span class="number">2015</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>ls.tm_year</div><div class="line"><span class="number">2015</span></div><div class="line">time.time()：返回当前时间的时间戳</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>time.time()</div><div class="line"><span class="number">1440337405.85</span></div><div class="line"><span class="comment">#对时间戳取整</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>int(time.time())</div><div class="line"><span class="number">1440746424</span></div></pre></td></tr></table></figure>
+<h2 id="time-mktime-t-：将一个struct-time转化为时间戳"><a href="#time-mktime-t-：将一个struct-time转化为时间戳" class="headerlink" title="time.mktime(t)：将一个struct_time转化为时间戳"></a>time.mktime(t)：将一个struct_time转化为时间戳</h2><p>time.mktime() 函数执行与gmtime(), localtime()相反的操作，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>time.mktime(time.localtime())</div><div class="line"><span class="number">1440338541.0</span></div></pre></td></tr></table></figure>
+<h2 id="time-sleep-secs-：线程推迟指定的时间运行"><a href="#time-sleep-secs-：线程推迟指定的时间运行" class="headerlink" title="time.sleep(secs)：线程推迟指定的时间运行"></a>time.sleep(secs)：线程推迟指定的时间运行</h2><p>secs表示线程睡眠指定时间，单位为妙。<br>time.clock()<br>函数以浮点数计算的秒数返回当前的CPU时间。用来衡量不同程序的耗时，比time.time()更有用。在不同的系统上含义不同。在NUix系统上，它返回的是“进程时间”，它是用妙表示的浮点数（时间戳）。而在Windows中，第一次调用，返回的是进程运行时实际时间。而第二次之后的调用是自第一次调用以后到现在的运行时间。<br>返回值<br>该函数有两个功能：</p>
+<p>（1）在第一次调用的时候，返回的是程序运行的实际时间；<br>（2）第二次之后的调用，返回的是自第一次调用后,到这次调用的时间间隔在win32系统下，这个函数返回的是真实时间（wall time），而在Unix/Linux下返回的是CPU时间。</p>
+<h2 id="time-asctime-t"><a href="#time-asctime-t" class="headerlink" title="time.asctime( [t] )"></a>time.asctime( [t] )</h2><p>把一个表示时间的元组或者struct_time表示为 ‘Sun Aug 23 14:31:59 2015’ 这种形式。如果没有给参数，会将time.localtime()作为参数传入。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>time.asctime(time.gmtime())</div><div class="line"><span class="string">'Sun Aug 23 14:31:59 2015'</span></div></pre></td></tr></table></figure>
+<h2 id="time-ctime-secs"><a href="#time-ctime-secs" class="headerlink" title="time.ctime([secs])"></a>time.ctime([secs])</h2><p>把一个时间戳（按秒计算的浮点数）转化为time.asctime()的形式。如果为指定参数，将会默认使用time.time()作为参数。它的作用相当于time.asctime(time.localtime(secs)) </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>time.ctime(<span class="number">1440338541.0</span>)</div><div class="line"><span class="string">'Sun Aug 23 22:02:21 2015'</span></div></pre></td></tr></table></figure>
+<h2 id="time-strftime-format-t"><a href="#time-strftime-format-t" class="headerlink" title="time.strftime( format [, t] )"></a>time.strftime( format [, t] )</h2><p>返回字符串表示的当地时间。<br>把一个代表时间的元组或者struct_time（如由time.localtime()和time.gmtime()返回）转化为格式化的时间字符串，格式由参数format决定。如果未指定，将传入time.localtime()。如果元组中任何一个元素越界，就会抛出ValueError的异常。函数返回的是一个可读表示的本地时间的字符串。<br>参数：<br>format：格式化字符串<br>t ：可选的参数是一个struct_time对象<br>时间字符串支持的格式符号：（区分大小写）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">%a  本地星期名称的简写（如星期四为Thu）      </div><div class="line">%A  本地星期名称的全称（如星期四为Thursday）      </div><div class="line">%b  本地月份名称的简写（如八月份为agu）    </div><div class="line">%B  本地月份名称的全称（如八月份为august）       </div><div class="line">%c  本地相应的日期和时间的字符串表示（如：<span class="number">15</span>/<span class="number">08</span>/<span class="number">27</span> <span class="number">10</span>:<span class="number">20</span>:<span class="number">06</span>）       </div><div class="line">%d  一个月中的第几天（<span class="number">01</span> - <span class="number">31</span>）  </div><div class="line">%f  微妙（范围<span class="number">0.999999</span>）    </div><div class="line">%H  一天中的第几个小时（<span class="number">24</span>小时制，<span class="number">00</span> - <span class="number">23</span>）       </div><div class="line">%I  第几个小时（<span class="number">12</span>小时制，<span class="number">0</span> - <span class="number">11</span>）       </div><div class="line">%j  一年中的第几天（<span class="number">001</span> - <span class="number">366</span>）     </div><div class="line">%m  月份（<span class="number">01</span> - <span class="number">12</span>）    </div><div class="line">%M  分钟数（<span class="number">00</span> - <span class="number">59</span>）       </div><div class="line">%p  本地am或者pm的相应符      </div><div class="line">%S  秒（<span class="number">00</span> - <span class="number">61</span>）    </div><div class="line">%U  一年中的星期数。（<span class="number">00</span> - <span class="number">53</span>星期天是一个星期的开始。）第一个星期天之前的所有天数都放在第<span class="number">0</span>周。     </div><div class="line">%w  一个星期中的第几天（<span class="number">0</span> - <span class="number">6</span>，<span class="number">0</span>是星期天）    </div><div class="line">%W  和%U基本相同，不同的是%W以星期一为一个星期的开始。    </div><div class="line">%x  本地相应日期字符串（如<span class="number">15</span>/<span class="number">08</span>/<span class="number">01</span>）     </div><div class="line">%X  本地相应时间字符串（如<span class="number">08</span>:<span class="number">08</span>:<span class="number">10</span>）     </div><div class="line">%y  去掉世纪的年份（<span class="number">00</span> - <span class="number">99</span>）两个数字表示的年份       </div><div class="line">%Y  完整的年份（<span class="number">4</span>个数字表示年份）</div><div class="line">%z  与UTC时间的间隔（如果是本地时间，返回空字符串）</div><div class="line">%Z  时区的名字（如果是本地时间，返回空字符串）       </div><div class="line">%%  ‘%’字符</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>time.strftime(<span class="string">"%Y-%m-%d %H:%M:%S"</span>,  formattime)</div><div class="line"><span class="string">'2015-08-24 13:01:30'</span></div></pre></td></tr></table></figure>
+<h2 id="time-strptime-string-format"><a href="#time-strptime-string-format" class="headerlink" title="time.strptime(string[,format])"></a>time.strptime(string[,format])</h2><p>将格式字符串转化成struct_time.<br>该函数是time.strftime()函数的逆操作。time strptime() 函数根据指定的格式把一个时间字符串解析为时间元组。所以函数返回的是struct_time对象。<br>参数：<br>string ：时间字符串<br>format：格式化字符串</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>stime = <span class="string">"2015-08-24 13:01:30"</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>formattime = time.strptime(stime,<span class="string">"%Y-%m-%d %H:%M:%S"</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> formattime</div><div class="line">time.struct_time(tm_year=<span class="number">2015</span>, tm_mon=<span class="number">8</span>, tm_mday=<span class="number">24</span>, tm_hour=<span class="number">13</span>, tm_min=<span class="number">1</span>, tm_sec=<span class="number">30</span>, tm_wday=<span class="number">0</span>, tm_yday=<span class="number">236</span>, tm_isdst=<span class="number">-1</span>)</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -433,9 +451,11 @@
       
         <div class="post-tags">
           
-            <a href="/hexoblog/tags/随笔/" rel="tag"># 随笔</a>
+            <a href="/hexoblog/tags/笔记/" rel="tag"># 笔记</a>
           
-            <a href="/hexoblog/tags/碎片/" rel="tag"># 碎片</a>
+            <a href="/hexoblog/tags/python/" rel="tag"># python</a>
+          
+            <a href="/hexoblog/tags/time/" rel="tag"># time</a>
           
         </div>
       
@@ -448,14 +468,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/hexoblog/2017/08/12/title/" rel="next" title="title">
+                <i class="fa fa-chevron-left"></i> title
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/hexoblog/2017/05/12/碎片2/" rel="prev" title="碎片2">
-                碎片2 <i class="fa fa-chevron-right"></i>
+              <a href="/hexoblog/2017/08/12/AWS简称及基本架构介绍/" rel="prev" title="AWS简称及基本架构介绍">
+                AWS简称及基本架构介绍 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -504,8 +528,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -591,6 +624,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#time-localtime-获取当前的时间"><span class="nav-number">1.</span> <span class="nav-text">time.localtime()获取当前的时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-mktime-t-：将一个struct-time转化为时间戳"><span class="nav-number">2.</span> <span class="nav-text">time.mktime(t)：将一个struct_time转化为时间戳</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-sleep-secs-：线程推迟指定的时间运行"><span class="nav-number">3.</span> <span class="nav-text">time.sleep(secs)：线程推迟指定的时间运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-asctime-t"><span class="nav-number">4.</span> <span class="nav-text">time.asctime( [t] )</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-ctime-secs"><span class="nav-number">5.</span> <span class="nav-text">time.ctime([secs])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-strftime-format-t"><span class="nav-number">6.</span> <span class="nav-text">time.strftime( format [, t] )</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-strptime-string-format"><span class="nav-number">7.</span> <span class="nav-text">time.strptime(string[,format])</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
