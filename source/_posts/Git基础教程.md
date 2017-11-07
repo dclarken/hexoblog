@@ -178,6 +178,19 @@ $ git push origin master
 
 [git移动操作资料](http://www.yiibai.com/git/git_move_operation.html)
 
+## 报错--hexo g执行报错，提示缺少hexo-util
+
+```vim
+ERROR Script load failed: themes/hexo-theme-next/scripts/tags/exturl.js  
+Error: Cannot find module 'hexo-util' 
+```
+Cannot find module 'hexo-util'
+发现提示hexo-util找不到,
+执行下面命令后就可以了
+
+```vim
+npm install hexo-util --save
+```
 
 资料参考：
 [廖学峰官方网站](<https://www.liaoxuefeng.com/>)
