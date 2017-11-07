@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Lander Blog">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2017/10/27/59f2a5d1d9fee.jpg">
-<meta property="og:updated_time" content="2017-11-07T11:10:38.571Z">
+<meta property="og:updated_time" content="2017-11-07T11:14:32.854Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git基础教程">
 <meta name="twitter:image" content="https://i.loli.net/2017/10/27/59f2a5d1d9fee.jpg">
@@ -499,7 +499,7 @@
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git reset --hard HEAD^</div><div class="line">$ git reset --hard commit_id</div></pre></td></tr></table></figure>
 <p>两种回退分别用于回退上一个版本和回退到指定的版本<br>现在，你回退到了某个版本，关掉了电脑，第二天早上就后悔了，想恢复到新版本怎么办？找不到新版本的commit id怎么办？<br>在Git中，总是有后悔药可以吃的。当你用$ git reset –hard HEAD^回退到add distributed版本时，再想恢复到append GPL，就必须找到append GPL的commit id。Git提供了一个命令git reflog用来记录你的每一次命令：</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ git reflog</div><div class="line">ea34578 HEAD@&#123;<span class="number">0</span>&#125;: rese<span class="variable">t:</span> moving <span class="keyword">to</span> HEAD^</div><div class="line"><span class="number">3628164</span> HEAD@&#123;<span class="number">1</span>&#125;: commi<span class="variable">t:</span> <span class="keyword">append</span> GPL</div><div class="line">ea34578 HEAD@&#123;<span class="number">2</span>&#125;: commi<span class="variable">t:</span> <span class="built_in">add</span> distributed</div><div class="line">cb926e7 HEAD@&#123;<span class="number">3</span>&#125;: commit (initial): wrote <span class="keyword">a</span> readme <span class="keyword">file</span></div></pre></td></tr></table></figure>
-<p>终于舒了口气，第二行显示append GPL的commit id是3628164，现在，你又可以乘坐时光机回到未来了</p>
+<p>终于舒了口气，第二行显示append GPL的commit id是3628164，现在，你又可以乘坐时光机回到未来了<br>ps：在使用命令git log之后按q键可以退出log查询界面；启示：以后还是老老实实多写一点commit，起码每天要是更新的博客写一次commit也好，不然真的很难找回版本号啊</p>
 <p>资料参考：<br><a href="https://www.liaoxuefeng.com/" target="_blank" rel="external">廖学峰官方网站</a><br><a href="http://blog.csdn.net/u011471873/article/details/51462871" target="_blank" rel="external">error:failed to push some refs to ‘git@github.com:</a><br><a href="http://blog.csdn.net/u012385190/article/details/70670213" target="_blank" rel="external">error:Cannot pull with rebase</a></p>
 
       
