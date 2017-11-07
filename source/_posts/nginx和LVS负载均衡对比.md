@@ -1,5 +1,5 @@
 ---
-title: nginx和LVS负载均衡对比
+title: Nginx和LVS负载均衡对比
 date: 2017-11-02 00:08:12
 tags: [笔记,Linux,负载均衡]
 categories: [笔记,Linux]

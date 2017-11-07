@@ -6,4 +6,5 @@ categories: [笔记]
 comments: false
 ---
 ![mahua](https://i.loli.net/2017/10/20/59e958907d2d2.jpg)
+test for add and push
 <!--more-->
