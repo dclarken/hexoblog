@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="jdk下载：（java环境配置）jdk下载地址环境变量配置首先设置JAVA_HOME,点击新建，变量名：JAVA_HOME,变量值：D:\java\jdk1.7.0,即jdk安装的路径。设置CLASSPATH属性，变量名：CLASSPATH，变量值：.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;此时需要注意的是最前有.;，不能忘记，%JAVA">
+<meta name="description" content="jdk下载：（java环境配置）jdk下载地址环境变量配置首先设置JAVA_HOME,点击新建，变量名：JAVA_HOME,变量值： 1D:\java\jdk1.7.0 即jdk安装的路径。设置CLASSPATH属性，变量名：CLASSPATH，变量值： 1.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar; 此时需要注意的是最前有.;，不能忘记，">
 <meta name="keywords" content="笔记,python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jdk+eclipse+python环境搭建">
 <meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/08/15/jdk+eclipse+python环境搭建/index.html">
 <meta property="og:site_name" content="Lander Blog">
-<meta property="og:description" content="jdk下载：（java环境配置）jdk下载地址环境变量配置首先设置JAVA_HOME,点击新建，变量名：JAVA_HOME,变量值：D:\java\jdk1.7.0,即jdk安装的路径。设置CLASSPATH属性，变量名：CLASSPATH，变量值：.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;此时需要注意的是最前有.;，不能忘记，%JAVA">
+<meta property="og:description" content="jdk下载：（java环境配置）jdk下载地址环境变量配置首先设置JAVA_HOME,点击新建，变量名：JAVA_HOME,变量值： 1D:\java\jdk1.7.0 即jdk安装的路径。设置CLASSPATH属性，变量名：CLASSPATH，变量值： 1.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar; 此时需要注意的是最前有.;，不能忘记，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-20T09:42:20.387Z">
+<meta property="og:updated_time" content="2017-11-09T03:15:25.132Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jdk+eclipse+python环境搭建">
-<meta name="twitter:description" content="jdk下载：（java环境配置）jdk下载地址环境变量配置首先设置JAVA_HOME,点击新建，变量名：JAVA_HOME,变量值：D:\java\jdk1.7.0,即jdk安装的路径。设置CLASSPATH属性，变量名：CLASSPATH，变量值：.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;此时需要注意的是最前有.;，不能忘记，%JAVA">
+<meta name="twitter:description" content="jdk下载：（java环境配置）jdk下载地址环境变量配置首先设置JAVA_HOME,点击新建，变量名：JAVA_HOME,变量值： 1D:\java\jdk1.7.0 即jdk安装的路径。设置CLASSPATH属性，变量名：CLASSPATH，变量值： 1.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar; 此时需要注意的是最前有.;，不能忘记，">
 
 
 
@@ -425,7 +425,15 @@
       
 
       
-        <p>jdk下载：（java环境配置）<br><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="external">jdk下载地址</a><br>环境变量配置<br>首先设置JAVA_HOME,点击新建，变量名：JAVA_HOME,变量值：D:\java\jdk1.7.0,即jdk安装的路径。<br>设置CLASSPATH属性，变量名：CLASSPATH，变量值：.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;此时需要注意的是最前有.;，不能忘记，%JAVA_HOME%代表D:\java\jdk1.7.0此路径。<br>设置path属性，变量名：path，变量值：%java_home%\bin;%java_home%\jre\bin;，此属性一般都是有的，只需添加即可，注意分号的问题。<br>在cmd中输入命令java检测安装是成功<br>ps：%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;环境变量原本的文件内容表示的dos系统下cmd的解释器，在环境变量配置时，定义的环境变量文件名不区分大小写path=PATH。<br>eclipse：<br><a href="http://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/heliossr1/" target="_blank" rel="external">eclipse下载地址</a><br>选择的下载版本为一个zip而不是官网的exe文件，官网的文件还需要后续联网下载，网络不稳定容易失败，zip文件解压缩之后既可以使用。<br>python插件：<br>1.<br>打开eclipse——Help——add-PyDev-<a href="http://pydev.org/updates——PyDev——PyDev" target="_blank" rel="external">http://pydev.org/updates——PyDev——PyDev</a> for eclipse——下一步——重启——建立Python工程<br>上述过程同样需要上境外网络，连接VPN实施。<br>或者参考：<br>2.<br><a href="https://jingyan.baidu.com/article/cd4c2979101f02756f6e6064.html" target="_blank" rel="external">python插件下载地址</a><br><a href="http://sourceforge.net/projects/pydev/files/pydev/PyDev%204.1.0/" target="_blank" rel="external">pyDev包下载地址</a>下载PyDev 4.1.0.zip包，<br>把压缩包里面的plugins中的文件解压到Eclipse安装目录下plugins文件夹中，压缩包里面features中的文件目录也是同样操作。之后重启Eclipse。<br>检查是否已经正确安装pydev：打开Eclipse–&gt;Windows–&gt;preferences就能找到Pydev。<br>配置解释器。官网下载Python27或者Python34<br>选择Window &gt; Preferences &gt; Pydev &gt; Python Interpreter&gt;New ，继续配置解释器：Python安装在F:\Python27 路径下。单击 New，进入对话框。Interpreter Name可以随便命名，Interpreter Executable选择Python解释器python.exe，在安装文件夹下查找。而后下一步下一步。<br>建立Python工程：<br>工程建立：file-new-project-PyDev-PyDev Project-命名-finish<br>文件建立：项目名右键-new-PyDev Module（.py文件）-编写-运行Python Run</p>
+        <p>jdk下载：（java环境配置）<br><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="external">jdk下载地址</a><br>环境变量配置<br>首先设置JAVA_HOME,点击新建，变量名：JAVA_HOME,变量值：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">D:\java\jdk1.<span class="number">7.0</span></div></pre></td></tr></table></figure>
+<p>即jdk安装的路径。<br>设置CLASSPATH属性，变量名：CLASSPATH，变量值：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;</div></pre></td></tr></table></figure>
+<p>此时需要注意的是最前有.;，不能忘记，%JAVA_HOME%代表D:\java\jdk1.7.0此路径。<br>设置path属性，变量名：path，变量值：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">%java_home%\bin;%java_home%\jre\bin;</div></pre></td></tr></table></figure>
+<p>此属性一般都是有的，只需添加即可，注意分号的问题。<br>在cmd中输入命令java检测安装是成功<br>ps：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;</div></pre></td></tr></table></figure>
+<p>环境变量原本的文件内容表示的dos系统下cmd的解释器，在环境变量配置时，定义的环境变量文件名不区分大小写path=PATH。<br>eclipse：<br><a href="http://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/heliossr1/" target="_blank" rel="external">eclipse下载地址</a><br>选择的下载版本为一个zip而不是官网的exe文件，官网的文件还需要后续联网下载，网络不稳定容易失败，zip文件解压缩之后既可以使用。<br>python插件：<br>1.<br>打开eclipse——Help——add-PyDev-<a href="http://pydev.org/updates——PyDev——PyDev" target="_blank" rel="external">http://pydev.org/updates——PyDev——PyDev</a> for eclipse——下一步——重启——建立Python工程<br>上述过程同样需要上境外网络，连接VPN实施。<br>或者参考：<br>2.<br><a href="https://jingyan.baidu.com/article/cd4c2979101f02756f6e6064.html" target="_blank" rel="external">python插件下载地址</a><br><a href="http://sourceforge.net/projects/pydev/files/pydev/PyDev%204.1.0/" target="_blank" rel="external">pyDev包下载地址</a>下载PyDev 4.1.0.zip包，<br>把压缩包里面的plugins中的文件解压到Eclipse安装目录下plugins文件夹中，压缩包里面features中的文件目录也是同样操作。之后重启Eclipse。<br>检查是否已经正确安装pydev：打开Eclipse–&gt;Windows–&gt;preferences就能找到Pydev。<br>配置解释器。官网下载Python27或者Python34<br>选择Window &gt; Preferences &gt; Pydev &gt; Python Interpreter&gt;New ，继续配置解释器：Python安装在F:\Python27 路径下。单击 New，进入对话框。Interpreter Name可以随便命名，Interpreter Executable选择Python解释器python.exe，在安装文件夹下查找。而后下一步下一步。<br>建立Python工程：<br>工程建立：file-new-project-PyDev-PyDev Project-命名-finish<br>文件建立：项目名右键-new-PyDev Module（.py文件）-编写-运行Python Run</p>
 
       
     </div>
