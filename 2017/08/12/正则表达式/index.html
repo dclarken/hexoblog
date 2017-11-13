@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="#基本语法#">
 <meta name="keywords" content="笔记,python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python语法">
-<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/08/19/Python语法/index.html">
+<meta property="og:title" content="正则表达式">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/08/12/正则表达式/index.html">
 <meta property="og:site_name" content="Lander Blog">
-<meta property="og:description" content="#基本语法#">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-01T08:54:40.366Z">
+<meta property="og:image" content="http://oytystujz.bkt.clouddn.com/17-11-13/14618542.jpg">
+<meta property="og:updated_time" content="2017-11-13T02:21:17.528Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python语法">
-<meta name="twitter:description" content="#基本语法#">
+<meta name="twitter:title" content="正则表达式">
+<meta name="twitter:image" content="http://oytystujz.bkt.clouddn.com/17-11-13/14618542.jpg">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/08/19/Python语法/"/>
+  <link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/08/12/正则表达式/"/>
 
 
 
 
 
-  <title>Python语法 | Lander Blog</title>
+  <title>正则表达式 | Lander Blog</title>
   
 
 
@@ -309,7 +308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/08/19/Python语法/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/08/12/正则表达式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Daichao">
@@ -326,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Python语法</h1>
+          <h1 class="post-title" itemprop="name headline">正则表达式</h1>
         
 
         <div class="post-meta">
@@ -338,8 +337,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-19T20:46:44+08:00">
-                2017-08-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-12T00:08:12+08:00">
+                2017-08-12
               </time>
             
 
@@ -384,19 +383,6 @@
           
 
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/hexoblog/2017/08/19/Python语法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/08/19/Python语法/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
 
           
           
@@ -425,7 +411,105 @@
       
 
       
-        <p>#基本语法#</p>
+        <p><img src="http://oytystujz.bkt.clouddn.com/17-11-13/14618542.jpg" alt=""><br><a id="more"></a></p>
+<h2 id="正则表达式的概念："><a href="#正则表达式的概念：" class="headerlink" title="正则表达式的概念："></a>正则表达式的概念：</h2><ul>
+<li>使用单个字符串来描述匹配一系列符合某个句法规则的字符串</li>
+<li>是对字符串操作的一种逻辑公式</li>
+<li>应用场景：处理文本和数据</li>
+<li>一次拿出表达式和文本中的字符比较，如果每一个上都能匹配， 则匹配成功；否则匹配失败。</li>
+</ul>
+<h2 id="编写一个字符串匹配的正则表达式："><a href="#编写一个字符串匹配的正则表达式：" class="headerlink" title="编写一个字符串匹配的正则表达式："></a>编写一个字符串匹配的正则表达式：</h2><p>1.import re：正则表达式模块<br>2.尽量用原字符串即在（）内加r<br>基本语法：<br>re.match()</p>
+<table>
+<thead>
+<tr>
+<th>匹配符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.</td>
+<td>匹配任意一个字符除了\n</td>
+</tr>
+<tr>
+<td>[…]</td>
+<td>匹配任意个字符</td>
+</tr>
+<tr>
+<td>\d  \D</td>
+<td>匹配数字  非数字</td>
+</tr>
+<tr>
+<td>\w  \W</td>
+<td>匹配[a-zA-Z0-9_]任意字符</td>
+</tr>
+<tr>
+<td>\s   \S</td>
+<td>匹配空字符   非空字符</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配前一个字符0次或者无限次</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配前一个字符1次或者无限次</td>
+</tr>
+<tr>
+<td>？</td>
+<td>匹配前一个字符0次或者1次</td>
+</tr>
+<tr>
+<td>{m}  {m,n}</td>
+<td>匹配前一个字符m次或者n次</td>
+</tr>
+<tr>
+<td>*?   +?   ??</td>
+<td>匹配变成非贪婪，匹配尽可能少的字符</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配字符串的开头</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配字符串的结尾</td>
+</tr>
+<tr>
+<td>\A  \Z</td>
+<td>指定字符串匹配必须出现在开头   结尾</td>
+</tr>
+<tr>
+<td>竖杠</td>
+<td>匹配左右任意一个表达式</td>
+</tr>
+<tr>
+<td>(ab)</td>
+<td>括号中表达式作为一个分组</td>
+</tr>
+<tr>
+<td>\<number></number></td>
+<td>引用编号为num的分组匹配到的字符串</td>
+</tr>
+<tr>
+<td>(?P<name>)</name></td>
+<td>分组起一个别名</td>
+</tr>
+<tr>
+<td>(?P=name)</td>
+<td>引用别名为name的分组匹配字符串</td>
+</tr>
+</tbody>
+</table>
+<p>re模块的其他方法：</p>
+<ul>
+<li>search(parttern,string,flags=0)在一个字符串中查找匹配</li>
+<li>findalll(parttern,string,flags=0)找到匹配，返回所有匹配部分的列表</li>
+<li>sub(pattern,repl,string,count=0,flags=0)将字符串中匹配正则表达式的部分替换为其他值。repl可以是一个字符串也可以是一个函数</li>
+<li>split(pattern,string,maxsplit=0,flags=0)根据匹配分割字符串，返回分割字符串组成的列表</li>
+</ul>
+<h2 id="练习：抓取网页中的图片到本地"><a href="#练习：抓取网页中的图片到本地" class="headerlink" title="练习：抓取网页中的图片到本地"></a>练习：抓取网页中的图片到本地</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">import urllib2模块   可以用于打开网页</div><div class="line">req =urllib2.urlopen(&apos;http://www.imooc.com/course/list&apos;)指定图片的网址</div><div class="line">buf=req.read()   读取网页内容</div><div class="line">import re   加入正则表达式模块</div><div class="line">listurl=re.findall(r&apos;http:,+\.jpg&apos;,buf)   抓取图片网址</div><div class="line">i=0</div><div class="line">for url in listurl:</div><div class="line">    f=open(str(i)+&apos;.jpg&apos;,&apos;w&apos;)</div><div class="line">    req=urllib2.urlopen(url)</div><div class="line">    buf =req.read()    以列表的形式读出</div><div class="line">    f.write(buf)</div><div class="line">    i+=1</div></pre></td></tr></table></figure>
+<p>将图片文件写入到文件夹下<br>小结：抓取图片练习的难点在于如何从网站信息中查询到图片的信息</p>
 
       
     </div>
@@ -458,8 +542,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/hexoblog/2017/08/15/jdk+eclipse+python环境搭建/" rel="next" title="jdk+eclipse+python环境搭建">
-                <i class="fa fa-chevron-left"></i> jdk+eclipse+python环境搭建
+              <a href="/hexoblog/2017/08/12/title/" rel="next" title="title">
+                <i class="fa fa-chevron-left"></i> title
               </a>
             
           </div>
@@ -468,8 +552,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/hexoblog/2017/08/23/Dijkstra算法/" rel="prev" title="Dijkstra算法">
-                Dijkstra算法 <i class="fa fa-chevron-right"></i>
+              <a href="/hexoblog/2017/08/12/AWS简称及基本架构介绍/" rel="prev" title="AWS简称及基本架构介绍">
+                AWS简称及基本架构介绍 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -499,20 +583,6 @@
 
           
 
-  
-    <div class="comments" id="comments">
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    </div>
-
-  
-
-
-
         </div>
         
           
@@ -532,8 +602,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -619,6 +698,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式的概念："><span class="nav-number">1.</span> <span class="nav-text">正则表达式的概念：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写一个字符串匹配的正则表达式："><span class="nav-number">2.</span> <span class="nav-text">编写一个字符串匹配的正则表达式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#练习：抓取网页中的图片到本地"><span class="nav-number">3.</span> <span class="nav-text">练习：抓取网页中的图片到本地</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -800,18 +895,6 @@
       <script id="dsq-count-scr" src="https://Dc.disqus.com/count.js" async></script>
     
 
-    
-      <script type="text/javascript">
-        var disqus_config = function () {
-          this.page.url = 'https://github.com/dclarken/hexoblog/2017/08/19/Python语法/';
-          this.page.identifier = '2017/08/19/Python语法/';
-          this.page.title = 'Python语法';
-        };
-        var d = document, s = d.createElement('script');
-        s.src = 'https://Dc.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      </script>
     
 
   
