@@ -28,17 +28,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[test]]></title>
-    <url>%2Fhexoblog%2F2017%2F11%2F02%2Ftest%2F</url>
-    <content type="text"><![CDATA[test for add and push]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Nginx和LVS负载均衡对比]]></title>
     <url>%2Fhexoblog%2F2017%2F11%2F02%2FNginx%E5%92%8CLVS%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%AF%B9%E6%AF%94%2F</url>
     <content type="text"><![CDATA[Nginx/LVS/HAProxy是目前使用最广泛的三种负载均衡软件。 NginxNginx的优点是： 1、工作在网络的7层之上，可以针对http应用做一些分流的策略，比如针对域名、目录结构，它的正则规则比HAProxy更为强大和灵活，这也是它目前广泛流行的主要原因之一，Nginx单凭这点可利用的场合就远多于LVS了。 2、Nginx对网络稳定性的依赖非常小，理论上能ping通就就能进行负载功能，这个也是它的优势之一；相反LVS对网络稳定性依赖比较大； 3、Nginx安装和配置比较简单，测试起来比较方便，它基本能把错误用日志打印出来。LVS的配置、测试就要花比较长的时间了，LVS对网络依赖比较大。 4、可以承担高负载压力且稳定，在硬件不差的情况下一般能支撑几万次的并发量，负载度比LVS相对小些。 5、Nginx可以通过端口检测到服务器内部的故障，比如根据服务器处理网页返回的状态码、超时等等，并且会把返回错误的请求重新提交到另一个节点，不过其中缺点就是不支持url来检测。比如用户正在上传一个文件，而处理该上传的节点刚好在上传过程中出现故障，Nginx会把上传切到另一台服务器重新处理，而LVS就直接断掉了，如果是上传一个很大的文件或者很重要的文件的话，用户可能会因此而不满。 6、Nginx不仅仅是一款优秀的负载均衡器/反向代理软件，它同时也是功能强大的Web应用服务器。LNMP也是近几年非常流行的web架构，在高流量的环境中稳定性也很好。 7、Nginx现在作为Web反向加速缓存越来越成熟了，速度比传统的Squid服务器更快，可以考虑用其作为反向代理加速器。 8、Nginx可作为中层反向代理使用，这一层面Nginx基本上无对手，唯一可以对比Nginx的就只有lighttpd了，不过lighttpd目前还没有做到Nginx完全的功能，配置也不那么清晰易读，社区资料也远远没Nginx活跃。 9、Nginx也可作为静态网页和图片服务器，这方面的性能也无对手。还有Nginx社区非常活跃，第三方模块也很多。 LVS：使用Linux内核集群实现一个高性能、高可用的负载均衡服务器，它具有很好的可伸缩性（Scalability)、可靠性（Reliability)和可管理性（Manageability)。LVS的优点是： 1、抗负载能力强、是工作在网络4层之上仅作分发之用，没有流量的产生，这个特点也决定了它在负载均衡软件里的性能最强的，对内存和cpu资源消耗比较低。 2、配置性比较低，这是一个缺点也是一个优点，因为没有可太多配置的东西，所以并不需要太多接触，大大减少了人为出错的几率。 3、工作稳定，因为其本身抗负载能力很强，自身有完整的双机热备方案，如LVS+Keepalived，不过我们在项目实施中用得最多的还是LVS/DR+Keepalived。 4、无流量，LVS只分发请求，而流量并不从它本身出去，这点保证了均衡器IO的性能不会收到大流量的影响。 5、应用范围比较广，因为LVS工作在4层，所以它几乎可以对所有应用做负载均衡，包括http、数据库、在线聊天室等等。 Nginx和LVS对比的： 1、Nginx工作在网络的7层，所以它可以针对http应用本身来做分流策略，比如针对域名、目录结构等，相比之下LVS并不具备这样的功能，所以Nginx单凭这点可利用的场合就远多于LVS了；但Nginx有用的这些功能使其可调整度要高于LVS，所以经常要去触碰触碰，触碰多了，人为出问题的几率也就会大。 2、Nginx对网络稳定性的依赖较小，理论上只要ping得通，网页访问正常，Nginx就能连得通，这是Nginx的一大优势！Nginx同时还能区分内外网，如果是同时拥有内外网的节点，就相当于单机拥有了备份线路；LVS就比较依赖于网络环境，目前来看服务器在同一网段内并且LVS使用direct方式分流，效果较能得到保证。另外注意，LVS需要向托管商至少申请多一个ip来做Visual IP，貌似是不能用本身的IP来做VIP的。要做好LVS管理员，确实得跟进学习很多有关网络通信方面的知识，就不再是一个HTTP那么简单了。 3、Nginx安装和配置比较简单，测试起来也很方便，因为它基本能把错误用日志打印出来。LVS的安装和配置、测试就要花比较长的时间了；LVS对网络依赖比较大，很多时候不能配置成功都是因为网络问题而不是配置问题，出了问题要解决也相应的会麻烦得多。 4、Nginx也同样能承受很高负载且稳定，但负载度和稳定度差LVS还有几个等级：Nginx处理所有流量所以受限于机器IO和配置；本身的bug也还是难以避免的。 5、Nginx可以检测到服务器内部的故障，比如根据服务器处理网页返回的状态码、超时等等，并且会把返回错误的请求重新提交到另一个节点。目前LVS中 ldirectd也能支持针对服务器内部的情况来监控，但LVS的原理使其不能重发请求。比如用户正在上传一个文件，而处理该上传的节点刚好在上传过程中出现故障，Nginx会把上传切到另一台服务器重新处理，而LVS就直接断掉了，如果是上传一个很大的文件或者很重要的文件的话，用户可能会因此而恼火。 6、Nginx对请求的异步处理可以帮助节点服务器减轻负载，（也可以作为nginx和Apache在做web服务器时的比较）假如使用apache直接对外服务，那么出现很多的窄带链接时apache服务器将会占用大 量内存而不能释放，使用多一个Nginx做apache代理的话，这些窄带链接会被Nginx挡住，apache上就不会堆积过多的请求，这样就减少了相当多的资源占用。这点使用squid也有相同的作用，即使squid本身配置为不缓存，对apache还是有很大帮助的。 7、Nginx能支持http、https和email，LVS所支持的应用在这点上会比Nginx更多。在使用上，一般最前端所采取的策略应是LVS，也就是DNS的指向应为LVS均衡器，LVS的优点令它非常适合做这个任务。重要的ip地址，最好交由LVS托管，比如数据库的 ip、webservice服务器的ip等等，这些ip地址随着时间推移，使用面会越来越大，如果更换ip则故障会接踵而至。所以将这些重要ip交给 LVS托管是最为稳妥的，这样做的唯一缺点是需要的VIP数量会比较多。Nginx可作为LVS节点机器使用，一是可以利用Nginx的功能，二是可以利用Nginx的性能。当然这一层面也可以直接使用squid，squid的功能方面就比Nginx弱不少了，性能上也有所逊色于Nginx。Nginx也可作为中层代理使用，这一层面Nginx基本上无对手，唯一可以撼动Nginx的就只有lighttpd了，不过lighttpd目前还没有能做到 Nginx完全的功能，配置也不那么清晰易读。另外，中层代理的IP也是重要的，所以中层代理也拥有一个VIP和LVS是最完美的方案了。具体的应用还得具体分析，如果是比较小的网站（日PV小于1000万），用Nginx就完全可以了，如果机器也不少，可以用DNS轮询，LVS所耗费的机器还是比较多的；大型网站或者重要的服务，机器不发愁的时候，要多多考虑利用LVS。]]></content>
@@ -50,6 +39,17 @@
         <tag>笔记</tag>
         <tag>Linux</tag>
         <tag>负载均衡</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[test]]></title>
+    <url>%2Fhexoblog%2F2017%2F11%2F02%2Ftest%2F</url>
+    <content type="text"><![CDATA[test for add and push]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
       </tags>
   </entry>
   <entry>
@@ -78,6 +78,19 @@
         <tag>笔记</tag>
         <tag>网络协议</tag>
         <tag>http</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[List]]></title>
+    <url>%2Fhexoblog%2F2017%2F10%2F22%2FList%2F</url>
+    <content type="text"><![CDATA[list用[]将数据括起来，list的数据结构是class“list”，列表的内容可以是字符、整数、子list（子list中有中括号隔开）…list中有3个元素时，有效的索引为0,1,2。倒叙索引-1表示倒数第一个元素，有效索引为-1,-2,3改变L的内容： L[]=value L.append(‘paul’)将新元素添加到L这个list的尾部 L+[Key Value]，添加一个list L.insert(0,Value)将新元素添加到索引为0的位置上，原来的索引往后移动一位利用insert(0,paul)函数可以实现和append函数相反的输入顺序 L.pop(2)删除索引号为2的元素数据类型或者del(x[2]) tuple一种有序的列表，创建之后不可修改，创建时候用()代替list的[]区分y=x与y=x[:]两者区别，前者把x的地址也复制给了y，后者只是复制x的内容；前者在y改变时，x也会跟着改变。L[2],T[2]表示第三个元素 list的数据结构为key+value，创建list时，输入的值为key，打印出的结果为对应的value 字符串可以做数字运算 123list=[1+2,"a"*5,3]print(list)[3,'aaaaa',3] Sorted(）函数用于给list排序 可以看到其中第一个参数是可迭代对象，后面的参数都是具有默认值的，重点阐述如下： cmp，比较的函数，这个具有两个参数，参数的值都是从可迭代对象中取出，此函数必须遵守的规则为，大于则返回1，小于则返回-1，等于则返回0 key，主要是用来进行比较的元素，只有一个参数，具体的函数的参数就是取自于可迭代对象中，指定可迭代对象中的一个元素来进行排序 reverse，是否反转，默认情况下不反转 1234def number_compare(x,y); return x-ysort([5,2,3,1,4],cmp=number_compare)[1,2,3,4,5] 对于string的一些内置函数： Str.upper()大写 Str.lower()小写 Str.count(‘o’)计数‘o’的数目 字符串查找方法：find查找可以找到相同的字符串所在的位置 12345678info = 'abca'print info.find('a') ##从下标0开始，查找字符串中第一个出现的子串，返回结果0info = 'abca'print info.find('a',1) ##从下标1开始，查找字符串中第一个出现的子串，返回结果3info = 'abca'print info.find('a') ##从下标0开始，查找字符串中第一个出现的子串，返回结果-1，查不到子串 在list也有这样的内置函数： List.index()第一次出现括号内内容的位置 List.count()括号中内容出现的次数 List.append(‘paul’)将新元素添加到L这个list的尾部 List.remove()删除元素 List.reserve()交换元素的位置，倒置 from math import radians 调用math包中的radians()函数，将角度转化为弧度 Rang(1,11)可以快速生成从1到10的list]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -163,20 +176,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Apache负载均衡]]></title>
-    <url>%2Fhexoblog%2F2017%2F10%2F12%2FApache%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%2F</url>
-    <content type="text"><![CDATA[配置文件 轮询均衡策略的配置 12345ProxyPass /balancer://proxy/ #注意这里以"/"结尾&lt;Proxy balancer://proxy&gt; BalancerMember http://192.168.6.37:6888/ BalancerMember http://192.168.6.38:6888/&lt;/Proxy&gt; 按权重分配均衡策略的配置 ProxyPass /balancer://proxy/ ProxyPass / balancer://proxy/协议地址可以随便定义。ProxyPass指令允许你将一个远端服务器映射到本地服务器的URL空间中，此时本地服务器并不充当代理角色，而是充当远程服务器的一个镜像。path是一个本地虚拟路径名，url是一个指向远程服务器的部分URL，并且不允许包含查询字符串。ProxyPass文档 1234&lt;Proxy balancer://proxy&gt; BalancerMember http://192.168.6.37:6888/ loadfactor=3 BalancerMember http://192.168.6.38:6888/ loadfactor=1&lt;/Proxy&gt; 参数”loadfactor”表示后台服务器负载到由Apache发送请求的权值,该值默认为1，可以将该值设置为1到100之间的任何值。 权重请求响应负载均衡策略的配置 12345ProxyPass / balancer://proxy/ lbmethod=bytraffic 理解为LB的参数是流量&lt;Proxy balancer://proxy&gt; BalancerMember http://192.168.6.37:6888/ loadfactor=3 BalancerMember http://192.168.6.38:6888/ loadfactor=1&lt;/Proxy&gt; 参数“lbmethod=bytraffic”表示后台服务器负载请求和响应的字节数，处理字节数的多少是以权值的方式来表示的。(1)均衡配置，(2)是以请求数作为权重负载均衡的，(3)是以流量为权重负载均衡的，这是最大的区别。lbmethod表示负载均衡的算法,lbmethod可能的取值有： lbmethod=byrequests 按照请求次数均衡(默认) lbmethod=bytraffic 按照流量均衡，权重表示处理的比特流数据的权重 lbmethod=bybusyness 按照繁忙程度均衡(总是分配给活跃请求数最少的服务器) httpd.conf 配置文件分为3个部分 Httpd.conf文件的路径：/etc/httpd/conf/httpd.conf或者/usr/local/apache2/conf/httpd.conf分别对应的是RPM包安装和源码包安装两种安装方式的配置文件位置第一部分：服务器全局环境配置第二部分：本地服务器响应外部请求的处理方式的配置第三部分：虚拟主机的配置 主要配置过程1、查看是否有mod_proxy_http.so、mod_proxy_balancer.so、mod_proxy.so三个模块 1$ll /usr/local/apache2/modules mod_proxy是一种分工合作的的形式，通过主服务器跳转到各台主机负责不同的任务而实现任务分工，这种形式不能实现负载均衡，只能提供主服务器的访问跳转Apache模块mod_proxy文档Apache的代理功能(除mod_proxy以外)被划分到了几个不同的模块中：mod_proxy_http, mod_proxy_ftp, mod_proxy_ajp, mod_proxy_balancer, mod_proxy_connect 。这样，如果想使用一个或多个代理功能，就必须将mod_proxy和对应的模块同时加载到服务器中(静态连接或用LoadModule动态加载)。mod_proxy_balancer是mod_proxy的扩展，提供负载平衡支持，通过mod_proxy_balancer.so包实现负载平衡，公司生产服务器暂时就采用这种方式，粗略查看该文档发现，apache的balancer模块支持论询方式的负载均衡。apache模块mod_proxy_balancer文档 2、加载模块 apache模块安装：来自 http://unixboy.iteye.com/blog/577981 该模块可以是apache自己所拥有的模块 ，也可以是第三方模块。加载第三方模块的方法： 编译并安装已发布的Apache模块或者第三方模块，比如编译mod_foo.c为mod_foo.so的DSO模块，利用GCC编译的相关知识如：./configure 、 make install等 配置Apache以便以后安装共享模块 用apxs在Apache源码树以外编译并安装第三方模块，如：/apxs -c -i 共享模块编译完毕后，必须在httpd.conf中用LoadModule指令使Apache启用该模块，如： LoadModule proxy_module Apxs-Apache扩展工具Apache DSO模块原理 apxs是一个为Apache HTTP服务器编译和安装扩展模块的工具，用于编译一个或多个源程序或目标代码文件为动态共享对象，使之可以用由mod_so提供的LoadModule指令在运行时加载到Apache服务器中。DSO究竟是什么？事实上DSO是Dynamic SharedObjects（动态共享目标）的缩写，它是现代Unix派生出来的操作系统都存在着的一种动态连接机制。它提供了一种在运行时将特殊格式的代码，在程序运行需要时，将需要的部分从外存调入内存执行的方法。-c：属于 DSO编译选项此选项表示需要执行编译操作。它首先会编译C源程序(.c)files为对应的目标代码文件(.o)，然后连接这些目标代码和files中其余的目标代码文件(.o和.a)，以生成动态共享对象dsofile 。如果没有指定 -o 选项，则此输出文件名由files中的第一个文件名推测得到，也就是默认为mod_name.so 。-i：DSO的安装和配置选项此选项表示需要执行安装操作，以安装一个或多个动态共享对象到服务器的modules目录中。 1234# cd /usr/local/src/httpd-2.2.23/modules/proxy/# /usr/local/apache2/bin/apxs -c -i mod_proxy.c proxy_util.c# /usr/local/apache2/bin/apxs -c -i mod_proxy_balancer.c# /usr/local/apache2/bin/apxs -c -i mod_proxy_http.c 3、修改http.conf配置文件 1234567891011# vim /usr/local/apache2/conf/httpd.conf LoadModule proxy_module modules/mod_proxy.so LoadModule proxy_connect_module modules/mod_proxy_connect.so LoadModule proxy_balancer_module modules/mod_proxy_balancer.so LoadModule proxy_http_module modules/mod_proxy_http.so ProxyRequests Off &lt;Proxy balancer://clusterphpinfo&gt; BalancerMember http://10.0.2.203:80 loadfactor=1;BalancerMember 及其后面的URL表示要配置的后台服务器、test表示该服务器下的项目名称 BalancerMember http://10.0.2.204:80 loadfactor=1;参数”loadfactor”表示后台服务器负载到由Apache发送请求的权值,该值默认为1 &lt;/Proxy&gt; ProxyPass / balancer://clusterphpinfo 用于做反向代理的配置，一般开启ProxyPass，ProxyRequests应该设置为off，即为关闭正向代理请求。 4、重启httpd服务 1# service httpd restart或者利用apachectl控制台操作# apachectl httpd restart 5、通过apache将后端服务器做出主从,只需要在从服务器后面添加status=+H 12# vim /usr/local/apache2/conf/httpd.conf BalancerMember http://10.0.2.204:80 loadfactor=1 status=+H 热备份(Hot Standby) ：热备份的实现很简单，只需添加 status=+H 属性，就可以把某台服务器指定为备份服务器：请求总是流向服务器，一旦服务器挂掉，Apache会检测到错误并把请求分流给备份服务器。Apache会每隔几分钟检测一下原服务器的状况，如果原服务器恢复，就继续使用原服务器。 参考资料：Apache负载均衡的实现Apache负载均衡之Apache Proxy方式Apache负载均衡策略（轮询方式）Apache策略原则apache模块mod_proxy_balancer文档]]></content>
-      <categories>
-        <category>笔记</category>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>Linux</tag>
-        <tag>apache</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[time模块]]></title>
     <url>%2Fhexoblog%2F2017%2F10%2F12%2Ftime%E6%A8%A1%E5%9D%97%2F</url>
     <content type="text"><![CDATA[Python时间模块之Time模块解析文章转载来源time模块。在开始前，先说明几点： 在Python中，通常有这几种方式表示时间：时间戳、格式化的时间字符串、元组（struct_time 共九种元素）。由于Python的time模块主要是调用C库实现的，所以在不同的平台可能会有所不同。 时间戳（timestamp）的方式：时间戳表示是从1970年1月1号 00:00:00开始到现在按秒计算的偏移量。查看一下type(time.time())的返回值类型，可以看出是float类型。返回时间戳的函数主要有time()、clock()等。 UTC（世界协调时），就是格林威治天文时间，也是世界标准时间。在中国为UTC+8。DST夏令时。 元组方式：struct_time元组共有9个元素，返回struct_time的函数主要有gmtime()，localtime()，strptime()。 time.localtime()获取当前的时间123456789101112import timels = time.localtime() 获取当前的时间，其生成的ls的数据结构为具有9个元素的元组time.struct_time(tm_year=2015, tm_mon=8, tm_mday=24, tm_hour=9, tm_min=39, tm_sec=38, tm_wday=0, tm_yday=236, tm_isdst=0)tm_year ：年tm_mon ：月（1-12）tm_mday ：日（1-31）tm_hour ：时（0-23）tm_min ：分（0-59）tm_sec ：秒（0-59）tm_wday ：星期几（0-6,0表示周日）tm_yday ：一年中的第几天（1-366）tm_isdst ：是否是夏令时（默认为-1） 使用元组索引获取对应项的值，或者是使用成员符号调用。调用年份的方法： 12345678910&gt;&gt;&gt; ls[0]2015&gt;&gt;&gt; ls.tm_year2015time.time()：返回当前时间的时间戳&gt;&gt;&gt; time.time()1440337405.85#对时间戳取整&gt;&gt;&gt; int(time.time())1440746424 time.mktime(t)：将一个struct_time转化为时间戳time.mktime() 函数执行与gmtime(), localtime()相反的操作， 12&gt;&gt;&gt; time.mktime(time.localtime())1440338541.0 time.sleep(secs)：线程推迟指定的时间运行secs表示线程睡眠指定时间，单位为妙。time.clock()函数以浮点数计算的秒数返回当前的CPU时间。用来衡量不同程序的耗时，比time.time()更有用。在不同的系统上含义不同。在NUix系统上，它返回的是“进程时间”，它是用妙表示的浮点数（时间戳）。而在Windows中，第一次调用，返回的是进程运行时实际时间。而第二次之后的调用是自第一次调用以后到现在的运行时间。返回值该函数有两个功能： （1）在第一次调用的时候，返回的是程序运行的实际时间；（2）第二次之后的调用，返回的是自第一次调用后,到这次调用的时间间隔在win32系统下，这个函数返回的是真实时间（wall time），而在Unix/Linux下返回的是CPU时间。 time.asctime( [t] )把一个表示时间的元组或者struct_time表示为 ‘Sun Aug 23 14:31:59 2015’ 这种形式。如果没有给参数，会将time.localtime()作为参数传入。 12&gt;&gt;&gt; time.asctime(time.gmtime())'Sun Aug 23 14:31:59 2015' time.ctime([secs])把一个时间戳（按秒计算的浮点数）转化为time.asctime()的形式。如果为指定参数，将会默认使用time.time()作为参数。它的作用相当于time.asctime(time.localtime(secs)) 12&gt;&gt;&gt; time.ctime(1440338541.0)'Sun Aug 23 22:02:21 2015' time.strftime( format [, t] )返回字符串表示的当地时间。把一个代表时间的元组或者struct_time（如由time.localtime()和time.gmtime()返回）转化为格式化的时间字符串，格式由参数format决定。如果未指定，将传入time.localtime()。如果元组中任何一个元素越界，就会抛出ValueError的异常。函数返回的是一个可读表示的本地时间的字符串。参数：format：格式化字符串t ：可选的参数是一个struct_time对象时间字符串支持的格式符号：（区分大小写） 123456789101112131415161718192021222324%a 本地星期名称的简写（如星期四为Thu） %A 本地星期名称的全称（如星期四为Thursday） %b 本地月份名称的简写（如八月份为agu） %B 本地月份名称的全称（如八月份为august） %c 本地相应的日期和时间的字符串表示（如：15/08/27 10:20:06） %d 一个月中的第几天（01 - 31） %f 微妙（范围0.999999） %H 一天中的第几个小时（24小时制，00 - 23） %I 第几个小时（12小时制，0 - 11） %j 一年中的第几天（001 - 366） %m 月份（01 - 12） %M 分钟数（00 - 59） %p 本地am或者pm的相应符 %S 秒（00 - 61） %U 一年中的星期数。（00 - 53星期天是一个星期的开始。）第一个星期天之前的所有天数都放在第0周。 %w 一个星期中的第几天（0 - 6，0是星期天） %W 和%U基本相同，不同的是%W以星期一为一个星期的开始。 %x 本地相应日期字符串（如15/08/01） %X 本地相应时间字符串（如08:08:10） %y 去掉世纪的年份（00 - 99）两个数字表示的年份 %Y 完整的年份（4个数字表示年份）%z 与UTC时间的间隔（如果是本地时间，返回空字符串）%Z 时区的名字（如果是本地时间，返回空字符串） %% ‘%’字符 12&gt;&gt;&gt; time.strftime("%Y-%m-%d %H:%M:%S", formattime)'2015-08-24 13:01:30' time.strptime(string[,format])将格式字符串转化成struct_time.该函数是time.strftime()函数的逆操作。time strptime() 函数根据指定的格式把一个时间字符串解析为时间元组。所以函数返回的是struct_time对象。参数：string ：时间字符串format：格式化字符串 1234&gt;&gt;&gt; stime = "2015-08-24 13:01:30"&gt;&gt;&gt; formattime = time.strptime(stime,"%Y-%m-%d %H:%M:%S")&gt;&gt;&gt; print formattimetime.struct_time(tm_year=2015, tm_mon=8, tm_mday=24, tm_hour=13, tm_min=1, tm_sec=30, tm_wday=0, tm_yday=236, tm_isdst=-1)]]></content>
@@ -188,6 +187,20 @@
         <tag>笔记</tag>
         <tag>python</tag>
         <tag>time</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Apache负载均衡]]></title>
+    <url>%2Fhexoblog%2F2017%2F10%2F12%2FApache%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%2F</url>
+    <content type="text"><![CDATA[配置文件 轮询均衡策略的配置 12345ProxyPass /balancer://proxy/ #注意这里以"/"结尾&lt;Proxy balancer://proxy&gt; BalancerMember http://192.168.6.37:6888/ BalancerMember http://192.168.6.38:6888/&lt;/Proxy&gt; 按权重分配均衡策略的配置 ProxyPass /balancer://proxy/ ProxyPass / balancer://proxy/协议地址可以随便定义。ProxyPass指令允许你将一个远端服务器映射到本地服务器的URL空间中，此时本地服务器并不充当代理角色，而是充当远程服务器的一个镜像。path是一个本地虚拟路径名，url是一个指向远程服务器的部分URL，并且不允许包含查询字符串。ProxyPass文档 1234&lt;Proxy balancer://proxy&gt; BalancerMember http://192.168.6.37:6888/ loadfactor=3 BalancerMember http://192.168.6.38:6888/ loadfactor=1&lt;/Proxy&gt; 参数”loadfactor”表示后台服务器负载到由Apache发送请求的权值,该值默认为1，可以将该值设置为1到100之间的任何值。 权重请求响应负载均衡策略的配置 12345ProxyPass / balancer://proxy/ lbmethod=bytraffic 理解为LB的参数是流量&lt;Proxy balancer://proxy&gt; BalancerMember http://192.168.6.37:6888/ loadfactor=3 BalancerMember http://192.168.6.38:6888/ loadfactor=1&lt;/Proxy&gt; 参数“lbmethod=bytraffic”表示后台服务器负载请求和响应的字节数，处理字节数的多少是以权值的方式来表示的。(1)均衡配置，(2)是以请求数作为权重负载均衡的，(3)是以流量为权重负载均衡的，这是最大的区别。lbmethod表示负载均衡的算法,lbmethod可能的取值有： lbmethod=byrequests 按照请求次数均衡(默认) lbmethod=bytraffic 按照流量均衡，权重表示处理的比特流数据的权重 lbmethod=bybusyness 按照繁忙程度均衡(总是分配给活跃请求数最少的服务器) httpd.conf 配置文件分为3个部分 Httpd.conf文件的路径：/etc/httpd/conf/httpd.conf或者/usr/local/apache2/conf/httpd.conf分别对应的是RPM包安装和源码包安装两种安装方式的配置文件位置第一部分：服务器全局环境配置第二部分：本地服务器响应外部请求的处理方式的配置第三部分：虚拟主机的配置 主要配置过程1、查看是否有mod_proxy_http.so、mod_proxy_balancer.so、mod_proxy.so三个模块 1$ll /usr/local/apache2/modules mod_proxy是一种分工合作的的形式，通过主服务器跳转到各台主机负责不同的任务而实现任务分工，这种形式不能实现负载均衡，只能提供主服务器的访问跳转Apache模块mod_proxy文档Apache的代理功能(除mod_proxy以外)被划分到了几个不同的模块中：mod_proxy_http, mod_proxy_ftp, mod_proxy_ajp, mod_proxy_balancer, mod_proxy_connect 。这样，如果想使用一个或多个代理功能，就必须将mod_proxy和对应的模块同时加载到服务器中(静态连接或用LoadModule动态加载)。mod_proxy_balancer是mod_proxy的扩展，提供负载平衡支持，通过mod_proxy_balancer.so包实现负载平衡，公司生产服务器暂时就采用这种方式，粗略查看该文档发现，apache的balancer模块支持论询方式的负载均衡。apache模块mod_proxy_balancer文档 2、加载模块 apache模块安装：来自 http://unixboy.iteye.com/blog/577981 该模块可以是apache自己所拥有的模块 ，也可以是第三方模块。加载第三方模块的方法： 编译并安装已发布的Apache模块或者第三方模块，比如编译mod_foo.c为mod_foo.so的DSO模块，利用GCC编译的相关知识如：./configure 、 make install等 配置Apache以便以后安装共享模块 用apxs在Apache源码树以外编译并安装第三方模块，如：/apxs -c -i 共享模块编译完毕后，必须在httpd.conf中用LoadModule指令使Apache启用该模块，如： LoadModule proxy_module Apxs-Apache扩展工具Apache DSO模块原理 apxs是一个为Apache HTTP服务器编译和安装扩展模块的工具，用于编译一个或多个源程序或目标代码文件为动态共享对象，使之可以用由mod_so提供的LoadModule指令在运行时加载到Apache服务器中。DSO究竟是什么？事实上DSO是Dynamic SharedObjects（动态共享目标）的缩写，它是现代Unix派生出来的操作系统都存在着的一种动态连接机制。它提供了一种在运行时将特殊格式的代码，在程序运行需要时，将需要的部分从外存调入内存执行的方法。-c：属于 DSO编译选项此选项表示需要执行编译操作。它首先会编译C源程序(.c)files为对应的目标代码文件(.o)，然后连接这些目标代码和files中其余的目标代码文件(.o和.a)，以生成动态共享对象dsofile 。如果没有指定 -o 选项，则此输出文件名由files中的第一个文件名推测得到，也就是默认为mod_name.so 。-i：DSO的安装和配置选项此选项表示需要执行安装操作，以安装一个或多个动态共享对象到服务器的modules目录中。 1234# cd /usr/local/src/httpd-2.2.23/modules/proxy/# /usr/local/apache2/bin/apxs -c -i mod_proxy.c proxy_util.c# /usr/local/apache2/bin/apxs -c -i mod_proxy_balancer.c# /usr/local/apache2/bin/apxs -c -i mod_proxy_http.c 3、修改http.conf配置文件 1234567891011# vim /usr/local/apache2/conf/httpd.conf LoadModule proxy_module modules/mod_proxy.so LoadModule proxy_connect_module modules/mod_proxy_connect.so LoadModule proxy_balancer_module modules/mod_proxy_balancer.so LoadModule proxy_http_module modules/mod_proxy_http.so ProxyRequests Off &lt;Proxy balancer://clusterphpinfo&gt; BalancerMember http://10.0.2.203:80 loadfactor=1;BalancerMember 及其后面的URL表示要配置的后台服务器、test表示该服务器下的项目名称 BalancerMember http://10.0.2.204:80 loadfactor=1;参数”loadfactor”表示后台服务器负载到由Apache发送请求的权值,该值默认为1 &lt;/Proxy&gt; ProxyPass / balancer://clusterphpinfo 用于做反向代理的配置，一般开启ProxyPass，ProxyRequests应该设置为off，即为关闭正向代理请求。 4、重启httpd服务 1# service httpd restart或者利用apachectl控制台操作# apachectl httpd restart 5、通过apache将后端服务器做出主从,只需要在从服务器后面添加status=+H 12# vim /usr/local/apache2/conf/httpd.conf BalancerMember http://10.0.2.204:80 loadfactor=1 status=+H 热备份(Hot Standby) ：热备份的实现很简单，只需添加 status=+H 属性，就可以把某台服务器指定为备份服务器：请求总是流向服务器，一旦服务器挂掉，Apache会检测到错误并把请求分流给备份服务器。Apache会每隔几分钟检测一下原服务器的状况，如果原服务器恢复，就继续使用原服务器。 参考资料：Apache负载均衡的实现Apache负载均衡之Apache Proxy方式Apache负载均衡策略（轮询方式）Apache策略原则apache模块mod_proxy_balancer文档]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>Linux</tag>
+        <tag>apache</tag>
       </tags>
   </entry>
   <entry>
@@ -270,19 +283,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[sort用法]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F17%2Fsort%E7%94%A8%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[Python中的sort()方法使用基础文档：格式：12sorted(iterable[, cmp[, key[, reverse]]])iterable.sort(cmp[, key[, reverse]]) 参数解释： iterable指定要排序的list或者iterable，不用多说； cmp为函数，指定排序时进行比较的函数，可以指定一个函数或者lambda函数，如：students为类对象的list，没个成员有三个域，用sorted进行比较时可以自己定cmp函数，例如这里要通过比较第三个数据成员来排序，代码可以这样写： 12students = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10)]sorted(students, key=lambda student : student[2]) key为函数，指定取待排序元素的哪一项进行排序，函数用上面的例子来说明，代码如下： 1sorted(students, key=lambda student : student[2]) key指定的lambda函数功能是去元素student的第三个域（即：student[2]），因此sorted排序时，会以students所有元素的第三个域来进行排序。 reverse实现降序排序，需要提供一个布尔值，默认为False（升序排列）。]]></content>
-      <categories>
-        <category>笔记</category>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[dp-求给定数组中和大于积的次数]]></title>
     <url>%2Fhexoblog%2F2017%2F09%2F17%2Fdp-%E6%B1%82%E7%BB%99%E5%AE%9A%E6%95%B0%E7%BB%84%E4%B8%AD%E5%92%8C%E5%A4%A7%E4%BA%8E%E7%A7%AF%E7%9A%84%E6%AC%A1%E6%95%B0%2F</url>
     <content type="text"><![CDATA[问题描述一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &gt; 1 1 2 * 3你可以适当从袋子里移除一些球(可以移除0个,但是别移除完)，要使移除后的袋子是幸运的。现在让你编程计算一下你可以获得的多少种不同的幸运的袋子。 输入：球号数组输出种类 123456789101112131415161718192021222324252627282930313233343536#-*- coding:utf-8 -*-def isluck(nums): #幸运袋子判断函数 sum=0 mul=1 for i in nums: sum +=i mul *=i if sum&gt;mul: return True else: return False def composite(array,Sum,multiply): #从小到大的规划过程 count=0 for i in xrange(len(array)): if i&gt;0 and array[i]==array[i-1]: continue Sum+=array[i] multiply*=array[i] if Sum&gt;multiply: count+=1+composite(array[i+1:], Sum, multiply) # 当序列中的数值都比较大的时候能够满足要求，那数值小的也更加容易满足 elif array[i]==1: count+=composite(array[i+1:], Sum, multiply) # 1为特殊情况，当为1的时候，和一定一直大于乘积，所以需要累加 else: break Sum-=array[i] #如果不满足，回退为上一状态 multiply/=array[i] return countdef main(): n=raw_input() array=raw_input().split() array=[int(i) for i in array] array.sort() #首先对其从小到大排列 print composite(array,0,1)main()]]></content>
@@ -293,6 +293,19 @@
       <tags>
         <tag>code</tag>
         <tag>dp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[sort用法]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F17%2Fsort%E7%94%A8%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[Python中的sort()方法使用基础文档：格式：12sorted(iterable[, cmp[, key[, reverse]]])iterable.sort(cmp[, key[, reverse]]) 参数解释： iterable指定要排序的list或者iterable，不用多说； cmp为函数，指定排序时进行比较的函数，可以指定一个函数或者lambda函数，如：students为类对象的list，没个成员有三个域，用sorted进行比较时可以自己定cmp函数，例如这里要通过比较第三个数据成员来排序，代码可以这样写： 12students = [('john', 'A', 15), ('jane', 'B', 12), ('dave', 'B', 10)]sorted(students, key=lambda student : student[2]) key为函数，指定取待排序元素的哪一项进行排序，函数用上面的例子来说明，代码如下： 1sorted(students, key=lambda student : student[2]) key指定的lambda函数功能是去元素student的第三个域（即：student[2]），因此sorted排序时，会以students所有元素的第三个域来进行排序。 reverse实现降序排序，需要提供一个布尔值，默认为False（升序排列）。]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -336,17 +349,16 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Docker内核知识——Cgroup控制组]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94Cgroup%E6%8E%A7%E5%88%B6%E7%BB%84%2F</url>
-    <content type="text"><![CDATA[Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太多的资源而影响到其它进程；另一方面，在系统资源耗尽的时候，linux 内核会触发 OOM，这会让一些被杀掉的进程成了无辜的替死鬼。因此，为了让容器中的进程更加可控，Docker 使用 Linux cgroups 来限制容器中的进程允许使用的系统资源。Linux Cgroup 可​​​让​​​您​​​为​​​系​​​统​​​中​​​所​​​运​​​行​​​任​​​务​​​（进​​​程​​​）的​​​用​​​户​​​定​​​义​​​组​​​群​​​分​​​配​​​资​​​源​​​ — 比​​​如​​​ CPU 时​​​间​​​、​​​系​​​统​​​内​​​存​​​、​​​网​​​络​​​带​​​宽​​​或​​​者​​​这​​​些​​​资​​​源​​​的​​​组​​​合​​​。​​​您​​​可​​​以​​​监​​​控​​​您​​​配​​​置​​​的​​​ cgroup，拒​​​绝​​​ cgroup 访​​​问​​​某​​​些​​​资​​​源​​​，甚​​​至​​​在​​​运​​​行​​​的​​​系​​​统​​​中​​​动​​​态​​​配​​​置​​​您​​​的​​​ cgroup。所以，可以将 controll groups 理解为 controller （system resource） （for） （process）groups，也就是是说它以一组进程为目标进行系统资源分配和控制。功能： Resource limitation: 限制资源使用，比如内存使用上限以及文件系统的缓存限制。 Prioritization: 优先级控制，比如：CPU利用和磁盘IO吞吐。 Accounting: 一些审计或一些统计，主要目的是为了计费。 Control: 挂起进程，恢复执行进程。 使​​​用​​​ cgroup，系​​​统​​​管​​​理​​​员​​​可​​​更​​​具​​​体​​​地​​​控​​​制​​​对​​​系​​​统​​​资​​​源​​​的​​​分​​​配​​​、​​​优​​​先​​​顺​​​序​​​、​​​拒​​​绝​​​、​​​管​​​理​​​和​​​监​​​控​​​。​​​可​​​更​​​好​​​地​​​根​​​据​​​任​​​务​​​和​​​用​​​户​​​分​​​配​​​硬​​​件​​​资​​​源​​​，提​​​高​​​总​​​体​​​效​​​率​​​。 在实践中：系统管理员一般会利用CGroup做下面这些事（有点像为某个虚拟机分配资源似的）： 隔离一个进程集合（比如：nginx的所有进程），并限制他们所消费的资源，比如绑定CPU的核。 为这组进程分配其足够使用的内存 为这组进程分配相应的网络带宽和磁盘存储限制 限制访问某些设备（通过设置设备的白名单） 子系统说明cgroups 实现了对资源的配额和度量。cgroups 的使用非常简单，提供类似文件的接口，在 /cgroup目录下新建一个文件夹即可新建一个group，在此文件夹中新建task文件，并将pid写入该文件，即可实现对该进程的资源控制。groups可以限制blkio、cpu、cpuacct、cpuset、devices、freezer、memory、net_cls、ns九大子系统的资源，以下是每个子系统的详细说明： blkio 这个子系统设置限制每个块设备的输入输出控制。例如:磁盘，光盘以及usb等等。 cpu 这个子系统使用调度程序为cgroup任务提供cpu的访问。 cpuacct 产生cgroup任务的cpu资源报告。 cpuset 如果是多核心的cpu，这个子系统会为cgroup任务分配单独的cpu和内存。 devices 允许或拒绝cgroup任务对设备的访问。 freezer 暂停和恢复cgroup任务。 memory 设置每个cgroup的内存限制以及产生内存资源报告。 net_cls 标记每个网络包以供cgroup方便使用。 ns 名称空间子系统。 参考资料]]></content>
+    <title><![CDATA[贪心算法饭店招待问题]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F14%2F%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E9%A5%AD%E5%BA%97%E6%8B%9B%E5%BE%85%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[问题描述：某餐馆有n张桌子，每张桌子有一个参数：a 可容纳的最大人数； 有m批客人，每批客人有两个参数:b人数，c预计消费金额。在不允许拼桌的情况下，请实现一个算法选择其中一部分客人，使得总预计消费金额最大 基本思路：桌子序列升序排列，客人按照预定花钱多少降序排序，然后贪心法从钱多的客人开始招呼。在遍历能容得下第i批客人的时候需要二分查找去找否则超时。 输入：3 52 4 21 33 53 75 91 10输出：20 1234567891011121314151617181920212223242526272829303132333435363738394041#coding:utf-8def main(): n,m=[int(i) for i in raw_input().split()] a=[int(i) for i in raw_input().split()] guest=[] for i in range(m): guest.append([int(i) for i in raw_input().split()]) print(func(n,m,a,guest))def func(n,m,a,guest): a.sort() value = 0 count = 0 guest.sort(key=lambda x:x[1], reverse=True) i = 0 j = 0 while i &lt; m: index=search(a,guest[i][0]) if index&gt;0: j = j+1 value +=guest[i][1] del a[index] if j == n: break i=i+1 return valuedef search(nums,target): if target&lt;=nums[0]: return 0 if target&gt;nums[-1]: return -1 l=0 r=len(nums)-1 while (l+1)!=r: mid=(l+r)/2 if target&lt;=nums[mid]: r=mid else: l=mid return rmain()]]></content>
       <categories>
-        <category>笔记</category>
-        <category>docker</category>
+        <category>code</category>
+        <category>贪心</category>
       </categories>
       <tags>
-        <tag>笔记</tag>
-        <tag>docker</tag>
-        <tag>内核</tag>
+        <tag>code</tag>
+        <tag>贪心</tag>
       </tags>
   </entry>
   <entry>
@@ -364,16 +376,17 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[贪心算法饭店招待问题]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F14%2F%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95%E9%A5%AD%E5%BA%97%E6%8B%9B%E5%BE%85%E9%97%AE%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[问题描述：某餐馆有n张桌子，每张桌子有一个参数：a 可容纳的最大人数； 有m批客人，每批客人有两个参数:b人数，c预计消费金额。在不允许拼桌的情况下，请实现一个算法选择其中一部分客人，使得总预计消费金额最大 基本思路：桌子序列升序排列，客人按照预定花钱多少降序排序，然后贪心法从钱多的客人开始招呼。在遍历能容得下第i批客人的时候需要二分查找去找否则超时。 输入：3 52 4 21 33 53 75 91 10输出：20 1234567891011121314151617181920212223242526272829303132333435363738394041#coding:utf-8def main(): n,m=[int(i) for i in raw_input().split()] a=[int(i) for i in raw_input().split()] guest=[] for i in range(m): guest.append([int(i) for i in raw_input().split()]) print(func(n,m,a,guest))def func(n,m,a,guest): a.sort() value = 0 count = 0 guest.sort(key=lambda x:x[1], reverse=True) i = 0 j = 0 while i &lt; m: index=search(a,guest[i][0]) if index&gt;0: j = j+1 value +=guest[i][1] del a[index] if j == n: break i=i+1 return valuedef search(nums,target): if target&lt;=nums[0]: return 0 if target&gt;nums[-1]: return -1 l=0 r=len(nums)-1 while (l+1)!=r: mid=(l+r)/2 if target&lt;=nums[mid]: r=mid else: l=mid return rmain()]]></content>
+    <title><![CDATA[Docker内核知识——Cgroup控制组]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94Cgroup%E6%8E%A7%E5%88%B6%E7%BB%84%2F</url>
+    <content type="text"><![CDATA[Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太多的资源而影响到其它进程；另一方面，在系统资源耗尽的时候，linux 内核会触发 OOM，这会让一些被杀掉的进程成了无辜的替死鬼。因此，为了让容器中的进程更加可控，Docker 使用 Linux cgroups 来限制容器中的进程允许使用的系统资源。Linux Cgroup 可​​​让​​​您​​​为​​​系​​​统​​​中​​​所​​​运​​​行​​​任​​​务​​​（进​​​程​​​）的​​​用​​​户​​​定​​​义​​​组​​​群​​​分​​​配​​​资​​​源​​​ — 比​​​如​​​ CPU 时​​​间​​​、​​​系​​​统​​​内​​​存​​​、​​​网​​​络​​​带​​​宽​​​或​​​者​​​这​​​些​​​资​​​源​​​的​​​组​​​合​​​。​​​您​​​可​​​以​​​监​​​控​​​您​​​配​​​置​​​的​​​ cgroup，拒​​​绝​​​ cgroup 访​​​问​​​某​​​些​​​资​​​源​​​，甚​​​至​​​在​​​运​​​行​​​的​​​系​​​统​​​中​​​动​​​态​​​配​​​置​​​您​​​的​​​ cgroup。所以，可以将 controll groups 理解为 controller （system resource） （for） （process）groups，也就是是说它以一组进程为目标进行系统资源分配和控制。功能： Resource limitation: 限制资源使用，比如内存使用上限以及文件系统的缓存限制。 Prioritization: 优先级控制，比如：CPU利用和磁盘IO吞吐。 Accounting: 一些审计或一些统计，主要目的是为了计费。 Control: 挂起进程，恢复执行进程。 使​​​用​​​ cgroup，系​​​统​​​管​​​理​​​员​​​可​​​更​​​具​​​体​​​地​​​控​​​制​​​对​​​系​​​统​​​资​​​源​​​的​​​分​​​配​​​、​​​优​​​先​​​顺​​​序​​​、​​​拒​​​绝​​​、​​​管​​​理​​​和​​​监​​​控​​​。​​​可​​​更​​​好​​​地​​​根​​​据​​​任​​​务​​​和​​​用​​​户​​​分​​​配​​​硬​​​件​​​资​​​源​​​，提​​​高​​​总​​​体​​​效​​​率​​​。 在实践中：系统管理员一般会利用CGroup做下面这些事（有点像为某个虚拟机分配资源似的）： 隔离一个进程集合（比如：nginx的所有进程），并限制他们所消费的资源，比如绑定CPU的核。 为这组进程分配其足够使用的内存 为这组进程分配相应的网络带宽和磁盘存储限制 限制访问某些设备（通过设置设备的白名单） 子系统说明cgroups 实现了对资源的配额和度量。cgroups 的使用非常简单，提供类似文件的接口，在 /cgroup目录下新建一个文件夹即可新建一个group，在此文件夹中新建task文件，并将pid写入该文件，即可实现对该进程的资源控制。groups可以限制blkio、cpu、cpuacct、cpuset、devices、freezer、memory、net_cls、ns九大子系统的资源，以下是每个子系统的详细说明： blkio 这个子系统设置限制每个块设备的输入输出控制。例如:磁盘，光盘以及usb等等。 cpu 这个子系统使用调度程序为cgroup任务提供cpu的访问。 cpuacct 产生cgroup任务的cpu资源报告。 cpuset 如果是多核心的cpu，这个子系统会为cgroup任务分配单独的cpu和内存。 devices 允许或拒绝cgroup任务对设备的访问。 freezer 暂停和恢复cgroup任务。 memory 设置每个cgroup的内存限制以及产生内存资源报告。 net_cls 标记每个网络包以供cgroup方便使用。 ns 名称空间子系统。 参考资料]]></content>
       <categories>
-        <category>code</category>
-        <category>贪心</category>
+        <category>笔记</category>
+        <category>docker</category>
       </categories>
       <tags>
-        <tag>code</tag>
-        <tag>贪心</tag>
+        <tag>笔记</tag>
+        <tag>docker</tag>
+        <tag>内核</tag>
       </tags>
   </entry>
   <entry>
@@ -552,18 +565,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[article title]]></title>
-    <url>%2Fhexoblog%2F2017%2F08%2F12%2Farticle-title%2F</url>
-    <content type="text"><![CDATA[Welcome to dclarken’s page!8.12 is my first day for writing!First of all,I want to say thank you to my best friends :Dachang,Hongwei,Jingchang,Xidun,Yue,YunhaoBest wishes to all of you!]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-        <tag>freinds</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[AWS简称及基本架构介绍]]></title>
     <url>%2Fhexoblog%2F2017%2F08%2F12%2FAWS%E7%AE%80%E7%A7%B0%E5%8F%8A%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D%2F</url>
     <content type="text"><![CDATA[文档教程位置 AWS整体架构 ·VPC：·私有网络AWS 云中逻辑隔离的虚拟网络。从所选的范围内定义 VPC 的 IP 地址空间 对VPC的IP寻CIDR块的控制 为您的VPC CIDR块划分子网的能力 网络访问控制列表 多个IP地址和多个弹性网络接口（ENI）的分配 通过私有连接将VPC和现场IT基础设施连接 ·常见的路由：·路由表的将决定子网的功能 IGW：提供对internet的访问，公有子网带通过IGW实现进/出站internet连接 VGW：提供对数据中心的访问，虚拟专用网关 NAT 网关：一项高度可用的托管网络地址转换 (NAT) 服务，可便于私有子网中的资源访问 Internet，可以在官方AMI上直接启动NAT网关实例，私有子网通过公有子网中运行NAT的Amazon EC2实例实现的出战Internet连接。 VPC对等：与NACL和安全组一起维护VPC的安全，允许在对等VPC之间路由流量，这样两个VPC中的实例可以彼此通信，就像在同一个网络中一样。两个对等的VPC不能具有CIDR块重叠的CIDR块。 ·ELB：·Elastic Load Balancing 弹性负载均衡， 在多个 Amazon EC2 实例之间自动分配应用程序的传入流量，软件负载均衡。 在同一区域可用区实例之间实现均衡 根据用户定义的运行状况检查检测状况欠佳的实例 SSL终端支持自动一证书 ·EC2：·Elastic Compute Cloud 一种 Web 服务，云计算服务平台，用于计算相当于一个虚拟机，可以在云中提供安全并且大小可调的计算容量。该服务旨在让开发人员能够更轻松地进行 Web 规模的云计算。让使用者可以租用云端电脑运行所需应用的系统。类型：C3计算优化、R3内存优化、G2 GPU优化、I2 HS1存储优化 ENI：弹性网络接口，创建的EC2实例具有的虚拟网络接口，具有属性如下：MAC地址、主要私有IP地址，一个或多个次要私有IP地址、每个私有IP地址都有弹性EIP、公有IP地址、安全组、目标检查标记、说明。使用案例：创建管理网络；许可身份验证；在VPC中使用网络和安全性设备 EIP：专为动态云计算设计的静态IP地址，EIP与AWS账号关联，而不是与特定实例关联；而公有IP地址也称为动态IP地址与实例相关。 IGW：整体网关 ALB：Application Load Balancer ALB是位于OSI模型第七层的负载均衡器，因此它能根据网络包的内容将该网络包路由到不同的后端服务。现有的负载均衡器多是位于OSI模型第四层的TCP/UDP均衡器。与这些均衡器不同的是，ALB将检查网络包的内容，并将该网络包发送给适当的服务。当前，ALB支持基于URL对路由流量定义多至十条的独立规则。 Amazon CloudWatch是一项针对 AWS 云资源和在 AWS 上运行的应用程序进行监控的服务。CPU 使用率、数据传输和磁盘使用活动等，弹性负载均衡器、Amazon SQS 队列、Amazon SNS 主题等更多 Amazon CloudFront 是一种全球内容分发网络 (CDN) 服务，用于内容传输，可以安全地以低延迟和高传输速度向浏览者分发数据、视频、应用程序和 API。建或修改现有 AWS CloudFormation 模板。一个描述了您的所有资源及其属性的模板。 Amazon Simple Storage Service (Amazon S3)对象存储，使您能够轻松实用地大规模收集、存储和分析数据，而不管格式如何。S3 是专为从任意位置存储和检索任意大小的数据而构建的对象存储，包括来自网站和移动应用程序、公司应用程序的数据以及来自 IoT 传感器或设备的数据。S3可与CloudFront(CDN)结合使用，可以利用分布式网络给边远地区加速 一个对象的大小可以达到5TB 每个对象存储在存储桶中，通过开发人员分配的唯一密钥进行检索 无限的存储、无限的对象 原生在线HTTP/S访问 通过在同一区域不同可用区间进行复制，持久性 面对Internet的对象存储 Amazon Route 53是一种可用性高、可扩展性强的云域名系统 (DNS) Web 服务，用于DNS域名服务。 IAM：Identity and Access Management“身份识别与访问管理”，身份管理 DMZ英文“demilitarized zone”的缩写，中文名称为“隔离区”，也称“非军事化区”。它是为了解决安装防火墙后外部网络的访问用户不能访问内部网络服务器的问题，而设立的一个非安全系统与安全系统之间的缓冲区。该缓冲区位于企业内部网络和外部网络之间的小网络区域内。在这个小网络区域内可以放置一些必须公开的服务器设施，如企业Web服务器、FTP服务器和论坛等。另一方面，通过这样一个DMZ区域，更加有效地保护了内部网络。因为这种网络部署，比起一般的防火墙方案，对来自外网的攻击者来说又多了一道关卡。 本地存储本地存储适合临时存储不断变化的信息（如缓冲区、缓存、暂存数据和其他临时内容），或者在实例机群内复制的数据。 EBS数据块存储 Elastic Block Store，相当于虚拟机硬盘，最大为1TB。实例依靠虚拟网络连接装载，持久性存储，可以重新附加在其他的EC2实例，利用快照实现，一个EC2实例可以有多个EBS卷，但是多个EC2不能共享卷。应用场景：简单硬盘设备；经常更改数据；对原始、未格式化数据块级别存储的访问权。 EBS快照存储在S3中 RDSAmazon Relational Database Service (Amazon RDS) 是一种可让用户在云中轻松设置、操作和扩展关系数据库的 Web 服务。它在管理耗时的数据库管理任务的同时，提供经济实用的可调容量，使您能够腾出时间专注于应用程序和业务。 RDS 让您能够访问非常熟悉的 MySQL、MariaDB、Oracle、Microsoft SQL Server 或 PostgreSQL 数据库引擎的功能。 AWS Elastic Beanstalk是一项易于使用的服务，用于在熟悉的服务器（例如 Apache 、Nginx、Passenger 和 IIS）上部署和扩展使用 Java、.NET、PHP、Node.js、Python、Ruby、GO 和 Docker 开发的 Web 应用程序和服务。上传代码，Elastic Beanstalk 即可自动处理从容量预置、负载均衡、自动扩展到应用程序运行状况监控的部署。同时，您能够完全控制为应用程序提供支持的 AWS 资源，并可随时访问基础资源。 AWS SQS、SNS、SWF消息发送各个工作流用 Amazon ElastiCache缓存 Amazon Glacier存档，将设置了生命周期规则（如90天）的S3存档，成本极低的存档存储服务，能够提供高耐久性存储，极低成本存储，允许在3-5小时内检索数据。可以利用Storage Gateway进行场外备份 安全性SSL加密型终端节点、AES-256自动加密数据、IAM策略指定账户中的哪些用户有权对特定文件库执行操作 Amazon Simple Email Service电子邮件Auto Scaling自动扩大或缩小Amazon EC2容量；响应需求峰值；当需求下降时，削减不需要的实例以节省费用；根据一天中的时间、按指标或通过API自动扩展 AMI亚马逊系统映像，提供启动实例所需的信息 AWS Direct Connect建立从本地设施到Amazon VPC的专用网络链接，建立AWS和数据中心、办公室或托管环境之间建立私有连接。 MSDNMicrosoft Developer Network用来帮助开发人员使用Microsoft产品和技术]]></content>
@@ -575,6 +576,18 @@
         <tag>笔记</tag>
         <tag>AWS</tag>
         <tag>架构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[article title]]></title>
+    <url>%2Fhexoblog%2F2017%2F08%2F12%2Farticle-title%2F</url>
+    <content type="text"><![CDATA[Welcome to dclarken’s page!8.12 is my first day for writing!First of all,I want to say thank you to my best friends :Dachang,Hongwei,Jingchang,Xidun,Yue,YunhaoBest wishes to all of you!]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>freinds</tag>
       </tags>
   </entry>
   <entry>
