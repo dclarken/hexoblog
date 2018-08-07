@@ -155,6 +155,7 @@ $ git commit -m " add test.txt"
 $ git push
 ```
 
+---
 ## 本地更改目录结构同步到远程仓库：
 
 ```vim
@@ -178,6 +179,7 @@ $ git push origin master
 
 [git移动操作资料](http://www.yiibai.com/git/git_move_operation.html)
 
+---
 ## 报错--hexo g执行报错，提示缺少hexo-util
 
 ```vim
