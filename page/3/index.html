@@ -308,7 +308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/17/dp-求给定数组中和大于积的次数/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/17/sort用法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Daichao">
@@ -327,7 +327,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/hexoblog/2017/09/17/dp-求给定数组中和大于积的次数/" itemprop="url">dp-求给定数组中和大于积的次数</a></h1>
+                <a class="post-title-link" href="/hexoblog/2017/09/17/sort用法/" itemprop="url">sort用法</a></h1>
         
 
         <div class="post-meta">
@@ -362,8 +362,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/code/" itemprop="url" rel="index">
-                    <span itemprop="name">code</span>
+                  <a href="/hexoblog/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
                   </a>
                 </span>
 
@@ -373,8 +373,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/hexoblog/categories/code/dp/" itemprop="url" rel="index">
-                    <span itemprop="name">dp</span>
+                  <a href="/hexoblog/categories/笔记/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
                   </a>
                 </span>
 
@@ -384,19 +384,6 @@
             </span>
           
 
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/hexoblog/2017/09/17/dp-求给定数组中和大于积的次数/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/09/17/dp-求给定数组中和大于积的次数/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -423,11 +410,15 @@
       
         
           
-          问题描述一个袋子里面有n个球，每个球上面都有一个号码(拥有相同号码的球是无区别的)。如果一个袋子是幸运的当且仅当所有球的号码的和大于所有球的号码的积。例如：如果袋子里面的球的号码是{1, 1, 2, 3}，这个袋子就是幸运的，因为1 + 1 + 2 + 3 &gt; 1  1  2 * 3你可以适当
+          Python中的sort()方法使用基础文档：格式：12sorted(iterable[, cmp[, key[, reverse]]])iterable.sort(cmp[, key[, reverse]])
+参数解释：
+
+iterable指定要排序的list或者iterable，不用多说；
+cm
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/hexoblog/2017/09/17/dp-求给定数组中和大于积的次数/#more" rel="contents">
+            <a class="btn" href="/hexoblog/2017/09/17/sort用法/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -977,7 +968,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/14/Docker内核知识—Cgroup控制组/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/14/Docker内核知识—AUFS及安全性/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Daichao">
@@ -996,7 +987,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/hexoblog/2017/09/14/Docker内核知识—Cgroup控制组/" itemprop="url">Docker内核知识——Cgroup控制组</a></h1>
+                <a class="post-title-link" href="/hexoblog/2017/09/14/Docker内核知识—AUFS及安全性/" itemprop="url">Docker内核知识——AUFS及安全性</a></h1>
         
 
         <div class="post-meta">
@@ -1079,11 +1070,16 @@
       
         
           
-          Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太
+          关于 AUFS（联合文件系统） 的几个特点：
+
+AUFS 是一种联合文件系统，它把若干目录按照顺序和权限 mount 为一个目录并呈现出来
+默认情况下，只有第一层（第一个目录）是可写的，其余层是只读的。
+增加文件：默认情况下，新增的文件都会被放在最上面的可写层中。
+删除文件：因为底下各层都是只读的，
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/hexoblog/2017/09/14/Docker内核知识—Cgroup控制组/#more" rel="contents">
+            <a class="btn" href="/hexoblog/2017/09/14/Docker内核知识—AUFS及安全性/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1305,7 +1301,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/14/Docker内核知识—AUFS及安全性/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2017/09/14/Docker内核知识—Cgroup控制组/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Daichao">
@@ -1324,7 +1320,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/hexoblog/2017/09/14/Docker内核知识—AUFS及安全性/" itemprop="url">Docker内核知识——AUFS及安全性</a></h1>
+                <a class="post-title-link" href="/hexoblog/2017/09/14/Docker内核知识—Cgroup控制组/" itemprop="url">Docker内核知识——Cgroup控制组</a></h1>
         
 
         <div class="post-meta">
@@ -1407,16 +1403,11 @@
       
         
           
-          关于 AUFS（联合文件系统） 的几个特点：
-
-AUFS 是一种联合文件系统，它把若干目录按照顺序和权限 mount 为一个目录并呈现出来
-默认情况下，只有第一层（第一个目录）是可写的，其余层是只读的。
-增加文件：默认情况下，新增的文件都会被放在最上面的可写层中。
-删除文件：因为底下各层都是只读的，
+          Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/hexoblog/2017/09/14/Docker内核知识—AUFS及安全性/#more" rel="contents">
+            <a class="btn" href="/hexoblog/2017/09/14/Docker内核知识—Cgroup控制组/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
