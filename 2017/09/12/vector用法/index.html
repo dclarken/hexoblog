@@ -412,7 +412,7 @@
       
 
       
-        <p><a href="http://blog.csdn.net/hancunai0017/article/details/7032383" target="_blank" rel="external">文档来自</a><br><strong><code>vector(向量):</code></strong></p>
+        <p><a href="http://blog.csdn.net/hancunai0017/article/details/7032383" target="_blank" rel="noopener">文档来自</a><br><strong><code>vector(向量):</code></strong></p>
 <p>C++中的一种数据结构,确切的说是一个类.它相当于一个动态的数组,当程序员无法知道自己需要的数组的规模多大时,用其来解决问题可以达到最大节约空间的目的.<br><code>文件包含:</code><br>首先在程序开头处加上#include<vector>以包含所需要的类文件vector还有一定要加上using namespace std;<br><code>变量声明:</code><br>声明一个int向量以替代一维的数组:vector <int> a;用vector代替二维数组.其实只要声明一个一维数组向量即可,而一个数组的名字其实代表的是它的首地址,所以只要声明一个地址的向量即可,即:vector <int *=""> a.同理想用向量代替三维数组也是一样,vector <int**>a;再往上面依此类推.int可以改成其他的如char、string甚至是strcut。<br><code>具体的用法以及函数调用:</code></int**></int></int></vector></p>
 <ul>
 <li>1.push_back   在数组的最后添加一个数据</li>
@@ -449,9 +449,9 @@
 <li>c.end()             返回指向容器最后一个元素的迭代器                                  </li>
 <li>c1.swap(c2)==swap(c1,c2)         将c1和c2元素互换。两操作相同。</li>
 </ul>
-<p><code>#include&lt;algorithm&gt;中的泛函算法</code><br>搜索算法：find() 、search() 、count() 、find_if() 、search_if() 、count_if()<br>分类排序：sort() 、merge()<br>删除算法：unique() 、remove()<br>生成和变异：generate() 、fill() 、transformation() 、copy()<br>关系算法：equal() 、min() 、max()<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sort(v1.begin(),vi.begin()+v1.size/<span class="number">2</span>）;</div></pre></td></tr></table></figure></p>
-<p>对v1的前半段元素排序，默认是从小到大排序，即默认为冒泡排序。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sort(v1.begin(),v1.end());</div></pre></td></tr></table></figure></p>
-<p>对整个vector做排序<br>定义排序比较函数：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> &amp;a,<span class="keyword">const</span> <span class="keyword">int</span> &amp;b)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">return</span> a&gt;b;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>#include&lt;algorithm&gt;中的泛函算法</code><br>搜索算法：find() 、search() 、count() 、find_if() 、search_if() 、count_if()<br>分类排序：sort() 、merge()<br>删除算法：unique() 、remove()<br>生成和变异：generate() 、fill() 、transformation() 、copy()<br>关系算法：equal() 、min() 、max()<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sort(v1.begin(),vi.begin()+v1.size/<span class="number">2</span>）;</span><br></pre></td></tr></table></figure></p>
+<p>对v1的前半段元素排序，默认是从小到大排序，即默认为冒泡排序。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sort(v1.begin(),v1.end());</span><br></pre></td></tr></table></figure></p>
+<p>对整个vector做排序<br>定义排序比较函数：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> &amp;a,<span class="keyword">const</span> <span class="keyword">int</span> &amp;b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a&gt;b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>调用时:sort(vec.begin(),vec.end(),cmp)，这样就降序排序。<br><code>其他功能:</code></p>
 <ul>
 <li>c.at(idx)  传回索引idx所指的数据，如果idx越界，抛出out_of_range。 </li>
@@ -575,7 +575,7 @@
               
                 <a href="/hexoblog/archives/">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -597,7 +597,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/hexoblog/tags/index.html">
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -656,7 +656,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

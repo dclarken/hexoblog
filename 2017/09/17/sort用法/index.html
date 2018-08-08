@@ -412,15 +412,15 @@
       
 
       
-        <p><a href="http://www.cnblogs.com/sunny3312/archive/2017/01/07/6260472.html" target="_blank" rel="external">Python中的sort()方法使用基础文档：</a><br>格式：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sorted(iterable[, cmp[, key[, reverse]]])</div><div class="line">iterable.sort(cmp[, key[, reverse]])</div></pre></td></tr></table></figure></p>
+        <p><a href="http://www.cnblogs.com/sunny3312/archive/2017/01/07/6260472.html" target="_blank" rel="noopener">Python中的sort()方法使用基础文档：</a><br>格式：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sorted(iterable[, cmp[, key[, reverse]]])</span><br><span class="line">iterable.sort(cmp[, key[, reverse]])</span><br></pre></td></tr></table></figure></p>
 <p>参数解释：</p>
 <ul>
 <li>iterable指定要排序的list或者iterable，不用多说；</li>
 <li><p>cmp为函数，指定排序时进行比较的函数，可以指定一个函数或者lambda函数，如：<br>students为类对象的list，没个成员有三个域，用sorted进行比较时可以自己定cmp函数，例如这里要通过比较第三个数据成员来排序，代码可以这样写：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">students = [(<span class="string">'john'</span>, <span class="string">'A'</span>, <span class="number">15</span>), (<span class="string">'jane'</span>, <span class="string">'B'</span>, <span class="number">12</span>), (<span class="string">'dave'</span>, <span class="string">'B'</span>, <span class="number">10</span>)]</div><div class="line">sorted(students, key=<span class="keyword">lambda</span> student : student[<span class="number">2</span>])</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">students = [(<span class="string">'john'</span>, <span class="string">'A'</span>, <span class="number">15</span>), (<span class="string">'jane'</span>, <span class="string">'B'</span>, <span class="number">12</span>), (<span class="string">'dave'</span>, <span class="string">'B'</span>, <span class="number">10</span>)]</span><br><span class="line">sorted(students, key=<span class="keyword">lambda</span> student : student[<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>key为函数，指定取待排序元素的哪一项进行排序，函数用上面的例子来说明，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sorted(students, key=<span class="keyword">lambda</span> student : student[<span class="number">2</span>])</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sorted(students, key=<span class="keyword">lambda</span> student : student[<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>key指定的lambda函数功能是去元素student的第三个域（即：student[2]），因此sorted排序时，会以students所有元素的第三个域来进行排序。</p>
@@ -537,7 +537,7 @@
               
                 <a href="/hexoblog/archives/">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -559,7 +559,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/hexoblog/tags/index.html">
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -618,7 +618,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

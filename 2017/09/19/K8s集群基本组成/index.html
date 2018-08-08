@@ -427,7 +427,7 @@
       
 
       
-        <p><a href="http://www.cnblogs.com/chris-cp/p/5766153.html" target="_blank" rel="external">K8s集群基本概念</a><br>Kubernetes 是Google开源的容器集群管理系统，它构建于docker技术之上，基于Docker构建一个容器的调度服务，提供资源调度、均衡容灾、服务注册、动态扩缩容等功能套件，本质上可看作是基于容器技术的mini-PaaS平台。</p>
+        <p><a href="http://www.cnblogs.com/chris-cp/p/5766153.html" target="_blank" rel="noopener">K8s集群基本概念</a><br>Kubernetes 是Google开源的容器集群管理系统，它构建于docker技术之上，基于Docker构建一个容器的调度服务，提供资源调度、均衡容灾、服务注册、动态扩缩容等功能套件，本质上可看作是基于容器技术的mini-PaaS平台。</p>
 <p><strong><code>基本概念：</code></strong><br><code>Node:</code><br>Node也就等同于Mesos集群中的Slave节点，是所有Pod运行所在的工作主机，可以是物理机也可以是虚拟机。不论是物理机还是虚拟机，工作主机的统一特征是上面要运行kubelet管理节点上运行的容器。</p>
 <p><code>Pod:</code><br>若干相关容器的组合，Pod包含的容器运行在同一host上，这些容器使用相同的网络命令空间、IP地址和端口，相互之间能通过localhost来发现和通信。另外，这些容器还可共享一块存储卷空间。在k8s中创建，调度和管理的最小单位就是Pod，而非容器，Pod通过提供更高层次的抽象，提供了更加灵活的部署和管理模式；</p>
 <ul>
@@ -443,7 +443,7 @@
 <li>跨斗容器“帮助”主容器。示例包括日志或数据更改监视程序、监视适配器等。例如，日志监视程序可以由一个团队创建一次，并在不同的应用程序中重用。另一个例子，一个跨斗容器是一个文件或数据装载器，为主容器生成数据。</li>
 <li>代理、网桥和适配器将主容器与外部世界连接起来。例如，Apache HTTP服务器或Nginx可以提供静态文件。它还可以充当主容器中Web应用程序的反向代理，以记录和限制HTTP请求。另一个例子是辅助容器，它将请求从主容器路由到外部网络。这使得主容器可以连接到本地主机访问，例如，外部数据库，但不需任何的服务发现。</li>
 </ul>
-<p>Pod容器间的通信：<br><a href="https://www.kubernetes.org.cn/2767.html" target="_blank" rel="external">Pod介绍</a></p>
+<p>Pod容器间的通信：<br><a href="https://www.kubernetes.org.cn/2767.html" target="_blank" rel="noopener">Pod介绍</a></p>
 <ul>
 <li>在Kubernetes Pod中共享卷，使用一个共享的Kubernetes卷作为一种简单而有效的方式，在一个POD内容器间进行数据共享。</li>
 <li>进程间通信（IPC），一个POD里的容器共享相同的IPC命名空间，这意味着他们也可以互相使用标准进程间通信，如SystemV信号系统或POSIX共享内存。</li>
@@ -472,7 +472,7 @@
 <li>Service是定义在集群中一组运行Pod集合的抽象资源，它提供了所有相同的功能。当一个Service资源被创建后，将会分配一个唯一的IP（也叫做集群IP），这个IP地址将存在于Service的整个生命资源，Service一旦被创建，整个IP无法进行修改。</li>
 </ul>
 <p>Pod可以通过Service进行通信，并且所有的通信将会通过Service自动负载均很到所有的Pod中的容器，service是抽象化的pod，为集群提供服务。</p>
-<p><code>目前 kubernetes 共有三种服务暴露的方式:</code><br><a href="https://www.kubernetes.org.cn/2812.html" target="_blank" rel="external">K8s集群外服务访问</a></p>
+<p><code>目前 kubernetes 共有三种服务暴露的方式:</code><br><a href="https://www.kubernetes.org.cn/2812.html" target="_blank" rel="noopener">K8s集群外服务访问</a></p>
 <ul>
 <li>LoadBlancer Service<br>LoadBlancer Service是kubernetes深度结合云平台的一个组件；当使LoadBlancer Service暴露服务时，实际上是通过向底层云平台申请创建一个负载均衡器来向外暴露服务；目前LoadBlancer Service支持的云平台已经相对完善，比如国外的GCE、DigitalOcean，国内的 阿里云，私有云 OpenStack 等等，由于LoadBlancer Service深度结合了云平台，所以只能在一些云平台上来使用。</li>
 <li>NodePort Service<br>NodePort Service，实质上就是通过在集群的每个node上暴露一个端口，然后将这个端口映射到某个具体的service来实现的，虽然每个node的端口有很多(默认的取值范围是 30000-32767)，例如：在做反向代理服务器时候，将nginx的80端口映射到30000端口，然后将30000端口暴露，用于做对外服务，但是由于安全性和易用性(服务多了就乱了，还有端口冲突问题)实际使用可能并不多。</li>
@@ -556,7 +556,7 @@
 </ul>
 </li>
 </ul>
-<p><a href="http://blog.csdn.net/qq1010885678/article/details/48719923" target="_blank" rel="external">文档资料来自</a></p>
+<p><a href="http://blog.csdn.net/qq1010885678/article/details/48719923" target="_blank" rel="noopener">文档资料来自</a></p>
 
       
     </div>
@@ -683,7 +683,7 @@
               
                 <a href="/hexoblog/archives/">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -705,7 +705,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/hexoblog/tags/index.html">
-                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -764,7 +764,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
