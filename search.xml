@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[LVM拓容]]></title>
+    <url>%2Fhexoblog%2F2018%2F08%2F08%2FLVM%E6%8B%93%E5%AE%B9%2F</url>
+    <content type="text"><![CDATA[拓容之前虚拟机上为Centos新建一个20G的磁盘，并重启 查看磁盘以及查看磁盘分区挂载情况12fdisk -ldf -Th 在没有用fdisk命令新建磁盘之前没有详细磁盘信息123456789101112131415[root@dc1 ~]# fdisk -l...Disk /dev/sdb: 21.5 GB, 21474836480 bytes255 heads, 63 sectors/track, 2610 cylindersUnits = cylinders of 16065 * 512 = 8225280 bytesSector size (logical/physical): 512 bytes / 512 bytesI/O size (minimum/optimal): 512 bytes / 512 bytesDisk identifier: 0xc1d53501...[root@dc1 ~]# df -ThFilesystem Type Size Used Avail Use% Mounted on/dev/sda5 ext4 18G 2.1G 15G 13% /tmpfs tmpfs 491M 0 491M 0% /dev/shm/dev/sda1 ext4 194M 29M 155M 16% /boot/dev/sda2 ext4 2.0G 35M 1.8G 2% /home 创建LVM的磁盘分区1printf "n\np\n1\n\n\nt\n8e\nw\n" | fdisk /dev/vdb 12345678910111213141516171819#fdisk操作命令大全command (m for help): mCommand action a toggle a bootable flag b edit bsd disklabel c toggle the dos compatibility flag d delete a partition l list known partition types m print this menu n add a new partition o create a new empty DOS partition table p print the partition table q quit without saving changes s create a new empty Sun disklabel t change a partition's system id u change display/entry units v verify the partition table w write table to disk and exit x extra functionality (experts only) 8e 表示Linux LVM 这一步不可以省输入fdisk /dev/vdb显示以下信息:1234... Device Boot Start End Blocks Id System/dev/sdb1 1 2610 20964793+ 8e Linux LVM... LVM操作为两个分区创建物理卷12pvcreate /dev/sdb1pvcreate /dev/sdc1 创建逻辑卷组1vgcreate lvhd /dev/sdb1 激活卷组1vgchange -ay lvhd 创建逻辑卷，使用全部sdb1的容量1lvcreate -l 100%FREE -n app lvhd 或者通过查询PE来创建，-l后的数字可以通过lvdisplay查询的逻辑卷组信息确定1lvcreate -l 7678 lvhd -n app 将1vhd/app分区格式化为ext4格式 -t表示文件类型1mkfs -t ext4 /dev/lvhd/app 挂载分区123mkdir /appmount /dev/lvhd/app /appecho "/dev/lvhd/app /app ext4 defaults 0 0" &gt;&gt;/etc/fstab mount命令用于加载文件系统/dev/lvhd/app到指定的加载点/app。当Linux系统下划分了新的分区后，需要将这些分区设置为开机自动挂载，否则，Linux是无法使用新建的分区的。 /etc/fstab 文件负责配置Linux开机时自动挂载的分区12 &lt;file system&gt; &lt;mount point&gt; &lt;type&gt; &lt;options&gt; &lt;dump&gt; &lt;pass&gt;"/dev/lvhd/app /app ext4 defaults 0 0" //参数对应 新添加的一块盘如何扩展到卷组上1234fdisk /dev/sdc //步骤和之前一样，得到/dev/sdc1vgextend lvhd /dev/sdc1 //拓展容量lvcreate -l +100%FREE -n app lvhd //逻辑卷扩容,注意此时需要在100%FREE前面带上+号，若用Total PE方式则不用resize2fs /dev/lvhd/app //操作之后既可以用df -Th查看到磁盘信息 1234567[root@dc1 ~]# df -ThFilesystem Type Size Used Avail Use% Mounted on/dev/sda5 ext4 18G 2.1G 15G 13% /tmpfs tmpfs 491M 0 491M 0% /dev/shm/dev/sda1 ext4 194M 29M 155M 16% /boot/dev/sda2 ext4 2.0G 35M 1.8G 2% /home/dev/mapper/lvhd-app ext4 40G 180M 56G 1% /app 参考网站:地址]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>Linux</tag>
+        <tag>LVM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[LVM逻辑卷管理]]></title>
     <url>%2Fhexoblog%2F2018%2F08%2F07%2FLVM%E9%80%BB%E8%BE%91%E5%8D%B7%E7%AE%A1%E7%90%86%2F</url>
     <content type="text"><![CDATA[LVM工作原理LVM在每个物理卷头部都维护了一个metadata，每个metadata中都包含了整个VG（volume group：卷组）的信息，包括每个VG的布局配置，PV（physical volume：物理卷）的编号，LV（logical volume：逻辑卷）的编号，以及每个PE（physical extends：物理扩展单元）到LE（logical extends：逻辑扩展单元）的映射关系。同一个VG中的每个PV头部的信息都是相同的，这样有利于故障时进行数据恢复。LVM对上层文件系统提供LV层，隐藏了操作细节。对文件系统而言，对LV的操作与原先对partition的操作没有差别。当对LV进行写入操作的时候，LVM定位相应的LE，通过PV头部的映射表将数据写入到相应的PE上。LVM实现的关LVM最大的特点就是可以对磁盘进行动态管理。因为逻辑卷的大小是可以动态调整的，而且不会丢失现有的数据。我们如果新增加了硬盘，其也不会改变现有上层的逻辑卷。键在于PE和LE之间建立映射关系，不同的映射规则决定了不同的LVM存储模型。LVM支持多个PV 的stripe和mirror。LVM最大的特点就是可以对磁盘进行动态管理，因为逻辑卷的大小是可以动态调整的，而且不会丢失现有的数据，如果我们增加了硬盘也不会改变现有的上层逻辑卷。 LVM优缺点优点： 文件系统可以跨多个磁盘，因此文件系统大小不会受物理磁盘的限制。 可以在系统运行的状态下动态的扩展文件系统的大小。 可以增加新的磁盘到LVM的存储池中。 可以以镜像的方式冗余重要的数据到多个物理磁盘。 可以方便的导出整个卷组到另外一台机器。 缺点： 在从卷组中移除一个磁盘的时候必须使用reducevg命令（这个命令要求root权限，并且不允许在快照卷组中使用）。 当卷组中的一个磁盘损坏时，整个卷组都会受到影响。 因为加入了额外的操作，存贮性能受到影响 LVM的名词解析PV(physical volume)物理卷在逻辑卷管理系统最底层，可为整个物理硬盘或实际物理硬盘上的分区。它只是在物理分区中划出了一个特殊的区域，用于记载与LVM相关的管理参数。VG(volume group)卷组建立在物理卷上，一卷组中至少要包括一物理卷，卷组建立后可动态的添加卷到卷组中，一个逻辑卷管理系统工程中可有多个卷组。LV(logical volume)逻辑卷建立在卷组基础上，卷组中未分配空间可用于建立新的逻辑卷，逻辑卷建立后可以动态扩展和缩小空间。PE(physical extent)物理区域是物理卷中可用于分配的最小存储单元，物理区域大小在建立卷组时指定，一旦确定不能更改，同一卷组所有物理卷的物理区域大小需一致，新的pv加入到vg后，pe的大小自动更改为vg中定义的pe大小。LE(logical extent)逻辑区域是逻辑卷中可用于分配的最小存储单元，逻辑区域的大小取决于逻辑卷所在卷组中的物理区域的大小。由于受内核限制的原因，一个逻辑卷（Logic Volume）最多只能包含65536个PE（Physical Extent），所以一个PE的大小就决定了逻辑卷的最大容量，4 MB(默认) 的PE决定了单个逻辑卷最大容量为 256 GB，若希望使用大于256G的逻辑卷，则创建卷组时需要指定更大的PE。在Red Hat Enterprise Linux AS 4中PE大小范围为8 KB 到 16GB，并且必须总是 2 的倍数。 将各物理磁盘或分区初始化为PV（physical volume，物理卷），这一阶段可使用的命令为pvcreate、pvremove、pvscan、pvdisplay（pvs）12345678910111213141516pvcreate：创建物理卷 用法：pvcreate [option] DEVICE -f：强制创建逻辑卷，不需用户确认 -u：指定设备的UUID -y：所有问题都回答yespvscan：扫描当前系统上的所有物理卷 用法：pvscan [option] -e：仅显示属于输出卷组的物理卷 -n：仅显示不属于任何卷组的物理卷 -u：显示UUIDpvdisplay：显示物理卷的属性 用法：pvdisplay [PV_DEVICE]pvremove：将物理卷信息删除，使其不再被视为一个物理卷 用法：pvremove [option] PV_DEVICE -f：强制删除 -y：所有问题都回答yes 创建VG（volume group，卷组）。卷组将多个物理卷整合起来（屏蔽了底层细节），并划分PE（physical extend）。PE是物理卷中的最小存储单元，有点类似于文件系统中的block，PE大小可指定，默认为4M。这一阶段用到的命令有vgcreate、vgscan、vgdisplay、vgextend、vgreduce12345678910111213141516171819202122232425vgcreate：创建卷组 用法：vgcreate [option] VG_NAME PV_DEVICE 选项： -s：卷组中的物理卷的PE大小，默认为4M -l：卷组上允许创建的最大逻辑卷数 -p：卷级中允许添加的最大物理卷数 例 vgcreate -s 8M myvg /dev/sda5 /dev/sda6vgscan：查找系统中存在的LVM卷组，并显示找到的卷组列表vgdisplay：显示卷组属性 用法：vgdisplay [option] [VG_NAME] 选项： -A：仅显示活动卷组的信息 -s：使用短格式输出信息vgextend：动态扩展LVM卷组，它通过向卷组中添加物理卷来增加卷组的容量 用法：vgextend VG_NAME PV_DEVICE 例 vgextend myvg /dev/sda7vgreduce：通过删除LVM卷组中的物理卷来减少卷组容量，不能删除LVM卷组中剩余的最后一个物理卷 用法：vgreduce VG_NAME PV_DEVICEvgremove：删除卷组，其上的逻辑卷必须处于离线状态 用法：vgremove [-f] VG_NAME -f：强制删除vgchange：常用来设置卷组的活动状态 用法：vgchange -a n/y VG_NAME -a n为休眠状态，休眠之前要先确保其上的逻辑卷都离线； -a y为活动状态 在卷组上创建LV（logical volume，逻辑卷）。为了便于管理，逻辑卷对应的设备文件保存在卷组目录下，为/dev/VG_NAME/LV_NAME。LV中可以分配的最小存储单元称为LE（logical extend），在同一个卷组中，LE的大小和PE是一样的，且一一对应。这一阶段用到的命令有lvcreate、lvscan、lvdisplay、lvextend、lvreduce、lvresize1234567891011121314151617181920212223242526272829lvcreate：创建逻辑卷或快照 用法：lvcreate [选项] [参数] 选项： -L：指定大小 -l：指定大小（LE数） -n：指定名称 -s：创建快照 -p r：设置为只读（该选项一般用于创建快照中）注：使用该命令创建逻辑卷时当然必须指明卷组，创建快照时必须指明针对哪个逻辑卷 例 lvcreate -L 500M -n mylv myvglvscan：扫描当前系统中的所有逻辑卷，及其对应的设备文件lvdisplay：显示逻辑卷属性 用法：lvdisplay [/dev/VG_NAME/LV_NAME]lvextend：可在线扩展逻辑卷空间 用法：lvextend -L/-l 扩展的大小 /dev/VG_NAME/LV_NAME 选项： -L：指定扩展（后）的大小。例如，-L +800M表示扩大800M，而-L 800M表示扩大至800M -l：指定扩展（后）的大小（LE数） 例 lvextend -L 200M /dev/myvg/mylvlvreduce：缩减逻辑卷空间，一般离线使用 用法：lvexreduce -L/-l 缩减的大小 /dev/VG_NAME/LV_NAME 选项： -L：指定缩减（后）的大小 -l：指定缩减（后）的大小（LE数） 例 lvreduce -L 200M /dev/myvg/mylvlvremove：删除逻辑卷，需要处于离线（卸载）状态 用法：lvremove [-f] /dev/VG_NAME/LV_NAME -f：强制删除 文件系统的扩展和缩减文件系统在创建时是分成多个块组（block group）的，因此文件系统的增减实际上就是以增减块组的方式实现的。在linux中，ext系列格式的文件系统是可以扩展和缩减的，而xfs格式的目前只能扩展扩展文件系统1234567先确定扩展的目标大小，并确保对应卷组中有足够的空闲空间可用。如果不够，可先通过vgextend命令扩大卷组容量# vgextend myvg /dev/sda7扩展逻辑卷# lvextend -L 4G /dev/myvg/mylv 扩展文件系统resize2fs为ext系列文件系统大小的调整工具用法为：resize2fs 文件系统所对应的设备文件名 [大小]# resize2fs /dev/myvg/mylv 缩减很危险，要离线12345678先确定缩减后的目标大小，并确保对应的目标逻辑卷大小足够容纳原有数据先卸载文件系统，并要执行强制检测# e2fsck -f缩减文件系统#resize2fs DEVICE 例如，resize2fs /dev/myvg/mylv 3G 缩减至3G缩减逻辑卷# lvreduce -L 3G /dev/myvg/mylv注：当逻辑卷有快照时是不能扩展和缩减的，除非先将快照删除. snapshot（快照）snapshot是像照相一样将当前的系统信息保存下来。当创建一个snapshot的时候，仅拷贝原始卷里数据的元数据(meta-data)。创建的时候，并不会有数据的物理拷贝，因此snapshot的创建几乎是实时的，当原始卷上有写操作执行时，snapshot跟踪原始卷块的改变，这个时候原始卷上将要改变的数据在改变之前被拷贝到snapshot预留的空间里，因此这个原理的实现叫做写时复制(copy-on-write)。在写操作写入块之前，原始数据被移动到 snapshot空间里，这样就保证了所有的数据在snapshot创建时保持一致。而对于snapshot的读操作，如果是没有修改过的块，那么会将读操作直接重定向到原始卷上，如果是已经修改过的块，那么就读取拷贝到snapshot中的块。123456789101112创建快照卷：lvcreate [选项] [参数]选项： -L：指定大小-l：指定大小（LE数）-n：指定名称-s：创建快照-p r：设置为只读例如 lvcreate -s -L 512M -n mylv_snap -p r /dev/myvg/mylv # 针对逻辑卷mylv创建大小为512M的只读快照注：创建快照前需将针对的逻辑卷临时改为只读，创建完毕后再改为读写，例如- 创建快照前：mount -o remount,ro /dev/myvg/mylv /data- 创建快照后：mount -o remount,rw /dev/myvg/mylv /data]]></content>
@@ -11,17 +24,6 @@
         <tag>笔记</tag>
         <tag>Linux</tag>
         <tag>磁盘管理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[test]]></title>
-    <url>%2Fhexoblog%2F2017%2F11%2F02%2Ftest%2F</url>
-    <content type="text"><![CDATA[test for add and push]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
       </tags>
   </entry>
   <entry>
@@ -36,6 +38,17 @@
         <tag>笔记</tag>
         <tag>负载均衡</tag>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[test]]></title>
+    <url>%2Fhexoblog%2F2017%2F11%2F02%2Ftest%2F</url>
+    <content type="text"><![CDATA[test for add and push]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
       </tags>
   </entry>
   <entry>
@@ -149,20 +162,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[time模块]]></title>
-    <url>%2Fhexoblog%2F2017%2F10%2F12%2Ftime%E6%A8%A1%E5%9D%97%2F</url>
-    <content type="text"><![CDATA[Python时间模块之Time模块解析文章转载来源time模块。在开始前，先说明几点： 在Python中，通常有这几种方式表示时间：时间戳、格式化的时间字符串、元组（struct_time 共九种元素）。由于Python的time模块主要是调用C库实现的，所以在不同的平台可能会有所不同。 时间戳（timestamp）的方式：时间戳表示是从1970年1月1号 00:00:00开始到现在按秒计算的偏移量。查看一下type(time.time())的返回值类型，可以看出是float类型。返回时间戳的函数主要有time()、clock()等。 UTC（世界协调时），就是格林威治天文时间，也是世界标准时间。在中国为UTC+8。DST夏令时。 元组方式：struct_time元组共有9个元素，返回struct_time的函数主要有gmtime()，localtime()，strptime()。 time.localtime()获取当前的时间123456789101112import timels = time.localtime() 获取当前的时间，其生成的ls的数据结构为具有9个元素的元组time.struct_time(tm_year=2015, tm_mon=8, tm_mday=24, tm_hour=9, tm_min=39, tm_sec=38, tm_wday=0, tm_yday=236, tm_isdst=0)tm_year ：年tm_mon ：月（1-12）tm_mday ：日（1-31）tm_hour ：时（0-23）tm_min ：分（0-59）tm_sec ：秒（0-59）tm_wday ：星期几（0-6,0表示周日）tm_yday ：一年中的第几天（1-366）tm_isdst ：是否是夏令时（默认为-1） 使用元组索引获取对应项的值，或者是使用成员符号调用。调用年份的方法： 12345678910&gt;&gt;&gt; ls[0]2015&gt;&gt;&gt; ls.tm_year2015time.time()：返回当前时间的时间戳&gt;&gt;&gt; time.time()1440337405.85#对时间戳取整&gt;&gt;&gt; int(time.time())1440746424 time.mktime(t)：将一个struct_time转化为时间戳time.mktime() 函数执行与gmtime(), localtime()相反的操作， 12&gt;&gt;&gt; time.mktime(time.localtime())1440338541.0 time.sleep(secs)：线程推迟指定的时间运行secs表示线程睡眠指定时间，单位为妙。time.clock()函数以浮点数计算的秒数返回当前的CPU时间。用来衡量不同程序的耗时，比time.time()更有用。在不同的系统上含义不同。在NUix系统上，它返回的是“进程时间”，它是用妙表示的浮点数（时间戳）。而在Windows中，第一次调用，返回的是进程运行时实际时间。而第二次之后的调用是自第一次调用以后到现在的运行时间。返回值该函数有两个功能： （1）在第一次调用的时候，返回的是程序运行的实际时间；（2）第二次之后的调用，返回的是自第一次调用后,到这次调用的时间间隔在win32系统下，这个函数返回的是真实时间（wall time），而在Unix/Linux下返回的是CPU时间。 time.asctime( [t] )把一个表示时间的元组或者struct_time表示为 ‘Sun Aug 23 14:31:59 2015’ 这种形式。如果没有给参数，会将time.localtime()作为参数传入。 12&gt;&gt;&gt; time.asctime(time.gmtime())'Sun Aug 23 14:31:59 2015' time.ctime([secs])把一个时间戳（按秒计算的浮点数）转化为time.asctime()的形式。如果为指定参数，将会默认使用time.time()作为参数。它的作用相当于time.asctime(time.localtime(secs)) 12&gt;&gt;&gt; time.ctime(1440338541.0)'Sun Aug 23 22:02:21 2015' time.strftime( format [, t] )返回字符串表示的当地时间。把一个代表时间的元组或者struct_time（如由time.localtime()和time.gmtime()返回）转化为格式化的时间字符串，格式由参数format决定。如果未指定，将传入time.localtime()。如果元组中任何一个元素越界，就会抛出ValueError的异常。函数返回的是一个可读表示的本地时间的字符串。参数：format：格式化字符串t ：可选的参数是一个struct_time对象时间字符串支持的格式符号：（区分大小写） 123456789101112131415161718192021222324%a 本地星期名称的简写（如星期四为Thu） %A 本地星期名称的全称（如星期四为Thursday） %b 本地月份名称的简写（如八月份为agu） %B 本地月份名称的全称（如八月份为august） %c 本地相应的日期和时间的字符串表示（如：15/08/27 10:20:06） %d 一个月中的第几天（01 - 31） %f 微妙（范围0.999999） %H 一天中的第几个小时（24小时制，00 - 23） %I 第几个小时（12小时制，0 - 11） %j 一年中的第几天（001 - 366） %m 月份（01 - 12） %M 分钟数（00 - 59） %p 本地am或者pm的相应符 %S 秒（00 - 61） %U 一年中的星期数。（00 - 53星期天是一个星期的开始。）第一个星期天之前的所有天数都放在第0周。 %w 一个星期中的第几天（0 - 6，0是星期天） %W 和%U基本相同，不同的是%W以星期一为一个星期的开始。 %x 本地相应日期字符串（如15/08/01） %X 本地相应时间字符串（如08:08:10） %y 去掉世纪的年份（00 - 99）两个数字表示的年份 %Y 完整的年份（4个数字表示年份）%z 与UTC时间的间隔（如果是本地时间，返回空字符串）%Z 时区的名字（如果是本地时间，返回空字符串） %% ‘%’字符 12&gt;&gt;&gt; time.strftime("%Y-%m-%d %H:%M:%S", formattime)'2015-08-24 13:01:30' time.strptime(string[,format])将格式字符串转化成struct_time.该函数是time.strftime()函数的逆操作。time strptime() 函数根据指定的格式把一个时间字符串解析为时间元组。所以函数返回的是struct_time对象。参数：string ：时间字符串format：格式化字符串 1234&gt;&gt;&gt; stime = "2015-08-24 13:01:30"&gt;&gt;&gt; formattime = time.strptime(stime,"%Y-%m-%d %H:%M:%S")&gt;&gt;&gt; print formattimetime.struct_time(tm_year=2015, tm_mon=8, tm_mday=24, tm_hour=13, tm_min=1, tm_sec=30, tm_wday=0, tm_yday=236, tm_isdst=-1)]]></content>
-      <categories>
-        <category>笔记</category>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>python</tag>
-        <tag>time</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Apache负载均衡]]></title>
     <url>%2Fhexoblog%2F2017%2F10%2F12%2FApache%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%2F</url>
     <content type="text"><![CDATA[配置文件 轮询均衡策略的配置 12345ProxyPass /balancer://proxy/ #注意这里以"/"结尾&lt;Proxy balancer://proxy&gt; BalancerMember http://192.168.6.37:6888/ BalancerMember http://192.168.6.38:6888/&lt;/Proxy&gt; 按权重分配均衡策略的配置 ProxyPass /balancer://proxy/ ProxyPass / balancer://proxy/协议地址可以随便定义。ProxyPass指令允许你将一个远端服务器映射到本地服务器的URL空间中，此时本地服务器并不充当代理角色，而是充当远程服务器的一个镜像。path是一个本地虚拟路径名，url是一个指向远程服务器的部分URL，并且不允许包含查询字符串。ProxyPass文档 1234&lt;Proxy balancer://proxy&gt; BalancerMember http://192.168.6.37:6888/ loadfactor=3 BalancerMember http://192.168.6.38:6888/ loadfactor=1&lt;/Proxy&gt; 参数”loadfactor”表示后台服务器负载到由Apache发送请求的权值,该值默认为1，可以将该值设置为1到100之间的任何值。 权重请求响应负载均衡策略的配置 12345ProxyPass / balancer://proxy/ lbmethod=bytraffic 理解为LB的参数是流量&lt;Proxy balancer://proxy&gt; BalancerMember http://192.168.6.37:6888/ loadfactor=3 BalancerMember http://192.168.6.38:6888/ loadfactor=1&lt;/Proxy&gt; 参数“lbmethod=bytraffic”表示后台服务器负载请求和响应的字节数，处理字节数的多少是以权值的方式来表示的。(1)均衡配置，(2)是以请求数作为权重负载均衡的，(3)是以流量为权重负载均衡的，这是最大的区别。lbmethod表示负载均衡的算法,lbmethod可能的取值有： lbmethod=byrequests 按照请求次数均衡(默认) lbmethod=bytraffic 按照流量均衡，权重表示处理的比特流数据的权重 lbmethod=bybusyness 按照繁忙程度均衡(总是分配给活跃请求数最少的服务器) httpd.conf 配置文件分为3个部分 Httpd.conf文件的路径：/etc/httpd/conf/httpd.conf或者/usr/local/apache2/conf/httpd.conf分别对应的是RPM包安装和源码包安装两种安装方式的配置文件位置第一部分：服务器全局环境配置第二部分：本地服务器响应外部请求的处理方式的配置第三部分：虚拟主机的配置 主要配置过程1、查看是否有mod_proxy_http.so、mod_proxy_balancer.so、mod_proxy.so三个模块 1$ll /usr/local/apache2/modules mod_proxy是一种分工合作的的形式，通过主服务器跳转到各台主机负责不同的任务而实现任务分工，这种形式不能实现负载均衡，只能提供主服务器的访问跳转Apache模块mod_proxy文档Apache的代理功能(除mod_proxy以外)被划分到了几个不同的模块中：mod_proxy_http, mod_proxy_ftp, mod_proxy_ajp, mod_proxy_balancer, mod_proxy_connect 。这样，如果想使用一个或多个代理功能，就必须将mod_proxy和对应的模块同时加载到服务器中(静态连接或用LoadModule动态加载)。mod_proxy_balancer是mod_proxy的扩展，提供负载平衡支持，通过mod_proxy_balancer.so包实现负载平衡，公司生产服务器暂时就采用这种方式，粗略查看该文档发现，apache的balancer模块支持论询方式的负载均衡。apache模块mod_proxy_balancer文档 2、加载模块 apache模块安装：来自 http://unixboy.iteye.com/blog/577981 该模块可以是apache自己所拥有的模块 ，也可以是第三方模块。加载第三方模块的方法： 编译并安装已发布的Apache模块或者第三方模块，比如编译mod_foo.c为mod_foo.so的DSO模块，利用GCC编译的相关知识如：./configure 、 make install等 配置Apache以便以后安装共享模块 用apxs在Apache源码树以外编译并安装第三方模块，如：/apxs -c -i 共享模块编译完毕后，必须在httpd.conf中用LoadModule指令使Apache启用该模块，如： LoadModule proxy_module Apxs-Apache扩展工具Apache DSO模块原理 apxs是一个为Apache HTTP服务器编译和安装扩展模块的工具，用于编译一个或多个源程序或目标代码文件为动态共享对象，使之可以用由mod_so提供的LoadModule指令在运行时加载到Apache服务器中。DSO究竟是什么？事实上DSO是Dynamic SharedObjects（动态共享目标）的缩写，它是现代Unix派生出来的操作系统都存在着的一种动态连接机制。它提供了一种在运行时将特殊格式的代码，在程序运行需要时，将需要的部分从外存调入内存执行的方法。-c：属于 DSO编译选项此选项表示需要执行编译操作。它首先会编译C源程序(.c)files为对应的目标代码文件(.o)，然后连接这些目标代码和files中其余的目标代码文件(.o和.a)，以生成动态共享对象dsofile 。如果没有指定 -o 选项，则此输出文件名由files中的第一个文件名推测得到，也就是默认为mod_name.so 。-i：DSO的安装和配置选项此选项表示需要执行安装操作，以安装一个或多个动态共享对象到服务器的modules目录中。 1234# cd /usr/local/src/httpd-2.2.23/modules/proxy/# /usr/local/apache2/bin/apxs -c -i mod_proxy.c proxy_util.c# /usr/local/apache2/bin/apxs -c -i mod_proxy_balancer.c# /usr/local/apache2/bin/apxs -c -i mod_proxy_http.c 3、修改http.conf配置文件 1234567891011# vim /usr/local/apache2/conf/httpd.conf LoadModule proxy_module modules/mod_proxy.so LoadModule proxy_connect_module modules/mod_proxy_connect.so LoadModule proxy_balancer_module modules/mod_proxy_balancer.so LoadModule proxy_http_module modules/mod_proxy_http.so ProxyRequests Off &lt;Proxy balancer://clusterphpinfo&gt; BalancerMember http://10.0.2.203:80 loadfactor=1;BalancerMember 及其后面的URL表示要配置的后台服务器、test表示该服务器下的项目名称 BalancerMember http://10.0.2.204:80 loadfactor=1;参数”loadfactor”表示后台服务器负载到由Apache发送请求的权值,该值默认为1 &lt;/Proxy&gt; ProxyPass / balancer://clusterphpinfo 用于做反向代理的配置，一般开启ProxyPass，ProxyRequests应该设置为off，即为关闭正向代理请求。 4、重启httpd服务 1# service httpd restart或者利用apachectl控制台操作# apachectl httpd restart 5、通过apache将后端服务器做出主从,只需要在从服务器后面添加status=+H 12# vim /usr/local/apache2/conf/httpd.conf BalancerMember http://10.0.2.204:80 loadfactor=1 status=+H 热备份(Hot Standby) ：热备份的实现很简单，只需添加 status=+H 属性，就可以把某台服务器指定为备份服务器：请求总是流向服务器，一旦服务器挂掉，Apache会检测到错误并把请求分流给备份服务器。Apache会每隔几分钟检测一下原服务器的状况，如果原服务器恢复，就继续使用原服务器。 参考资料：Apache负载均衡的实现Apache负载均衡之Apache Proxy方式Apache负载均衡策略（轮询方式）Apache策略原则apache模块mod_proxy_balancer文档]]></content>
@@ -174,6 +173,20 @@
         <tag>笔记</tag>
         <tag>Linux</tag>
         <tag>apache</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[time模块]]></title>
+    <url>%2Fhexoblog%2F2017%2F10%2F12%2Ftime%E6%A8%A1%E5%9D%97%2F</url>
+    <content type="text"><![CDATA[Python时间模块之Time模块解析文章转载来源time模块。在开始前，先说明几点： 在Python中，通常有这几种方式表示时间：时间戳、格式化的时间字符串、元组（struct_time 共九种元素）。由于Python的time模块主要是调用C库实现的，所以在不同的平台可能会有所不同。 时间戳（timestamp）的方式：时间戳表示是从1970年1月1号 00:00:00开始到现在按秒计算的偏移量。查看一下type(time.time())的返回值类型，可以看出是float类型。返回时间戳的函数主要有time()、clock()等。 UTC（世界协调时），就是格林威治天文时间，也是世界标准时间。在中国为UTC+8。DST夏令时。 元组方式：struct_time元组共有9个元素，返回struct_time的函数主要有gmtime()，localtime()，strptime()。 time.localtime()获取当前的时间123456789101112import timels = time.localtime() 获取当前的时间，其生成的ls的数据结构为具有9个元素的元组time.struct_time(tm_year=2015, tm_mon=8, tm_mday=24, tm_hour=9, tm_min=39, tm_sec=38, tm_wday=0, tm_yday=236, tm_isdst=0)tm_year ：年tm_mon ：月（1-12）tm_mday ：日（1-31）tm_hour ：时（0-23）tm_min ：分（0-59）tm_sec ：秒（0-59）tm_wday ：星期几（0-6,0表示周日）tm_yday ：一年中的第几天（1-366）tm_isdst ：是否是夏令时（默认为-1） 使用元组索引获取对应项的值，或者是使用成员符号调用。调用年份的方法： 12345678910&gt;&gt;&gt; ls[0]2015&gt;&gt;&gt; ls.tm_year2015time.time()：返回当前时间的时间戳&gt;&gt;&gt; time.time()1440337405.85#对时间戳取整&gt;&gt;&gt; int(time.time())1440746424 time.mktime(t)：将一个struct_time转化为时间戳time.mktime() 函数执行与gmtime(), localtime()相反的操作， 12&gt;&gt;&gt; time.mktime(time.localtime())1440338541.0 time.sleep(secs)：线程推迟指定的时间运行secs表示线程睡眠指定时间，单位为妙。time.clock()函数以浮点数计算的秒数返回当前的CPU时间。用来衡量不同程序的耗时，比time.time()更有用。在不同的系统上含义不同。在NUix系统上，它返回的是“进程时间”，它是用妙表示的浮点数（时间戳）。而在Windows中，第一次调用，返回的是进程运行时实际时间。而第二次之后的调用是自第一次调用以后到现在的运行时间。返回值该函数有两个功能： （1）在第一次调用的时候，返回的是程序运行的实际时间；（2）第二次之后的调用，返回的是自第一次调用后,到这次调用的时间间隔在win32系统下，这个函数返回的是真实时间（wall time），而在Unix/Linux下返回的是CPU时间。 time.asctime( [t] )把一个表示时间的元组或者struct_time表示为 ‘Sun Aug 23 14:31:59 2015’ 这种形式。如果没有给参数，会将time.localtime()作为参数传入。 12&gt;&gt;&gt; time.asctime(time.gmtime())'Sun Aug 23 14:31:59 2015' time.ctime([secs])把一个时间戳（按秒计算的浮点数）转化为time.asctime()的形式。如果为指定参数，将会默认使用time.time()作为参数。它的作用相当于time.asctime(time.localtime(secs)) 12&gt;&gt;&gt; time.ctime(1440338541.0)'Sun Aug 23 22:02:21 2015' time.strftime( format [, t] )返回字符串表示的当地时间。把一个代表时间的元组或者struct_time（如由time.localtime()和time.gmtime()返回）转化为格式化的时间字符串，格式由参数format决定。如果未指定，将传入time.localtime()。如果元组中任何一个元素越界，就会抛出ValueError的异常。函数返回的是一个可读表示的本地时间的字符串。参数：format：格式化字符串t ：可选的参数是一个struct_time对象时间字符串支持的格式符号：（区分大小写） 123456789101112131415161718192021222324%a 本地星期名称的简写（如星期四为Thu） %A 本地星期名称的全称（如星期四为Thursday） %b 本地月份名称的简写（如八月份为agu） %B 本地月份名称的全称（如八月份为august） %c 本地相应的日期和时间的字符串表示（如：15/08/27 10:20:06） %d 一个月中的第几天（01 - 31） %f 微妙（范围0.999999） %H 一天中的第几个小时（24小时制，00 - 23） %I 第几个小时（12小时制，0 - 11） %j 一年中的第几天（001 - 366） %m 月份（01 - 12） %M 分钟数（00 - 59） %p 本地am或者pm的相应符 %S 秒（00 - 61） %U 一年中的星期数。（00 - 53星期天是一个星期的开始。）第一个星期天之前的所有天数都放在第0周。 %w 一个星期中的第几天（0 - 6，0是星期天） %W 和%U基本相同，不同的是%W以星期一为一个星期的开始。 %x 本地相应日期字符串（如15/08/01） %X 本地相应时间字符串（如08:08:10） %y 去掉世纪的年份（00 - 99）两个数字表示的年份 %Y 完整的年份（4个数字表示年份）%z 与UTC时间的间隔（如果是本地时间，返回空字符串）%Z 时区的名字（如果是本地时间，返回空字符串） %% ‘%’字符 12&gt;&gt;&gt; time.strftime("%Y-%m-%d %H:%M:%S", formattime)'2015-08-24 13:01:30' time.strptime(string[,format])将格式字符串转化成struct_time.该函数是time.strftime()函数的逆操作。time strptime() 函数根据指定的格式把一个时间字符串解析为时间元组。所以函数返回的是struct_time对象。参数：string ：时间字符串format：格式化字符串 1234&gt;&gt;&gt; stime = "2015-08-24 13:01:30"&gt;&gt;&gt; formattime = time.strptime(stime,"%Y-%m-%d %H:%M:%S")&gt;&gt;&gt; print formattimetime.struct_time(tm_year=2015, tm_mon=8, tm_mday=24, tm_hour=13, tm_min=1, tm_sec=30, tm_wday=0, tm_yday=236, tm_isdst=-1)]]></content>
+      <categories>
+        <category>笔记</category>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>python</tag>
+        <tag>time</tag>
       </tags>
   </entry>
   <entry>
@@ -322,9 +335,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Docker内核知识——AUFS及安全性]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94AUFS%E5%8F%8A%E5%AE%89%E5%85%A8%E6%80%A7%2F</url>
-    <content type="text"><![CDATA[关于 AUFS（联合文件系统） 的几个特点： AUFS 是一种联合文件系统，它把若干目录按照顺序和权限 mount 为一个目录并呈现出来 默认情况下，只有第一层（第一个目录）是可写的，其余层是只读的。 增加文件：默认情况下，新增的文件都会被放在最上面的可写层中。 删除文件：因为底下各层都是只读的，当需要删除这些层中的文件时，AUFS 使用 whiteout 机制，它的实现是通过在上层的可写的目录下建立对应的whiteout隐藏文件来实现的。 修改文件：AUFS 利用其 CoW （copy-on-write）特性来修改只读层中的文件。AUFS 工作在文件层面，因此，只要有对只读层中的文件做修改，不管修改数据的量的多少，在第一次修改时，文件都会被拷贝到可写层然后再被修改。 节省空间：AUFS 的 CoW 特性能够允许在多个容器之间共享分层，从而减少物理空间占用。 查找文件：AUFS 的查找性能在层数非常多时会出现下降，层数越多，查找性能越低，因此，在制作 Docker 镜像时要注意层数不要太多。 性能：AUFS 的 CoW 特性在写入大型文件时第一次会出现延迟。 一个Linux 系统之中 所有 Docker 容器都共享主机系统的 bootfs 即 Linux 内核 每个容器有自己的 rootfs，它来自不同的 Linux 发行版的基础镜像，包括 Ubuntu，Debian 和 SUSE 等 在操作系统镜像上面一层层附加应用程序的开源组件的镜像 所有基于一种基础镜像的容器都共享这种 rootfs 安全性: AppArmor, SELinux, GRSEC安全永远是相对的，这里有三个方面可以考虑Docker的安全特性: 由kernel namespaces和cgroups实现的Linux系统固有的安全标准; Docker Deamon的安全接口; Linux本身的安全加固解决方案,类如AppArmor, SELinux; 资料参考：内核知识资料AUFS安全性]]></content>
+    <title><![CDATA[Docker内核知识——Cgroup控制组]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94Cgroup%E6%8E%A7%E5%88%B6%E7%BB%84%2F</url>
+    <content type="text"><![CDATA[Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太多的资源而影响到其它进程；另一方面，在系统资源耗尽的时候，linux 内核会触发 OOM，这会让一些被杀掉的进程成了无辜的替死鬼。因此，为了让容器中的进程更加可控，Docker 使用 Linux cgroups 来限制容器中的进程允许使用的系统资源。Linux Cgroup 可​​​让​​​您​​​为​​​系​​​统​​​中​​​所​​​运​​​行​​​任​​​务​​​（进​​​程​​​）的​​​用​​​户​​​定​​​义​​​组​​​群​​​分​​​配​​​资​​​源​​​ — 比​​​如​​​ CPU 时​​​间​​​、​​​系​​​统​​​内​​​存​​​、​​​网​​​络​​​带​​​宽​​​或​​​者​​​这​​​些​​​资​​​源​​​的​​​组​​​合​​​。​​​您​​​可​​​以​​​监​​​控​​​您​​​配​​​置​​​的​​​ cgroup，拒​​​绝​​​ cgroup 访​​​问​​​某​​​些​​​资​​​源​​​，甚​​​至​​​在​​​运​​​行​​​的​​​系​​​统​​​中​​​动​​​态​​​配​​​置​​​您​​​的​​​ cgroup。所以，可以将 controll groups 理解为 controller （system resource） （for） （process）groups，也就是是说它以一组进程为目标进行系统资源分配和控制。功能： Resource limitation: 限制资源使用，比如内存使用上限以及文件系统的缓存限制。 Prioritization: 优先级控制，比如：CPU利用和磁盘IO吞吐。 Accounting: 一些审计或一些统计，主要目的是为了计费。 Control: 挂起进程，恢复执行进程。 使​​​用​​​ cgroup，系​​​统​​​管​​​理​​​员​​​可​​​更​​​具​​​体​​​地​​​控​​​制​​​对​​​系​​​统​​​资​​​源​​​的​​​分​​​配​​​、​​​优​​​先​​​顺​​​序​​​、​​​拒​​​绝​​​、​​​管​​​理​​​和​​​监​​​控​​​。​​​可​​​更​​​好​​​地​​​根​​​据​​​任​​​务​​​和​​​用​​​户​​​分​​​配​​​硬​​​件​​​资​​​源​​​，提​​​高​​​总​​​体​​​效​​​率​​​。 在实践中：系统管理员一般会利用CGroup做下面这些事（有点像为某个虚拟机分配资源似的）： 隔离一个进程集合（比如：nginx的所有进程），并限制他们所消费的资源，比如绑定CPU的核。 为这组进程分配其足够使用的内存 为这组进程分配相应的网络带宽和磁盘存储限制 限制访问某些设备（通过设置设备的白名单） 子系统说明cgroups 实现了对资源的配额和度量。cgroups 的使用非常简单，提供类似文件的接口，在 /cgroup目录下新建一个文件夹即可新建一个group，在此文件夹中新建task文件，并将pid写入该文件，即可实现对该进程的资源控制。groups可以限制blkio、cpu、cpuacct、cpuset、devices、freezer、memory、net_cls、ns九大子系统的资源，以下是每个子系统的详细说明： blkio 这个子系统设置限制每个块设备的输入输出控制。例如:磁盘，光盘以及usb等等。 cpu 这个子系统使用调度程序为cgroup任务提供cpu的访问。 cpuacct 产生cgroup任务的cpu资源报告。 cpuset 如果是多核心的cpu，这个子系统会为cgroup任务分配单独的cpu和内存。 devices 允许或拒绝cgroup任务对设备的访问。 freezer 暂停和恢复cgroup任务。 memory 设置每个cgroup的内存限制以及产生内存资源报告。 net_cls 标记每个网络包以供cgroup方便使用。 ns 名称空间子系统。 参考资料]]></content>
       <categories>
         <category>笔记</category>
         <category>docker</category>
@@ -349,9 +362,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Docker内核知识——Cgroup控制组]]></title>
-    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94Cgroup%E6%8E%A7%E5%88%B6%E7%BB%84%2F</url>
-    <content type="text"><![CDATA[Linux CgroupDocker 容器使用 linux namespace 来隔离其运行环境，使得容器中的进程看起来就像爱一个独立环境中运行一样。但是，光有运行环境隔离还不够，因为这些进程还是可以不受限制地使用系统资源，比如网络、磁盘、CPU以及内存 等。关于其目的，一方面，是为了防止它占用了太多的资源而影响到其它进程；另一方面，在系统资源耗尽的时候，linux 内核会触发 OOM，这会让一些被杀掉的进程成了无辜的替死鬼。因此，为了让容器中的进程更加可控，Docker 使用 Linux cgroups 来限制容器中的进程允许使用的系统资源。Linux Cgroup 可​​​让​​​您​​​为​​​系​​​统​​​中​​​所​​​运​​​行​​​任​​​务​​​（进​​​程​​​）的​​​用​​​户​​​定​​​义​​​组​​​群​​​分​​​配​​​资​​​源​​​ — 比​​​如​​​ CPU 时​​​间​​​、​​​系​​​统​​​内​​​存​​​、​​​网​​​络​​​带​​​宽​​​或​​​者​​​这​​​些​​​资​​​源​​​的​​​组​​​合​​​。​​​您​​​可​​​以​​​监​​​控​​​您​​​配​​​置​​​的​​​ cgroup，拒​​​绝​​​ cgroup 访​​​问​​​某​​​些​​​资​​​源​​​，甚​​​至​​​在​​​运​​​行​​​的​​​系​​​统​​​中​​​动​​​态​​​配​​​置​​​您​​​的​​​ cgroup。所以，可以将 controll groups 理解为 controller （system resource） （for） （process）groups，也就是是说它以一组进程为目标进行系统资源分配和控制。功能： Resource limitation: 限制资源使用，比如内存使用上限以及文件系统的缓存限制。 Prioritization: 优先级控制，比如：CPU利用和磁盘IO吞吐。 Accounting: 一些审计或一些统计，主要目的是为了计费。 Control: 挂起进程，恢复执行进程。 使​​​用​​​ cgroup，系​​​统​​​管​​​理​​​员​​​可​​​更​​​具​​​体​​​地​​​控​​​制​​​对​​​系​​​统​​​资​​​源​​​的​​​分​​​配​​​、​​​优​​​先​​​顺​​​序​​​、​​​拒​​​绝​​​、​​​管​​​理​​​和​​​监​​​控​​​。​​​可​​​更​​​好​​​地​​​根​​​据​​​任​​​务​​​和​​​用​​​户​​​分​​​配​​​硬​​​件​​​资​​​源​​​，提​​​高​​​总​​​体​​​效​​​率​​​。 在实践中：系统管理员一般会利用CGroup做下面这些事（有点像为某个虚拟机分配资源似的）： 隔离一个进程集合（比如：nginx的所有进程），并限制他们所消费的资源，比如绑定CPU的核。 为这组进程分配其足够使用的内存 为这组进程分配相应的网络带宽和磁盘存储限制 限制访问某些设备（通过设置设备的白名单） 子系统说明cgroups 实现了对资源的配额和度量。cgroups 的使用非常简单，提供类似文件的接口，在 /cgroup目录下新建一个文件夹即可新建一个group，在此文件夹中新建task文件，并将pid写入该文件，即可实现对该进程的资源控制。groups可以限制blkio、cpu、cpuacct、cpuset、devices、freezer、memory、net_cls、ns九大子系统的资源，以下是每个子系统的详细说明： blkio 这个子系统设置限制每个块设备的输入输出控制。例如:磁盘，光盘以及usb等等。 cpu 这个子系统使用调度程序为cgroup任务提供cpu的访问。 cpuacct 产生cgroup任务的cpu资源报告。 cpuset 如果是多核心的cpu，这个子系统会为cgroup任务分配单独的cpu和内存。 devices 允许或拒绝cgroup任务对设备的访问。 freezer 暂停和恢复cgroup任务。 memory 设置每个cgroup的内存限制以及产生内存资源报告。 net_cls 标记每个网络包以供cgroup方便使用。 ns 名称空间子系统。 参考资料]]></content>
+    <title><![CDATA[Docker内核知识——AUFS及安全性]]></title>
+    <url>%2Fhexoblog%2F2017%2F09%2F14%2FDocker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94AUFS%E5%8F%8A%E5%AE%89%E5%85%A8%E6%80%A7%2F</url>
+    <content type="text"><![CDATA[关于 AUFS（联合文件系统） 的几个特点： AUFS 是一种联合文件系统，它把若干目录按照顺序和权限 mount 为一个目录并呈现出来 默认情况下，只有第一层（第一个目录）是可写的，其余层是只读的。 增加文件：默认情况下，新增的文件都会被放在最上面的可写层中。 删除文件：因为底下各层都是只读的，当需要删除这些层中的文件时，AUFS 使用 whiteout 机制，它的实现是通过在上层的可写的目录下建立对应的whiteout隐藏文件来实现的。 修改文件：AUFS 利用其 CoW （copy-on-write）特性来修改只读层中的文件。AUFS 工作在文件层面，因此，只要有对只读层中的文件做修改，不管修改数据的量的多少，在第一次修改时，文件都会被拷贝到可写层然后再被修改。 节省空间：AUFS 的 CoW 特性能够允许在多个容器之间共享分层，从而减少物理空间占用。 查找文件：AUFS 的查找性能在层数非常多时会出现下降，层数越多，查找性能越低，因此，在制作 Docker 镜像时要注意层数不要太多。 性能：AUFS 的 CoW 特性在写入大型文件时第一次会出现延迟。 一个Linux 系统之中 所有 Docker 容器都共享主机系统的 bootfs 即 Linux 内核 每个容器有自己的 rootfs，它来自不同的 Linux 发行版的基础镜像，包括 Ubuntu，Debian 和 SUSE 等 在操作系统镜像上面一层层附加应用程序的开源组件的镜像 所有基于一种基础镜像的容器都共享这种 rootfs 安全性: AppArmor, SELinux, GRSEC安全永远是相对的，这里有三个方面可以考虑Docker的安全特性: 由kernel namespaces和cgroups实现的Linux系统固有的安全标准; Docker Deamon的安全接口; Linux本身的安全加固解决方案,类如AppArmor, SELinux; 资料参考：内核知识资料AUFS安全性]]></content>
       <categories>
         <category>笔记</category>
         <category>docker</category>
@@ -549,6 +562,18 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[article title]]></title>
+    <url>%2Fhexoblog%2F2017%2F08%2F12%2Farticle-title%2F</url>
+    <content type="text"><![CDATA[Welcome to dclarken’s page!8.12 is my first day for writing!First of all,I want to say thank you to my best friends :Dachang,Hongwei,Jingchang,Xidun,Yue,YunhaoBest wishes to all of you!]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>随笔</tag>
+        <tag>freinds</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[AWS简称及基本架构介绍]]></title>
     <url>%2Fhexoblog%2F2017%2F08%2F12%2FAWS%E7%AE%80%E7%A7%B0%E5%8F%8A%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D%2F</url>
     <content type="text"><![CDATA[文档教程位置 AWS整体架构 ·VPC：·私有网络AWS 云中逻辑隔离的虚拟网络。从所选的范围内定义 VPC 的 IP 地址空间 对VPC的IP寻CIDR块的控制 为您的VPC CIDR块划分子网的能力 网络访问控制列表 多个IP地址和多个弹性网络接口（ENI）的分配 通过私有连接将VPC和现场IT基础设施连接 ·常见的路由：·路由表的将决定子网的功能 IGW：提供对internet的访问，公有子网带通过IGW实现进/出站internet连接 VGW：提供对数据中心的访问，虚拟专用网关 NAT 网关：一项高度可用的托管网络地址转换 (NAT) 服务，可便于私有子网中的资源访问 Internet，可以在官方AMI上直接启动NAT网关实例，私有子网通过公有子网中运行NAT的Amazon EC2实例实现的出战Internet连接。 VPC对等：与NACL和安全组一起维护VPC的安全，允许在对等VPC之间路由流量，这样两个VPC中的实例可以彼此通信，就像在同一个网络中一样。两个对等的VPC不能具有CIDR块重叠的CIDR块。 ·ELB：·Elastic Load Balancing 弹性负载均衡， 在多个 Amazon EC2 实例之间自动分配应用程序的传入流量，软件负载均衡。 在同一区域可用区实例之间实现均衡 根据用户定义的运行状况检查检测状况欠佳的实例 SSL终端支持自动一证书 ·EC2：·Elastic Compute Cloud 一种 Web 服务，云计算服务平台，用于计算相当于一个虚拟机，可以在云中提供安全并且大小可调的计算容量。该服务旨在让开发人员能够更轻松地进行 Web 规模的云计算。让使用者可以租用云端电脑运行所需应用的系统。类型：C3计算优化、R3内存优化、G2 GPU优化、I2 HS1存储优化 ENI：弹性网络接口，创建的EC2实例具有的虚拟网络接口，具有属性如下：MAC地址、主要私有IP地址，一个或多个次要私有IP地址、每个私有IP地址都有弹性EIP、公有IP地址、安全组、目标检查标记、说明。使用案例：创建管理网络；许可身份验证；在VPC中使用网络和安全性设备 EIP：专为动态云计算设计的静态IP地址，EIP与AWS账号关联，而不是与特定实例关联；而公有IP地址也称为动态IP地址与实例相关。 IGW：整体网关 ALB：Application Load Balancer ALB是位于OSI模型第七层的负载均衡器，因此它能根据网络包的内容将该网络包路由到不同的后端服务。现有的负载均衡器多是位于OSI模型第四层的TCP/UDP均衡器。与这些均衡器不同的是，ALB将检查网络包的内容，并将该网络包发送给适当的服务。当前，ALB支持基于URL对路由流量定义多至十条的独立规则。 Amazon CloudWatch是一项针对 AWS 云资源和在 AWS 上运行的应用程序进行监控的服务。CPU 使用率、数据传输和磁盘使用活动等，弹性负载均衡器、Amazon SQS 队列、Amazon SNS 主题等更多 Amazon CloudFront 是一种全球内容分发网络 (CDN) 服务，用于内容传输，可以安全地以低延迟和高传输速度向浏览者分发数据、视频、应用程序和 API。建或修改现有 AWS CloudFormation 模板。一个描述了您的所有资源及其属性的模板。 Amazon Simple Storage Service (Amazon S3)对象存储，使您能够轻松实用地大规模收集、存储和分析数据，而不管格式如何。S3 是专为从任意位置存储和检索任意大小的数据而构建的对象存储，包括来自网站和移动应用程序、公司应用程序的数据以及来自 IoT 传感器或设备的数据。S3可与CloudFront(CDN)结合使用，可以利用分布式网络给边远地区加速 一个对象的大小可以达到5TB 每个对象存储在存储桶中，通过开发人员分配的唯一密钥进行检索 无限的存储、无限的对象 原生在线HTTP/S访问 通过在同一区域不同可用区间进行复制，持久性 面对Internet的对象存储 Amazon Route 53是一种可用性高、可扩展性强的云域名系统 (DNS) Web 服务，用于DNS域名服务。 IAM：Identity and Access Management“身份识别与访问管理”，身份管理 DMZ英文“demilitarized zone”的缩写，中文名称为“隔离区”，也称“非军事化区”。它是为了解决安装防火墙后外部网络的访问用户不能访问内部网络服务器的问题，而设立的一个非安全系统与安全系统之间的缓冲区。该缓冲区位于企业内部网络和外部网络之间的小网络区域内。在这个小网络区域内可以放置一些必须公开的服务器设施，如企业Web服务器、FTP服务器和论坛等。另一方面，通过这样一个DMZ区域，更加有效地保护了内部网络。因为这种网络部署，比起一般的防火墙方案，对来自外网的攻击者来说又多了一道关卡。 本地存储本地存储适合临时存储不断变化的信息（如缓冲区、缓存、暂存数据和其他临时内容），或者在实例机群内复制的数据。 EBS数据块存储 Elastic Block Store，相当于虚拟机硬盘，最大为1TB。实例依靠虚拟网络连接装载，持久性存储，可以重新附加在其他的EC2实例，利用快照实现，一个EC2实例可以有多个EBS卷，但是多个EC2不能共享卷。应用场景：简单硬盘设备；经常更改数据；对原始、未格式化数据块级别存储的访问权。 EBS快照存储在S3中 RDSAmazon Relational Database Service (Amazon RDS) 是一种可让用户在云中轻松设置、操作和扩展关系数据库的 Web 服务。它在管理耗时的数据库管理任务的同时，提供经济实用的可调容量，使您能够腾出时间专注于应用程序和业务。 RDS 让您能够访问非常熟悉的 MySQL、MariaDB、Oracle、Microsoft SQL Server 或 PostgreSQL 数据库引擎的功能。 AWS Elastic Beanstalk是一项易于使用的服务，用于在熟悉的服务器（例如 Apache 、Nginx、Passenger 和 IIS）上部署和扩展使用 Java、.NET、PHP、Node.js、Python、Ruby、GO 和 Docker 开发的 Web 应用程序和服务。上传代码，Elastic Beanstalk 即可自动处理从容量预置、负载均衡、自动扩展到应用程序运行状况监控的部署。同时，您能够完全控制为应用程序提供支持的 AWS 资源，并可随时访问基础资源。 AWS SQS、SNS、SWF消息发送各个工作流用 Amazon ElastiCache缓存 Amazon Glacier存档，将设置了生命周期规则（如90天）的S3存档，成本极低的存档存储服务，能够提供高耐久性存储，极低成本存储，允许在3-5小时内检索数据。可以利用Storage Gateway进行场外备份 安全性SSL加密型终端节点、AES-256自动加密数据、IAM策略指定账户中的哪些用户有权对特定文件库执行操作 Amazon Simple Email Service电子邮件Auto Scaling自动扩大或缩小Amazon EC2容量；响应需求峰值；当需求下降时，削减不需要的实例以节省费用；根据一天中的时间、按指标或通过API自动扩展 AMI亚马逊系统映像，提供启动实例所需的信息 AWS Direct Connect建立从本地设施到Amazon VPC的专用网络链接，建立AWS和数据中心、办公室或托管环境之间建立私有连接。 MSDNMicrosoft Developer Network用来帮助开发人员使用Microsoft产品和技术]]></content>
@@ -560,18 +585,6 @@
         <tag>笔记</tag>
         <tag>AWS</tag>
         <tag>架构</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[article title]]></title>
-    <url>%2Fhexoblog%2F2017%2F08%2F12%2Farticle-title%2F</url>
-    <content type="text"><![CDATA[Welcome to dclarken’s page!8.12 is my first day for writing!First of all,I want to say thank you to my best friends :Dachang,Hongwei,Jingchang,Xidun,Yue,YunhaoBest wishes to all of you!]]></content>
-      <categories>
-        <category>随笔</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-        <tag>freinds</tag>
       </tags>
   </entry>
   <entry>

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="笔记,Linux,LVM," />
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="陌路 远方 片海">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lander Blog">
-<meta property="og:url" content="https://github.com/dclarken/hexoblog/archives/2017/page/3/index.html">
+<meta name="description" content="拓容之前虚拟机上为Centos新建一个20G的磁盘，并重启 查看磁盘以及查看磁盘分区挂载情况12fdisk -ldf -Th 在没有用fdisk命令新建磁盘之前没有详细磁盘信息123456789101112131415[root@dc1 ~]# fdisk -l...Disk /dev/sdb: 21.5 GB, 21474836480 bytes255 heads, 63 sectors/tr">
+<meta name="keywords" content="笔记,Linux,LVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LVM拓容">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2018/08/08/LVM拓容/index.html">
 <meta property="og:site_name" content="Lander Blog">
-<meta property="og:description" content="陌路 远方 片海">
+<meta property="og:description" content="拓容之前虚拟机上为Centos新建一个20G的磁盘，并重启 查看磁盘以及查看磁盘分区挂载情况12fdisk -ldf -Th 在没有用fdisk命令新建磁盘之前没有详细磁盘信息123456789101112131415[root@dc1 ~]# fdisk -l...Disk /dev/sdb: 21.5 GB, 21474836480 bytes255 heads, 63 sectors/tr">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-09T03:28:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Lander Blog">
-<meta name="twitter:description" content="陌路 远方 片海">
+<meta name="twitter:title" content="LVM拓容">
+<meta name="twitter:description" content="拓容之前虚拟机上为Centos新建一个20G的磁盘，并重启 查看磁盘以及查看磁盘分区挂载情况12fdisk -ldf -Th 在没有用fdisk命令新建磁盘之前没有详细磁盘信息123456789101112131415[root@dc1 ~]# fdisk -l...Disk /dev/sdb: 21.5 GB, 21474836480 bytes255 heads, 63 sectors/tr">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/dclarken/hexoblog/archives/2017/page/3/"/>
+  <link rel="canonical" href="https://github.com/dclarken/hexoblog/2018/08/08/LVM拓容/"/>
 
 
 
 
 
-  <title>归档 | Lander Blog</title>
+  <title>LVM拓容 | Lander Blog</title>
   
 
 
@@ -145,7 +147,7 @@
 
   <script src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -293,410 +295,213 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      <span class="archive-page-counter">
-        
-        
-         
-        
-        OK! 目前共计 46 篇日志。 继续努力。
-      </span>
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/hexoblog/2018/08/08/LVM拓容/">
 
-      
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Daichao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://i.loli.net/2017/10/21/59eb564170624.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lander Blog">
+    </span>
+
+    
+      <header class="post-header">
 
         
         
+          <h1 class="post-title" itemprop="name headline">LVM拓容</h1>
         
 
-        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-08T08:12:00+08:00">
+                2018-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2017">2017</h1>
-          </div>
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/hexoblog/2017/09/16/dp-求两个字符串的最大公共子序列/" itemprop="url">
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
               
-                <span itemprop="name">dp-求两个字符串的最大公共子序列</span>
+                <span class="post-meta-item-text">分类于</span>
               
-            </a>
-        
-      </h2>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/hexoblog/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-16T00:08:12+08:00"
-              content="2017-09-16" >
-          09-16
-        </time>
-      </div>
+                
+                
+              
+            </span>
+          
 
-    </header>
-  </article>
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/hexoblog/2018/08/08/LVM拓容/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/08/08/LVM拓容/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
 
+          
+          
 
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/hexoblog/2017/09/15/Docker内核知识—namespace/" itemprop="url">
-              
-                <span itemprop="name">Docker内核知识——namespace</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-15T00:08:12+08:00"
-              content="2017-09-15" >
-          09-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/hexoblog/2017/09/14/ubuntu下安装dockers/" itemprop="url">
-              
-                <span itemprop="name">ubuntu下安装dockers</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-14T11:31:21+08:00"
-              content="2017-09-14" >
-          09-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <hr>
+<h1 id="拓容之前"><a href="#拓容之前" class="headerlink" title="拓容之前"></a>拓容之前</h1><p>虚拟机上为Centos新建一个20G的磁盘，并重启</p>
+<p>查看磁盘以及查看磁盘分区挂载情况<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fdisk -<span class="keyword">l</span></span><br><span class="line">df -Th</span><br></pre></td></tr></table></figure></p>
+<p>在没有用fdisk命令新建磁盘之前没有详细磁盘信息<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@dc1 ~]# fdisk -<span class="keyword">l</span></span><br><span class="line">...</span><br><span class="line">Disk /dev/sd<span class="variable">b:</span> <span class="number">21.5</span> GB, <span class="number">21474836480</span> bytes</span><br><span class="line"><span class="number">255</span> heads, <span class="number">63</span> sectors/track, <span class="number">2610</span> cylinders</span><br><span class="line">Units = cylinders of <span class="number">16065</span> * <span class="number">512</span> = <span class="number">8225280</span> bytes</span><br><span class="line">Sector size (logical/physical): <span class="number">512</span> bytes / <span class="number">512</span> bytes</span><br><span class="line">I/O size (minimum/optimal): <span class="number">512</span> bytes / <span class="number">512</span> bytes</span><br><span class="line">Disk identifier: <span class="number">0</span>xc1d53501</span><br><span class="line">...</span><br><span class="line">[root@dc1 ~]# df -Th</span><br><span class="line">Filesystem           Type   Size  Used Avail Use% Mounted <span class="keyword">on</span></span><br><span class="line">/dev/sda5            ext4    <span class="number">18</span>G  <span class="number">2.1</span>G   <span class="number">15</span>G  <span class="number">13</span>% /</span><br><span class="line">tmpfs                tmpfs  <span class="number">491</span>M     <span class="number">0</span>  <span class="number">491</span>M   <span class="number">0</span>% /dev/shm</span><br><span class="line">/dev/sda1            ext4   <span class="number">194</span>M   <span class="number">29</span>M  <span class="number">155</span>M  <span class="number">16</span>% /boot</span><br><span class="line">/dev/sda2            ext4   <span class="number">2.0</span>G   <span class="number">35</span>M  <span class="number">1.8</span>G   <span class="number">2</span>% /home</span><br></pre></td></tr></table></figure></p>
+<hr>
+<hr>
+<h1 id="创建LVM的磁盘分区"><a href="#创建LVM的磁盘分区" class="headerlink" title="创建LVM的磁盘分区"></a>创建LVM的磁盘分区</h1><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span> <span class="string">"n\np\n1\n\n\nt\n8e\nw\n"</span> | fdisk /dev/vdb</span><br></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#fdisk操作命令大全</span><br><span class="line"><span class="keyword">command</span> (<span class="keyword">m</span> <span class="keyword">for</span> <span class="keyword">help</span>): <span class="keyword">m</span></span><br><span class="line">Command action</span><br><span class="line">   <span class="keyword">a</span>   toggle <span class="keyword">a</span> bootable flag</span><br><span class="line">   <span class="keyword">b</span>   <span class="keyword">edit</span> bsd disklabel</span><br><span class="line">   <span class="keyword">c</span>   toggle the dos compatibility flag</span><br><span class="line">   d   <span class="keyword">delete</span> <span class="keyword">a</span> partition</span><br><span class="line">   <span class="keyword">l</span>   <span class="keyword">list</span> known partition types</span><br><span class="line">   <span class="keyword">m</span>   <span class="keyword">print</span> this <span class="keyword">menu</span></span><br><span class="line">   n   <span class="built_in">add</span> <span class="keyword">a</span> <span class="keyword">new</span> partition</span><br><span class="line">   <span class="keyword">o</span>   create <span class="keyword">a</span> <span class="keyword">new</span> <span class="built_in">empty</span> DOS partition table</span><br><span class="line">   <span class="keyword">p</span>   <span class="keyword">print</span> the partition table</span><br><span class="line">   q   <span class="keyword">quit</span> without saving <span class="keyword">changes</span></span><br><span class="line">   s   create <span class="keyword">a</span> <span class="keyword">new</span> <span class="built_in">empty</span> Sun disklabel</span><br><span class="line">   t   <span class="keyword">change</span> <span class="keyword">a</span> partition<span class="string">'s system id</span></span><br><span class="line"><span class="string">   u   change display/entry units</span></span><br><span class="line"><span class="string">   v   verify the partition table</span></span><br><span class="line"><span class="string">   w   write table to disk and exit</span></span><br><span class="line"><span class="string">   x   extra functionality (experts only)</span></span><br></pre></td></tr></table></figure>
+<p>8e 表示Linux LVM 这一步不可以省<br>输入fdisk /dev/vdb显示以下信息:<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line">/dev/sdb1               <span class="number">1</span>        <span class="number">2610</span>    <span class="number">20964793</span>+  <span class="number">8</span><span class="keyword">e</span>  Linux LVM</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<hr>
+<hr>
+<h1 id="LVM操作"><a href="#LVM操作" class="headerlink" title="LVM操作"></a>LVM操作</h1><p>为两个分区创建物理卷<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pvcreate /dev/sdb1</span><br><span class="line">pvcreate /dev/sdc1</span><br></pre></td></tr></table></figure></p>
+<p>创建逻辑卷组<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vgcreate lvhd /dev/sdb1</span><br></pre></td></tr></table></figure></p>
+<p>激活卷组<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vgchange -ay lvhd</span><br></pre></td></tr></table></figure></p>
+<p>创建逻辑卷，使用全部sdb1的容量<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lvcreate -<span class="keyword">l</span> <span class="number">100</span>%FREE -n app lvhd</span><br></pre></td></tr></table></figure></p>
+<p>或者通过查询PE来创建，-l后的数字可以通过lvdisplay查询的逻辑卷组信息确定<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lvcreate -<span class="keyword">l</span> <span class="number">7678</span>  lvhd  -n  app</span><br></pre></td></tr></table></figure></p>
+<p>将1vhd/app分区格式化为ext4格式 -t表示文件类型<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkfs -t ext4 /dev/lvhd/app</span><br></pre></td></tr></table></figure></p>
+<p>挂载分区<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /app</span><br><span class="line">mount /dev/lvhd/app /app</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"/dev/lvhd/app    /app    ext4  defaults        0 0"</span> &gt;&gt;/etc/fstab</span><br></pre></td></tr></table></figure></p>
+<p>mount命令用于加载文件系统/dev/lvhd/app到指定的加载点/app。<br>当Linux系统下划分了新的分区后，需要将这些分区设置为开机自动挂载，否则，Linux是无法使用新建的分区的。 /etc/fstab 文件负责配置Linux开机时自动挂载的分区<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> &lt;<span class="keyword">file</span> <span class="built_in">system</span>&gt; &lt;mount point&gt; <span class="symbol">&lt;type&gt;</span> <span class="symbol">&lt;options&gt;</span> <span class="symbol">&lt;dump&gt;</span> <span class="symbol">&lt;pass&gt;</span></span><br><span class="line"><span class="string">"/dev/lvhd/app    /app    ext4  defaults        0 0"</span>  //参数对应</span><br></pre></td></tr></table></figure></p>
+<hr>
+<hr>
+<h1 id="新添加的一块盘如何扩展到卷组上"><a href="#新添加的一块盘如何扩展到卷组上" class="headerlink" title="新添加的一块盘如何扩展到卷组上"></a>新添加的一块盘如何扩展到卷组上</h1><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sdc      //步骤和之前一样，得到/dev/sdc1</span><br><span class="line">vgextend lvhd /dev/sdc1		//拓展容量</span><br><span class="line">lvcreate -<span class="keyword">l</span> +<span class="number">100</span>%FREE -n app lvhd 	//逻辑卷扩容,注意此时需要在<span class="number">100</span>%FREE前面带上+号，若用Total PE方式则不用</span><br><span class="line">resize2fs /dev/lvhd/app 	//操作之后既可以用df -Th查看到磁盘信息</span><br></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@dc1 ~]# df -Th</span><br><span class="line">Filesystem           Type   Size  Used Avail Use% Mounted <span class="keyword">on</span></span><br><span class="line">/dev/sda5            ext4    <span class="number">18</span>G  <span class="number">2.1</span>G   <span class="number">15</span>G  <span class="number">13</span>% /</span><br><span class="line">tmpfs                tmpfs  <span class="number">491</span>M     <span class="number">0</span>  <span class="number">491</span>M   <span class="number">0</span>% /dev/shm</span><br><span class="line">/dev/sda1            ext4   <span class="number">194</span>M   <span class="number">29</span>M  <span class="number">155</span>M  <span class="number">16</span>% /boot</span><br><span class="line">/dev/sda2            ext4   <span class="number">2.0</span>G   <span class="number">35</span>M  <span class="number">1.8</span>G   <span class="number">2</span>% /home</span><br><span class="line">/dev/mapper/lvhd-app ext4    <span class="number">40</span>G  <span class="number">180</span>M   <span class="number">56</span>G   <span class="number">1</span>% /app</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考网站:<a href="https://blog.csdn.net/kjsayn/article/details/52996313" target="_blank" rel="noopener">地址</a></p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/hexoblog/2017/09/14/Docker内核知识—Cgroup控制组/" itemprop="url">
-              
-                <span itemprop="name">Docker内核知识——Cgroup控制组</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-14T00:08:12+08:00"
-              content="2017-09-14" >
-          09-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/hexoblog/2017/09/14/贪心算法饭店招待问题/" itemprop="url">
-              
-                <span itemprop="name">贪心算法饭店招待问题</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-14T00:08:12+08:00"
-              content="2017-09-14" >
-          09-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/hexoblog/2017/09/14/Docker内核知识—AUFS及安全性/" itemprop="url">
-              
-                <span itemprop="name">Docker内核知识——AUFS及安全性</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-14T00:08:12+08:00"
-              content="2017-09-14" >
-          09-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/hexoblog/2017/09/12/BGP的工作原理/" itemprop="url">
-              
-                <span itemprop="name">BGP的工作原理</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-12T11:30:21+08:00"
-              content="2017-09-12" >
-          09-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/hexoblog/2017/09/12/vector用法/" itemprop="url">
-              
-                <span itemprop="name">vector用法</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-12T00:08:12+08:00"
-              content="2017-09-12" >
-          09-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/hexoblog/2017/09/12/linux服务器查看性能的几个命令/" itemprop="url">
-              
-                <span itemprop="name">linux服务器查看性能的几个命令</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-12T00:08:12+08:00"
-              content="2017-09-12" >
-          09-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/hexoblog/2017/09/11/top命令详解/" itemprop="url">
-              
-                <span itemprop="name">top命令详解</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-09-11T00:08:12+08:00"
-              content="2017-09-11" >
-          09-11
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/hexoblog/tags/笔记/" rel="tag"># 笔记</a>
+          
+            <a href="/hexoblog/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/hexoblog/tags/LVM/" rel="tag"># LVM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/hexoblog/2018/08/07/LVM逻辑卷管理/" rel="next" title="LVM逻辑卷管理">
+                <i class="fa fa-chevron-left"></i> LVM逻辑卷管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/hexoblog/archives/2017/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/hexoblog/archives/2017/">1</a><a class="page-number" href="/hexoblog/archives/2017/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/hexoblog/archives/2017/page/4/">4</a><a class="page-number" href="/hexoblog/archives/2017/page/5/">5</a><a class="extend next" rel="next" href="/hexoblog/archives/2017/page/4/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -704,6 +509,20 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -724,8 +543,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -811,6 +639,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#拓容之前"><span class="nav-number">1.</span> <span class="nav-text">拓容之前</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建LVM的磁盘分区"><span class="nav-number">2.</span> <span class="nav-text">创建LVM的磁盘分区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LVM操作"><span class="nav-number">3.</span> <span class="nav-text">LVM操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新添加的一块盘如何扩展到卷组上"><span class="nav-number">4.</span> <span class="nav-text">新添加的一块盘如何扩展到卷组上</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -971,6 +815,10 @@
 
 
   
+  <script type="text/javascript" src="/hexoblog/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/hexoblog/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
@@ -988,6 +836,18 @@
       <script id="dsq-count-scr" src="https://Dc.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://github.com/dclarken/hexoblog/2018/08/08/LVM拓容/';
+          this.page.identifier = '2018/08/08/LVM拓容/';
+          this.page.title = 'LVM拓容';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://Dc.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
