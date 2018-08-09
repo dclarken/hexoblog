@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Lander Blog">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2017/10/20/59e98c20af367.png">
-<meta property="og:updated_time" content="2017-10-26T11:31:18.467Z">
+<meta property="og:updated_time" content="2018-08-09T05:22:19.925Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Hexo和Github的博客搭建">
 <meta name="twitter:image" content="https://i.loli.net/2017/10/20/59e98c20af367.png">
@@ -477,6 +477,10 @@
 </li>
 </ul>
 <p>提示，在浏览器中输入以后网址既可以访问hexo界面<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INFO Hexo <span class="keyword">is</span> running at http://<span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">4000</span>/. Press Ctrl+C <span class="keyword">to</span> <span class="keyword">stop</span>.</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>发布<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 <hr>
 <h2 id="将hexo和github相连"><a href="#将hexo和github相连" class="headerlink" title="将hexo和github相连"></a>将hexo和github相连</h2><p>配置Git个人信息</p>
 <ul>
@@ -486,7 +490,15 @@
 <li><p>生成秘钥，生成的秘钥要使用需要配置为github上的安全ssh秘钥<br><a href="http://blog.csdn.net/gdutxiaoxu/article/details/53573399" target="_blank" rel="noopener">Git ssh 配置使用</a></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">"dclarken@163.com"</span></span><br></pre></td></tr></table></figure>
 </li>
+<li><p>添加key到github</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-<span class="built_in">add</span> ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.<span class="keyword">com</span></span><br></pre></td></tr></table></figure>
+</li>
 </ul>
+<p>可以看见用户名，即表示互通</p>
+<p>在git push时有的情况需要重新输入github的账号和密码，那是因为在默认情况下使用https的协议传输，因而需要安全认证，改进方式如下，利用ssh的方式提交。<br>找到仓库下 .git 文件夹下的config文件，<br>将文件中的 url = <a href="https://github.com/gdutxiaoxu/test.git">https://github.com/gdutxiaoxu/test.git</a> 更改为 url = git@github.com:gdutxiaoxu/test.git 即可。</p>
 <p>配置Deployment</p>
 <ul>
 <li>在hexo安装目录下找到根配置文件_config.yml文件，找到Deployment句段<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo: repo: git@github.<span class="keyword">com</span>:dclarken/hexoblog.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
