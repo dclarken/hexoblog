@@ -77,6 +77,10 @@ hexo s
 ```vim
 INFO Hexo is running at http://0.0.0.0:4000/. Press Ctrl+C to stop.
 ```
+* 发布
+```vim
+hexo d
+```
 
 ---
 ## 将hexo和github相连
@@ -92,6 +96,20 @@ git config --global user.email "dclarken@163.com"
 ```vim
 ssh-keygen -t rsa -C "dclarken@163.com"
 ```
+* 添加key到github
+```vim
+ssh-add ~/.ssh/id_rsa
+```
+* 测试
+```vim
+ssh -T git@github.com
+```
+可以看见用户名，即表示互通
+
+在git push时有的情况需要重新输入github的账号和密码，那是因为在默认情况下使用https的协议传输，因而需要安全认证，改进方式如下，利用ssh的方式提交。
+找到仓库下 .git 文件夹下的config文件，
+将文件中的 url = https://github.com/gdutxiaoxu/test.git 更改为 url = git@github.com:gdutxiaoxu/test.git 即可。
+
 配置Deployment
 
 * 在hexo安装目录下找到根配置文件_config.yml文件，找到Deployment句段
