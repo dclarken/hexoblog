@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Muse","darkmode":false,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/hexoblog/js/config.js" defer></script>
+
+    <meta name="description" content="文档来自vector(向量): C++中的一种数据结构,确切的说是一个类.它相当于一个动态的数组,当程序员无法知道自己需要的数组的规模多大时,用其来解决问题可以达到最大节约空间的目的.文件包含:首先在程序开头处加上#include以包含所需要的类文件vector还有一定要加上using namespace std;变量声明:声明一个int向量以替代一维的数组:vector  a;用vector代替">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vector用法">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/09/12/vector%E7%94%A8%E6%B3%95/index.html">
+<meta property="og:site_name" content="Lander Blog">
+<meta property="og:description" content="文档来自vector(向量): C++中的一种数据结构,确切的说是一个类.它相当于一个动态的数组,当程序员无法知道自己需要的数组的规模多大时,用其来解决问题可以达到最大节约空间的目的.文件包含:首先在程序开头处加上#include以包含所需要的类文件vector还有一定要加上using namespace std;变量声明:声明一个int向量以替代一维的数组:vector  a;用vector代替">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-09-11T16:08:12.000Z">
+<meta property="article:modified_time" content="2025-03-16T14:10:04.584Z">
+<meta property="article:author" content="Dai">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="c++">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/09/12/vector%E7%94%A8%E6%B3%95/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":"","permalink":"https://github.com/dclarken/hexoblog/2017/09/12/vector%E7%94%A8%E6%B3%95/","path":"2017/09/12/vector用法/","title":"vector用法"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>vector用法 | Lander Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/hexoblog/js/utils.js" defer></script><script src="/hexoblog/js/motion.js" defer></script><script src="/hexoblog/js/sidebar.js" defer></script><script src="/hexoblog/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Lander Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dai</p>
+  <div class="site-description" itemprop="description">陌路 远方 片海</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/2017/09/12/vector%E7%94%A8%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="Dai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lander Blog">
+      <meta itemprop="description" content="陌路 远方 片海">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="vector用法 | Lander Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vector用法
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-09-12 00:08:12" itemprop="dateCreated datePublished" datetime="2017-09-12T00:08:12+08:00">2017-09-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-03-16 22:10:04" itemprop="dateModified" datetime="2025-03-16T22:10:04+08:00">2025-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/c/" itemprop="url" rel="index"><span itemprop="name">c++</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><a href="http://blog.csdn.net/hancunai0017/article/details/7032383">文档来自</a><br><strong><code>vector(向量):</code></strong></p>
+<p>C++中的一种数据结构,确切的说是一个类.它相当于一个动态的数组,当程序员无法知道自己需要的数组的规模多大时,用其来解决问题可以达到最大节约空间的目的.<br><code>文件包含:</code><br>首先在程序开头处加上#include<vector>以包含所需要的类文件vector还有一定要加上using namespace std;<br><code>变量声明:</code><br>声明一个int向量以替代一维的数组:vector <int> a;用vector代替二维数组.其实只要声明一个一维数组向量即可,而一个数组的名字其实代表的是它的首地址,所以只要声明一个地址的向量即可,即:vector &lt;int *&gt; a.同理想用向量代替三维数组也是一样,vector &lt;int**&gt;a;再往上面依此类推.int可以改成其他的如char、string甚至是strcut。<br><code>具体的用法以及函数调用:</code></p>
+<ul>
+<li><p>1.push_back   在数组的最后添加一个数据</p>
+</li>
+<li><p>2.pop_back    去掉数组的最后一个数据 </p>
+</li>
+<li><p>3.at                得到编号位置的数据</p>
+</li>
+<li><p>4.begin           得到数组头的指针</p>
+</li>
+<li><p>5.end             得到数组的最后一个单元+1的指针</p>
+</li>
+<li><p>6．front        得到数组头的引用</p>
+</li>
+<li><p>7.back            得到数组的最后一个单元的引用</p>
+</li>
+<li><p>8.max_size     得到vector最大可以是多大</p>
+</li>
+<li><p>9.capacity       当前vector分配的大小</p>
+</li>
+<li><p>10.size           当前使用数据的大小</p>
+</li>
+<li><p>11.resize         改变当前使用数据的大小，如果它比当前使用的大者填充默认值</p>
+</li>
+<li><p>12.reserve      改变当前vecotr所分配空间的大小</p>
+</li>
+<li><p>13.erase         删除指针指向的数据项</p>
+</li>
+<li><p>14.clear          清空当前的vector</p>
+</li>
+<li><p>15.rbegin        将vector反转后的开始指针返回(其实就是原来的end-1)</p>
+</li>
+<li><p>16.rend          将vector反转构的结束指针返回(其实就是原来的begin-1)</p>
+</li>
+<li><p>17.empty        判断vector是否为空</p>
+</li>
+<li><p>18.swap         与另一个vector交换数据<br><code>详细的函数实现功能:</code></p>
+</li>
+<li><p>c.clear()         移除容器中所有数据。</p>
+</li>
+<li><p>c.empty()         判断容器是否为空。</p>
+</li>
+<li><p>c.erase(pos)        删除pos位置的数据</p>
+</li>
+<li><p>c.erase(beg,end) 删除[beg,end]区间的数据 如： vec.erase(vec.begin()+2);删除第3个元素</p>
+</li>
+<li><p>c.front()         传回第一个数据。</p>
+</li>
+<li><p>c.insert(pos,elem)  在pos位置插入一个elem拷贝</p>
+</li>
+<li><p>c.pop_back()     删除最后一个数据。</p>
+</li>
+<li><p>c.push_back(elem) 在尾部加入一个数据。</p>
+</li>
+<li><p>c.resize(num)     重新设置该容器的大小</p>
+</li>
+<li><p>c.size()         回容器中实际数据的个数。</p>
+</li>
+<li><p>c.begin()           返回指向容器第一个元素的迭代器</p>
+</li>
+<li><p>c.end()             返回指向容器最后一个元素的迭代器                                  </p>
+</li>
+<li><p>c1.swap(c2)&#x3D;&#x3D;swap(c1,c2)         将c1和c2元素互换。两操作相同。</p>
+</li>
+</ul>
+<p><code>#include&lt;algorithm&gt;中的泛函算法</code><br>搜索算法：find() 、search() 、count() 、find_if() 、search_if() 、count_if()<br>分类排序：sort() 、merge()<br>删除算法：unique() 、remove()<br>生成和变异：generate() 、fill() 、transformation() 、copy()<br>关系算法：equal() 、min() 、max() </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sort</span>(v<span class="number">1.</span><span class="built_in">begin</span>(),vi.<span class="built_in">begin</span>()+v<span class="number">1.</span>size/<span class="number">2</span>）; </span><br></pre></td></tr></table></figure>
+<p>对v1的前半段元素排序，默认是从小到大排序，即默认为冒泡排序。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sort</span>(v<span class="number">1.</span><span class="built_in">begin</span>(),v<span class="number">1.</span><span class="built_in">end</span>());</span><br></pre></td></tr></table></figure>
+<p>对整个vector做排序<br>定义排序比较函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cmp</span><span class="params">(<span class="type">const</span> <span class="type">int</span> &amp;a,<span class="type">const</span> <span class="type">int</span> &amp;b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a&gt;b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用时:sort(vec.begin(),vec.end(),cmp)，这样就降序排序。<br><code>其他功能:</code></p>
+<ul>
+<li>c.at(idx)  传回索引idx所指的数据，如果idx越界，抛出out_of_range。 </li>
+<li>c.back()  传回最后一个数据，不检查这个数据是否存在。</li>
+<li>c.front()  传回地一个数据。 </li>
+<li>get_allocator  使用构造函数返回一个拷贝。 </li>
+<li>c.rbegin()  传回一个逆向队列的第一个数据。 </li>
+<li>c.rend()  传回一个逆向队列的最后一个数据的下一个位置。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/hexoblog/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+              <a href="/hexoblog/tags/c/" rel="tag"># c++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/09/12/linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9F%A5%E7%9C%8B%E6%80%A7%E8%83%BD%E7%9A%84%E5%87%A0%E4%B8%AA%E5%91%BD%E4%BB%A4/" rel="prev" title="linux服务器查看性能的几个命令">
+                  <i class="fa fa-angle-left"></i> linux服务器查看性能的几个命令
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/09/12/BGP%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" rel="next" title="BGP的工作原理">
+                  BGP的工作原理 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Dai</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Muse","darkmode":false,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/hexoblog/js/config.js" defer></script>
+
+    <meta property="og:type" content="article">
+<meta property="og:title" content="TCP拥塞控制">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/11/01/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/index.html">
+<meta property="og:site_name" content="Lander Blog">
+<meta property="og:locale">
+<meta property="og:image" content="http://oytystujz.bkt.clouddn.com/17-11-6/17681942.jpg">
+<meta property="article:published_time" content="2017-10-31T16:08:12.000Z">
+<meta property="article:modified_time" content="2025-03-16T14:10:04.582Z">
+<meta property="article:author" content="Dai">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="tcp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://oytystujz.bkt.clouddn.com/17-11-6/17681942.jpg">
+
+
+<link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/11/01/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":"","permalink":"https://github.com/dclarken/hexoblog/2017/11/01/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/","path":"2017/11/01/TCP拥塞控制/","title":"TCP拥塞控制"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>TCP拥塞控制 | Lander Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/hexoblog/js/utils.js" defer></script><script src="/hexoblog/js/motion.js" defer></script><script src="/hexoblog/js/sidebar.js" defer></script><script src="/hexoblog/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Lander Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E5%88%86%E4%B8%BA%E5%9B%9B%E4%B8%AA%E9%98%B6%E6%AE%B5"><span class="nav-number">1.</span> <span class="nav-text">TCP拥塞控制分为四个阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E7%A7%8D%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%88%B6%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">四种拥塞控制机制：</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dai</p>
+  <div class="site-description" itemprop="description">陌路 远方 片海</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/2017/11/01/TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="Dai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lander Blog">
+      <meta itemprop="description" content="陌路 远方 片海">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="TCP拥塞控制 | Lander Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TCP拥塞控制
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-11-01 00:08:12" itemprop="dateCreated datePublished" datetime="2017-11-01T00:08:12+08:00">2017-11-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-03-16 22:10:04" itemprop="dateModified" datetime="2025-03-16T22:10:04+08:00">2025-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><img src="http://oytystujz.bkt.clouddn.com/17-11-6/17681942.jpg"></p>
+<span id="more"></span>
+<h2 id="TCP拥塞控制分为四个阶段"><a href="#TCP拥塞控制分为四个阶段" class="headerlink" title="TCP拥塞控制分为四个阶段"></a>TCP拥塞控制分为四个阶段</h2><p>分为主要的四个过程，即慢启动（slow start）、拥塞避免（congestion avoidance）、快速重传（Fast Retransmission）和快速回复（quick reply）</p>
+<ul>
+<li>慢启动阶段  为了避免路由资源德尔耗尽，在网络传输的开始阶段，建立一个新的网络连接不会一次性向网络发送大量的数据包，而是使用慢启动算法一步步的探测网络的可被利用带宽的大小，每收到惩恶ACK包，cwnd就加1。每一个慢启动算法的连接设置都有两个变量cwnd和ssthresh 。在网络连接最初建立起来时，拥塞窗口被初始化设置为一个数据包大小，实际发送窗口win的取值是拥塞窗口与接收端提供的反馈的窗口之间小者，即win&#x3D;win（cwnd，awnd）。拥塞窗口的数值会加倍在信源端接到接收端的应答（ACK帧），所以拥塞窗口在之后的变化过程中将按指数方式增长，因此网络传输的数据量按指数方式递增。其实慢启动阶段一点都不慢。</li>
+<li>拥塞控制阶段  一般来说，网络认为拥塞发生时在发送端检测到重传定时器超时或者是收到了三次相同的应答时，然后整个过程进入拥塞避免过程。此时，将slow start threshold的值变成发生前次网络拥塞时的congestion window值的一半，网络中有数据的丢失因为网络中的拥塞是因为收到多次相同的应答，但是这个时候依然有数据包在传送，此时congestion window的值降低为原来的一半（即积式减少），整个传输过程进入拥塞避免过程，congestion window在每次收到一个应答时只是增加1&#x2F; congestion window个数据包，所以此时cwnd按照线性的关系增长；congestion window要被重新变为1当网络因为超时而发生拥塞，此时要重新开始慢启动的阶段，改变窗口值大小，另外网络这个时候由于超时的影响不再有从信源端到接受端的数据流了，之后当congestion window增长到大于slow start threshold时进入拥塞避免阶段，congestion window开始按照线性关系变化。</li>
+<li>快速重传阶段  当网络发生拥塞时，因为信源端要等待一个网络响应超时的时间间隔，所以网络不能很快的对拥塞做出反应。发送端在接受到重复的应答时不能确定其产生的原因是众多原因中的哪个，是由于数据包丢弃造成或者是数据包失序造成的。一般来说假设，当发生数据包失序时，在接受端解决这个问题前，信源端只会收到一、两个重复的应答信号，如果接受端连续收到三个或者更多的重复的ACK信号，此时网络直到整个传输的过程中一个数据包由于拥塞被丢失了。在这种情况下发送端不需要等待一个超时间隔就重新传送那个可能丢失的数据包，这种传送数据包的方式为快速重传。</li>
+<li>快速恢复阶段  拥塞窗口将减少为1当重新进入慢启动阶段，这种变化会严重降低网络的吞吐量。但是由于快速恢复算法，信源端将快速执行拥塞避免算法，这样就可以避免由于发送窗口数值过度变化而导致的网络性能网络以及平均吞吐量的下降。</li>
+</ul>
+<hr>
+<h2 id="四种拥塞控制机制："><a href="#四种拥塞控制机制：" class="headerlink" title="四种拥塞控制机制："></a>四种拥塞控制机制：</h2><ul>
+<li>TCP Tahoe<br>Tahoe具有TCP的基本结构，是早期的版本。<code>快速重传</code>的方法被添加在这个版本中。其快速重传重新发送数据包的重要依据是Duplicate ACK，例如传送端要是收到三个Duplicate ACK，改数据包被认为已经在网络传输的过程中遗失，不等待时间结束便立即重新发送。接着将slow start threshold的值设置为congestion window的一半 ,并将congestion window的值重新设置为1。</li>
+<li>TCP Reno<br>在所以的TCP版本中，这个版本使用的最为广泛。Reno改变了Tahoe的某些算法，它比早期版本多了<code>快速恢复机制</code>。 Reno以快速恢复代替了 TCP Tahoe在重传遗失数据包后马上就进入慢启动过程。Reno在使用快速重传重新发送遗失的数据包后，会将slow start threshold以及congestion window的值都设置为之前检测到数据包丢失时congestion window值的一半。</li>
+<li>TCP Newreno<br>Newreno是修改自Reno的版本。这个版本中主要修改了 Reno的快速恢复算法。Newreno在收到应答时，并不会马上结束快速恢复，相反，Newreno的发送端会持续地重新发送前一个应答之后的数据包，直到将所有遗失数据报都重新发送后，然后在此时结束快速恢复过程，所以Newreno的传送端在网络即使有很多的数据包遗失也不用等待超时结束就能更正网络传输的错误，减少大量数据包遗失对传输效果以及网络性能的影响。Newreno大约每一个接受回复时间可重送一个丢失的数据包，在快速恢复阶段，若允许的话，发送端链路的使用效率将会增加因为传输过程中不断有数据包传送。</li>
+<li>TCP Vegas<br>Vegas与其他的Reno衍生版本不同之处在于它通过预想的结果和实际情形的比对来决定拥塞窗口的数值如何变化。有研究表明这个版本会比 Reno能得到更高的频带利用率。Vegas使用了三种方法来提高网络传输性能。<br>（1） <code>新的重传机制</code>  在Vegas中，为了能够及时检测出是否有数据包丢失并且立即重新发送新的数据包Vegas不再使用原来单一的重新传送的机制。一旦收到一个重复应答信号时，Vegas会检测接受应答时间是否大于超时的数值，如果检测出大于超时数值这判定为超时，此时不需要等待经过三个应答，Vegas就会直接重新发送此封包。另外，在丢失的数据包被重新发送，发送新的应答时，Vegas也会检测之前发送回来的的两个应答，从而来判定随后的封包此时是否超时，并重新发送丢失的数据包。<br>（2） <code>新的拥塞避免机制</code>  Reno的拥塞控制算法使用数据包丢失作为一种通知信号来显示网络是否发生了拥塞。Reno会不断的调整窗口的大小直到有新的数据包丢失，从而检测出来网络当时的可用频带宽度，并且通过这种方式来优化网络的传输性能。所以周期性丢包的问题时常发生在传统的Reno中，因此Vegas对于控制传送的速率，采用一种更加新颖的方式。<br>TCP通过观察接受回复时间的变化情况来控制congestion window的数值。Vegas根据预期传送速率和实际的网络速率的差值来调整congestion window的数值大小。若网络发生了拥塞，表示传送的速率过大，Vegas用来表征的差值也过大，因此要适当的降低congestion window的数值来减缓网络传送数据的速率，反之当网络的使用率过低则要加大congestion window的数值来增加传送的速率。<br>（3） <code>修改慢启动阶段</code>   相比较于TCP Reno，TCP Vegas希望不仅仅可以有效的使用可用的频带外，还要避免因为网络传输速率过快而发生的数据包丢失的情况。因此在慢启动的阶段为了可以检测到封包遗失以及有效的避免封包遗失，TCP Vegas修改了慢启动的算法来减缓congestion window的增加速度。在这个阶段，congestion window的值大约经过两个接受应答时间才会变为原来的二倍。Vegas会根据预期网络数据传送率和实际的网络传送传送率的差值来调整slow start threshold的数值，当TCP Vegas 检测到网络开始有队列产生是，Vegas就会通过慢启动阶段进入拥塞避免阶段。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/hexoblog/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag"># 网络协议</a>
+              <a href="/hexoblog/tags/tcp/" rel="tag"># tcp</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/10/22/http%E7%8A%B6%E6%80%81%E8%BF%94%E5%9B%9E%E7%A0%81/" rel="prev" title="http状态返回码">
+                  <i class="fa fa-angle-left"></i> http状态返回码
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/11/02/test/" rel="next" title="test">
+                  test <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Dai</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

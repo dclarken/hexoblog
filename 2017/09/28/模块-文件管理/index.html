@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Muse","darkmode":false,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/hexoblog/js/config.js" defer></script>
+
+    <meta name="description" content="文件打开方式： 1open(name，[mode[buf]])  name:文件路径 mode:打开方式，w：只写方式，文件不存在则创建文件，文件存在则清空文件不同于a追加模式。 buf:文件缓冲大小 r   只读方式打开 w  只写方式打开 a  追加方式打开 r+&#x2F;w+  读写方式打开 a+  追加和读写方式打开 …b二进制方式打开，例如处理图片信息，省略号表示前面的内容  读取方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模块-文件管理">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/09/28/%E6%A8%A1%E5%9D%97-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="Lander Blog">
+<meta property="og:description" content="文件打开方式： 1open(name，[mode[buf]])  name:文件路径 mode:打开方式，w：只写方式，文件不存在则创建文件，文件存在则清空文件不同于a追加模式。 buf:文件缓冲大小 r   只读方式打开 w  只写方式打开 a  追加方式打开 r+&#x2F;w+  读写方式打开 a+  追加和读写方式打开 …b二进制方式打开，例如处理图片信息，省略号表示前面的内容  读取方式">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-09-27T16:08:12.000Z">
+<meta property="article:modified_time" content="2025-03-16T14:10:04.584Z">
+<meta property="article:author" content="Dai">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/09/28/%E6%A8%A1%E5%9D%97-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":"","permalink":"https://github.com/dclarken/hexoblog/2017/09/28/%E6%A8%A1%E5%9D%97-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/","path":"2017/09/28/模块-文件管理/","title":"模块-文件管理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>模块-文件管理 | Lander Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/hexoblog/js/utils.js" defer></script><script src="/hexoblog/js/motion.js" defer></script><script src="/hexoblog/js/sidebar.js" defer></script><script src="/hexoblog/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Lander Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dai</p>
+  <div class="site-description" itemprop="description">陌路 远方 片海</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/2017/09/28/%E6%A8%A1%E5%9D%97-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="Dai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lander Blog">
+      <meta itemprop="description" content="陌路 远方 片海">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="模块-文件管理 | Lander Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          模块-文件管理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-09-28 00:08:12" itemprop="dateCreated datePublished" datetime="2017-09-28T00:08:12+08:00">2017-09-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-03-16 22:10:04" itemprop="dateModified" datetime="2025-03-16T22:10:04+08:00">2025-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><code>文件打开方式：</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">open</span>(name，[mode[buf]])</span><br></pre></td></tr></table></figure>
+<ul>
+<li>name:文件路径</li>
+<li>mode:打开方式，w：只写方式，文件不存在则创建文件，文件存在则清空文件不同于a追加模式。</li>
+<li>buf:文件缓冲大小</li>
+<li>r   只读方式打开</li>
+<li>w  只写方式打开</li>
+<li>a  追加方式打开</li>
+<li>r+&#x2F;w+  读写方式打开</li>
+<li>a+  追加和读写方式打开</li>
+<li>…b二进制方式打开，例如处理图片信息，省略号表示前面的内容</li>
+</ul>
+<p><code>读取方式：</code></p>
+<ul>
+<li>read([size])读取文件，读取size个字节，默认读取全部</li>
+<li>readline([size]):读取一行</li>
+<li>readlnes([size]):读取完文件，返回每一行所组成的列表</li>
+<li>readlines(1)能读取8192个字符数据，读取缓冲buff左右个字节</li>
+<li>iter：使用迭代器读取文件，使用迭代器可以实现不消耗大量内存的情况下实现对文件的读取。iter(f)，然后利用for循环读取文件信息。</li>
+</ul>
+<p><code>写入操作：</code></p>
+<ul>
+<li>write(str)：写入字符串，写缓存机制，调用close、flush之后才会真正写入</li>
+<li>writelines(sequence_of_strings)：写多行到文件<br>Linux缓存取大下可以通过write命令测试出来155648字节</li>
+</ul>
+<p><code>Python文件需要关闭:</code></p>
+<ul>
+<li>1.将写缓存同步到磁盘</li>
+<li>2.linux系统中每个进程打开文件的个数是有限的</li>
+<li>3.如果打开文件数到了系统限制，在打开文件就会失败</li>
+</ul>
+<p><code>Python文件指针操作：</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seek(offset[,whence]):</span><br></pre></td></tr></table></figure>
+<p>移动文件指针；</p>
+<ul>
+<li><p>offset:偏移量，可以为负数</p>
+</li>
+<li><p>whence：偏移相对位置（SET、CUR、END）<br><code>import os</code></p>
+</li>
+<li><p>os.SEEK_SET:相对文件起始位置</p>
+</li>
+<li><p>os.SEEK_CUR:相对文件当前位置</p>
+</li>
+<li><p>os.SEEK_END:相对文件结尾位置</p>
+</li>
+</ul>
+<p><code>Python文件属性:</code></p>
+<ul>
+<li>file.fileno():文件描述符</li>
+<li>file.mode():文件打开权限</li>
+<li>file.encoding():文件编码格式</li>
+</ul>
+<p><code>标准文件：</code><br>import sys模块</p>
+<ul>
+<li>文件标准输入：sys.stdin</li>
+<li>文件标准输出：sys.stdout</li>
+<li>文件标准错误：sys.stderr<br>文件命令行参数：<br>sys模块体改sys.argv属性，sys.argv是个字符串组成的列表</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">open</span>(fname,mode,encoding,..,..)</span><br></pre></td></tr></table></figure>
+<p>打开文件可以指定编码方式utf-8格式可以识别中文字符</p>
+<p><code>Python文件处理:</code><br>import os<br><code>使用os模块</code></p>
+<ul>
+<li>os.open</li>
+<li>os.read</li>
+<li>os.write</li>
+<li>os.lseek</li>
+<li>os.access 判断文件的权限：R_OK.W_OK.X_OK</li>
+<li>listdir(path)返回当前目录下所有文件组成的列表</li>
+<li>remove(path)删除文件</li>
+<li>rename(old,new)修改文件或者目录名</li>
+<li>mkdir(path[,mode])创建目录</li>
+<li>mkdirs(path[,mode])创建多级目录</li>
+<li>removedirs(path)删除多级目录</li>
+<li>rmdir(path)删除目录（目录必须为空目录）</li>
+<li>os.path.exits(path)当前路径是否存在<ul>
+<li>.isdir(s)是否是一个目录</li>
+<li>.isfile(path)是否是一个文件</li>
+<li>.getsize(filename)返回文件大小</li>
+<li>.dirname(p)返回路径的目录</li>
+<li>.basename(p)返回路径的文件名</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/hexoblog/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/09/24/K8s%E7%BB%93%E5%90%88LVS%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E4%B8%8E%E9%9B%86%E7%BE%A4%E5%A4%96%E6%9C%8D%E5%8A%A1%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/" rel="prev" title="K8s结合LVS高可用负载均衡与集群外服务访问实践">
+                  <i class="fa fa-angle-left"></i> K8s结合LVS高可用负载均衡与集群外服务访问实践
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/09/30/%E5%88%87%E7%89%87%E8%A7%A3%E6%9E%90/" rel="next" title="切片解析">
+                  切片解析 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Dai</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

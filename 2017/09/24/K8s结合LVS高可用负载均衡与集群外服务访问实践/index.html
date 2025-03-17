@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Muse","darkmode":false,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/hexoblog/js/config.js" defer></script>
+
+    <meta name="description" content="文档资料K8s官方文档翻译 Kubernetes平台Ingress 介绍Ingress 是一个规则的集合，它允许集群外的流量通过一定的规则到达集群内的 Service 。Ingress三个组件:  反向代理负载均衡器反向代理负载均衡器，即常见的负载均衡软件，如 nginx、Haproxy 等。 Ingress ControllerIngress Controller 与 kubernetes AP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K8s结合LVS高可用负载均衡与集群外服务访问实践">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/09/24/K8s%E7%BB%93%E5%90%88LVS%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E4%B8%8E%E9%9B%86%E7%BE%A4%E5%A4%96%E6%9C%8D%E5%8A%A1%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="Lander Blog">
+<meta property="og:description" content="文档资料K8s官方文档翻译 Kubernetes平台Ingress 介绍Ingress 是一个规则的集合，它允许集群外的流量通过一定的规则到达集群内的 Service 。Ingress三个组件:  反向代理负载均衡器反向代理负载均衡器，即常见的负载均衡软件，如 nginx、Haproxy 等。 Ingress ControllerIngress Controller 与 kubernetes AP">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2017/10/20/59e9a4894e40e.png">
+<meta property="og:image" content="https://i.loli.net/2017/10/20/59e9a4895b6d8.png">
+<meta property="article:published_time" content="2017-09-24T03:08:12.000Z">
+<meta property="article:modified_time" content="2025-03-16T14:10:04.582Z">
+<meta property="article:author" content="Dai">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2017/10/20/59e9a4894e40e.png">
+
+
+<link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/09/24/K8s%E7%BB%93%E5%90%88LVS%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E4%B8%8E%E9%9B%86%E7%BE%A4%E5%A4%96%E6%9C%8D%E5%8A%A1%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://github.com/dclarken/hexoblog/2017/09/24/K8s%E7%BB%93%E5%90%88LVS%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E4%B8%8E%E9%9B%86%E7%BE%A4%E5%A4%96%E6%9C%8D%E5%8A%A1%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/","path":"2017/09/24/K8s结合LVS高可用负载均衡与集群外服务访问实践/","title":"K8s结合LVS高可用负载均衡与集群外服务访问实践"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>K8s结合LVS高可用负载均衡与集群外服务访问实践 | Lander Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/hexoblog/js/utils.js" defer></script><script src="/hexoblog/js/motion.js" defer></script><script src="/hexoblog/js/sidebar.js" defer></script><script src="/hexoblog/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Lander Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes%E5%B9%B3%E5%8F%B0Ingress-%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes平台Ingress 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K8s%E7%BB%93%E5%90%88LVS%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E4%B8%8E%E9%9B%86%E7%BE%A4%E5%A4%96%E6%9C%8D%E5%8A%A1%E8%AE%BF%E9%97%AE%E7%BB%84%E7%BD%91%E6%8B%93%E6%89%91%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">K8s结合LVS高可用负载均衡与集群外服务访问组网拓扑：</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dai</p>
+  <div class="site-description" itemprop="description">陌路 远方 片海</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/2017/09/24/K8s%E7%BB%93%E5%90%88LVS%E9%AB%98%E5%8F%AF%E7%94%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E4%B8%8E%E9%9B%86%E7%BE%A4%E5%A4%96%E6%9C%8D%E5%8A%A1%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="Dai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lander Blog">
+      <meta itemprop="description" content="陌路 远方 片海">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="K8s结合LVS高可用负载均衡与集群外服务访问实践 | Lander Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          K8s结合LVS高可用负载均衡与集群外服务访问实践
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-09-24 11:08:12" itemprop="dateCreated datePublished" datetime="2017-09-24T11:08:12+08:00">2017-09-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-03-16 22:10:04" itemprop="dateModified" datetime="2025-03-16T22:10:04+08:00">2025-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><a href="https://www.kubernetes.org.cn/2812.html">文档资料</a><br><a href="http://docs.kubernetes.org.cn/">K8s官方文档翻译</a></p>
+<h2 id="Kubernetes平台Ingress-介绍"><a href="#Kubernetes平台Ingress-介绍" class="headerlink" title="Kubernetes平台Ingress 介绍"></a>Kubernetes平台Ingress 介绍</h2><p>Ingress 是一个规则的集合，它允许集群外的流量通过一定的规则到达集群内的 Service 。<br>Ingress三个组件:</p>
+<ul>
+<li>反向代理负载均衡器<br>反向代理负载均衡器，即常见的负载均衡软件，如 nginx、Haproxy 等。</li>
+<li>Ingress Controller<br>Ingress Controller 与 kubernetes API 进行交互，实时的感知后端 service、pod 等变化， Ingress Controller 再结合下文的 Ingress 生成配置，然后更新反向代理负载均衡器，并刷新其配置，实现动态服务发现与更新。</li>
+<li>Ingress<br>Ingress是规则集合；定义了域名与Kubernetes的service的对应关系;这个规则将与 Ingress Controller 结合， Ingress Controller 将其动态写入到负载均衡器配置中，从而实现整体的服务发现和负载均衡。</li>
+</ul>
+<p><code>Traefik</code><br>Træfɪk 是一个为了让部署微服务更加便捷而诞生的现代HTTP反向代理、负载均衡工具。 它支持多种后台来自动化、动态的应用它的配置文件设置。<br>特性：</p>
+<ul>
+<li>它非常快</li>
+<li>无需安装其他依赖，通过Go语言编写的单一可执行文件</li>
+<li>支持 Rest API</li>
+<li>多种后台支持：Docker, Swarm, Kubernetes, Marathon, Mesos, Consul, Etcd</li>
+<li>后台监控, 可以监听后台变化进而自动化应用新的配置文件设置</li>
+<li>配置文件热更新。无需重启进程:Traefik 可以与Kubernetes的API进行交互，每当Kubernetes使用Ingress对微服务进行添加、移除、或更新都会被感知，并且可以自动生成它们的配置文件。 指向到你服务的路由将会被直接创建出来。</li>
+<li>正常结束http连接</li>
+<li>后端断路器</li>
+<li>轮询，rebalancer 负载均衡</li>
+<li>Rest Metrics</li>
+<li>支持最小化 官方 docker 镜像</li>
+<li>后台支持SSL</li>
+<li>前台支持SSL（包括SNI）</li>
+<li>清爽的AngularJS前端页面</li>
+<li>支持Websocket</li>
+<li>支持HTTP&#x2F;2</li>
+<li>网络错误重试</li>
+<li>支持Let’s Encrypt (自动更新HTTPS证书)</li>
+<li>高可用集群模式</li>
+</ul>
+<hr>
+<h2 id="K8s结合LVS高可用负载均衡与集群外服务访问组网拓扑："><a href="#K8s结合LVS高可用负载均衡与集群外服务访问组网拓扑：" class="headerlink" title="K8s结合LVS高可用负载均衡与集群外服务访问组网拓扑："></a>K8s结合LVS高可用负载均衡与集群外服务访问组网拓扑：</h2><p>这个案例也可以学习为：如何将四层负载均衡和七层负载均衡相结合来实现对外访问服务。</p>
+<p>组网思路如下：</p>
+<ul>
+<li>前端为两台LVS服务器，通过keepalive实现负载集群高可用以及虚拟IP，实现外部流量的四层负载，以及作为Kubernetes集群服务访问的入口。LVS负载均衡采用DR模式提高集群的处理速度。</li>
+<li>后端三台服务器组成Kubernetes集群，每台节点使用hostPort 的方式部署traefik容器（或者其他能够实现反向代理与负载均衡的服务器如nginx），traefik监听节点的80端口，前端LVS负载均衡监听后端三台Kubernetes节点的80端口将外部访问负载分担至traefik。</li>
+<li>然后由Traefik进行七层负载均衡，可以实现基于域名或访问目录等来实现映射与负载，将访问流量映射至Kubernetes Service并通过Service负载至最终业务POD所在的容器。<br><img src="https://i.loli.net/2017/10/20/59e9a4894e40e.png" alt="tu1"><br><img src="https://i.loli.net/2017/10/20/59e9a4895b6d8.png" alt="tu2"></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/hexoblog/tags/k8s/" rel="tag"># k8s</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/09/19/K8s%E9%9B%86%E7%BE%A4%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/" rel="prev" title="K8s集群基本组成">
+                  <i class="fa fa-angle-left"></i> K8s集群基本组成
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/09/28/%E6%A8%A1%E5%9D%97-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" rel="next" title="模块-文件管理">
+                  模块-文件管理 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Dai</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

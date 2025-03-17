@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Muse","darkmode":false,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/hexoblog/js/config.js" defer></script>
+
+    <meta property="og:type" content="article">
+<meta property="og:title" content="Git基础教程">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/10/20/Git%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Lander Blog">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2017/10/27/59f2a5d1d9fee.jpg">
+<meta property="article:published_time" content="2017-10-19T16:08:12.000Z">
+<meta property="article:modified_time" content="2025-03-16T14:10:04.582Z">
+<meta property="article:author" content="Dai">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2017/10/27/59f2a5d1d9fee.jpg">
+
+
+<link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/10/20/Git%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":"","permalink":"https://github.com/dclarken/hexoblog/2017/10/20/Git%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/","path":"2017/10/20/Git基础教程/","title":"Git基础教程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Git基础教程 | Lander Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/hexoblog/js/utils.js" defer></script><script src="/hexoblog/js/motion.js" defer></script><script src="/hexoblog/js/sidebar.js" defer></script><script src="/hexoblog/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Lander Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%BB%93%E5%BA%93%E6%B7%BB%E5%8A%A0%E6%9C%AC%E5%9C%B0%E4%B8%8A%E4%BC%A0%E6%9C%8D%E5%8A%A1%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">新建一个仓库添加本地上传服务：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E5%92%8C%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E4%B9%8B%E5%90%8E%EF%BC%8C%E5%A6%82%E4%BD%95%E6%B7%BB%E5%8A%A0%E5%92%8C%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">本地和远程仓库建立连接之后，如何添加和修改文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6%E5%B9%B6%E4%B8%94%E5%90%8C%E6%AD%A5%E5%88%B0%E4%BB%93%E5%BA%93%E4%B8%8A%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">本地删除文件并且同步到仓库上：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%86%E4%B8%80%E4%B8%AA%E5%B7%B2%E6%9C%89%E7%9A%84github%E4%BB%93%E5%BA%93clone%E5%88%B0%E6%96%B0%E5%88%9B%E5%BB%BA%E7%9A%84learngit%E4%BB%A5%E5%8F%8A%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E4%B8%AD%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">将一个已有的github仓库clone到新创建的learngit以及本地仓库中：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E6%97%B6%E5%80%99%E7%9A%84%E6%9F%90%E6%8A%A5%E9%94%99%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">上传时候的某报错：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9%E5%B9%B6%E4%B8%94%E4%B8%8A%E4%BC%A0%E5%88%B0github%EF%BC%9A"><span class="nav-number">6.</span> <span class="nav-text">添加一个文件夹并且上传到github：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%9B%B4%E6%94%B9%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E5%90%8C%E6%AD%A5%E5%88%B0%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%EF%BC%9A"><span class="nav-number">7.</span> <span class="nav-text">本地更改目录结构同步到远程仓库：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%A5%E9%94%99%E2%80%93hexo-g%E6%89%A7%E8%A1%8C%E6%8A%A5%E9%94%99%EF%BC%8C%E6%8F%90%E7%A4%BA%E7%BC%BA%E5%B0%91hexo-util"><span class="nav-number">8.</span> <span class="nav-text">报错–hexo g执行报错，提示缺少hexo-util</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dai</p>
+  <div class="site-description" itemprop="description">陌路 远方 片海</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/2017/10/20/Git%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="Dai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lander Blog">
+      <meta itemprop="description" content="陌路 远方 片海">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Git基础教程 | Lander Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git基础教程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-20 00:08:12" itemprop="dateCreated datePublished" datetime="2017-10-20T00:08:12+08:00">2017-10-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-03-16 22:10:04" itemprop="dateModified" datetime="2025-03-16T22:10:04+08:00">2025-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><img src="https://i.loli.net/2017/10/27/59f2a5d1d9fee.jpg" alt="tu"></p>
+<span id="more"></span>
+<h2 id="新建一个仓库添加本地上传服务："><a href="#新建一个仓库添加本地上传服务：" class="headerlink" title="新建一个仓库添加本地上传服务："></a>新建一个仓库添加本地上传服务：</h2><p><strong>现在的情景:</strong><br>你已经在本地创建了一个Git仓库后，又想在GitHub创建一个Git仓库，并且让这两个仓库进行远程同步，这样，GitHub上的仓库既可以作为备份，又可以让其他人通过该仓库来协作，真是一举多得。<br>对于新创建的仓库，从本地做备份到github网站上gitbash的代码段如下：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">echo</span> <span class="string">&quot;# learngit.github.io&quot;</span> &gt;&gt; README.md</span><br><span class="line">$ git init</span><br><span class="line">$ git <span class="built_in">add</span> README.md</span><br><span class="line">$ git commit -<span class="keyword">m</span> <span class="string">&quot;first commit&quot;</span></span><br><span class="line">$ git remote <span class="built_in">add</span> origin git@github.<span class="keyword">com</span>:dclarken/dai.github.io.git</span><br><span class="line">$ git push -<span class="keyword">u</span> origin master</span><br></pre></td></tr></table></figure>
+
+<p><strong>操作解释：</strong></p>
+<ul>
+<li>新建一个README文件；</li>
+<li>初始化本地文件得到一个.git的隐藏文件，用于追踪地位；</li>
+<li>添加README文件到缓存区；</li>
+<li>给刚刚添加的文件记录cmmit信息，便于以后管理，并且通过该操作将缓存区的文件上传到master分支上；</li>
+<li>在本地远程建立与github仓库的连接；</li>
+<li>利用push将上传到master的文件发布到github网站上；</li>
+</ul>
+<p><strong>error:src refspec master does not match any</strong></p>
+<p><strong>原因：</strong><br>引起该错误的原因是，目录中没有文件，空目录是不能提交上去的</p>
+<p><strong>解决方法：</strong></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ touch README</span><br><span class="line">$ git <span class="built_in">add</span> README </span><br><span class="line">$ git commit -<span class="keyword">m</span> <span class="string">&#x27;first commit&#x27;</span></span><br><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="本地和远程仓库建立连接之后，如何添加和修改文件："><a href="#本地和远程仓库建立连接之后，如何添加和修改文件：" class="headerlink" title="本地和远程仓库建立连接之后，如何添加和修改文件："></a>本地和远程仓库建立连接之后，如何添加和修改文件：</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">add</span> <span class="string">&quot;filename&quot;</span>          添加文件到缓存区 ；</span><br><span class="line">$ git commit -<span class="keyword">m</span> <span class="string">&quot;add/update….&quot;</span>给刚刚添加的文件记录cmmit信息；</span><br><span class="line">$ git push                    利用push将上传到master的文件发布到github网站上；</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="本地删除文件并且同步到仓库上："><a href="#本地删除文件并且同步到仓库上：" class="headerlink" title="本地删除文件并且同步到仓库上："></a>本地删除文件并且同步到仓库上：</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git rm filename</span><br><span class="line">$ git commit -<span class="keyword">m</span> <span class="string">&quot;remove filename&quot;</span></span><br><span class="line">$ git push</span><br></pre></td></tr></table></figure>
+<p>对于新建和删除修改文件的小结：<br>这些操作都需要三个步骤：</p>
+<ul>
+<li>修改&#x2F;删除&#x2F;新建</li>
+<li>添加commit</li>
+<li>git push上传到github</li>
+</ul>
+<p>另外：<br>git pull –rebase 从github上下拉到本地，进行同步工作，加上–rebase可以避免跳入merge commit窗口，从而导致的无用记录,一般来说在网页上直接操作即使没有添加commit也会自动添加，但是为了记录好看还是养成加–rebase的习惯吧<br><a href="http://www.cnblogs.com/wangiqngpei557/p/6056624.html">聊下git pull –rebase</a><br>git status可以查看当前的修改情况<br>git checkout – file 让这个文件回到最近一次git commit或git add时的状态。<br>git reset HEAD file可以把暂存区的修改撤销掉（unstage），重新放回工作区</p>
+<hr>
+<h2 id="将一个已有的github仓库clone到新创建的learngit以及本地仓库中："><a href="#将一个已有的github仓库clone到新创建的learngit以及本地仓库中：" class="headerlink" title="将一个已有的github仓库clone到新创建的learngit以及本地仓库中："></a>将一个已有的github仓库clone到新创建的learngit以及本地仓库中：</h2><ul>
+<li>在github上创建项目</li>
+<li>使用 git clone <a href="mailto:&#103;&#x69;&#116;&#64;&#103;&#x69;&#x74;&#x68;&#117;&#98;&#46;&#99;&#x6f;&#x6d;">git@github.com</a>:dclarken&#x2F;dclarken.github.io.git克隆到本地</li>
+<li>编辑项目</li>
+<li>git add “dclarken.github.io&#x2F;“</li>
+<li>git commit -m “clone dclarken.github.io&#x2F; “</li>
+<li>git push origin master 将本地更改推送到远程master分支。</li>
+</ul>
+<p>如果在github的remote上已经有了文件，会出现错误。此时应当先pull一下，即：<br>git pull origin master</p>
+<hr>
+<h2 id="上传时候的某报错："><a href="#上传时候的某报错：" class="headerlink" title="上传时候的某报错："></a>上传时候的某报错：</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">To github.<span class="keyword">com</span>:dclarken/learngit.git</span><br><span class="line"> ! [rejected]        master -&gt; master (non-fast-forward)</span><br><span class="line">error: failed <span class="keyword">to</span> push some refs <span class="keyword">to</span> <span class="string">&#x27;git@github.com:dclarken/learngit.git&#x27;</span></span><br><span class="line">hint: Updates were rejected because the tip of your current branch <span class="keyword">is</span> behind</span><br><span class="line">hint: its remote counterpart. Integrate the remote <span class="keyword">changes</span> (<span class="keyword">e</span>.g.</span><br><span class="line">hint: <span class="string">&#x27;git pull ...&#x27;</span>) before pushing again.</span><br><span class="line">hint: See the <span class="string">&#x27;Note about fast-forwards&#x27;</span> in <span class="string">&#x27;git push --help&#x27;</span> <span class="keyword">for</span> details.</span><br></pre></td></tr></table></figure>
+
+<p><strong>原因：</strong><br>GitHub远程仓库中的README.md文件不在本地仓库中。</p>
+<p><strong>解决方案：</strong></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git pull --rebase origin master</span><br><span class="line">$ git push -<span class="keyword">u</span> origin master</span><br></pre></td></tr></table></figure>
+
+<p>若此时又出现报错或者在平时也有这种报错：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Git Cannot rebase: You have unstaged <span class="keyword">changes</span>.</span><br></pre></td></tr></table></figure>
+
+<p><strong>原因：</strong><br>那说明有修改过的文件</p>
+<p><strong>解决方案：</strong></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git stash</span><br><span class="line">$ git pull --rebase （每次push之前最好这样做一次）</span><br><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
+
+<p>之后用git stash pop stash</p>
+<p><strong>解析：</strong></p>
+<p>git stash 可用来暂存当前正在进行的工作， 比如想pull 最新代码， 又不想加新commit， 或者另外一种情况，为了fix 一个紧急的bug,  先stash, 使返回到自己上一个commit, 改完bug之后再stash pop, 继续原来的工作。所以以前自己在网页上面直接上传代码时，经常不写commit于是在想要添加本地管理的时候，会出现以上报错。</p>
+<p>基础命令：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git stash</span><br><span class="line">$ <span class="keyword">do</span> some work</span><br><span class="line">$ git stash <span class="keyword">pop</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="添加一个文件夹并且上传到github："><a href="#添加一个文件夹并且上传到github：" class="headerlink" title="添加一个文件夹并且上传到github："></a>添加一个文件夹并且上传到github：</h2><p>其实这个和上传文件的原理一样，github支持在上传某个文件夹下的文件的时，将文件夹也上传。所以：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> CodeCut</span><br><span class="line">$ <span class="keyword">cd</span> CodeCut</span><br><span class="line">$ touch test.txt</span><br><span class="line">$ git <span class="built_in">add</span> <span class="string">&quot;test.txt&quot;</span></span><br><span class="line">$ git commit -<span class="keyword">m</span> <span class="string">&quot; add test.txt&quot;</span></span><br><span class="line">$ git push</span><br></pre></td></tr></table></figure>
+
+<h2 id="本地更改目录结构同步到远程仓库："><a href="#本地更改目录结构同步到远程仓库：" class="headerlink" title="本地更改目录结构同步到远程仓库："></a>本地更改目录结构同步到远程仓库：</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git mv filefrom dir/  #移动操作</span><br><span class="line">$ …#多次移动操作</span><br><span class="line">$ git <span class="built_in">add</span> .</span><br><span class="line">$ git commit -<span class="keyword">m</span> <span class="string">&quot;Modified directory structure&quot;</span></span><br><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
+
+<p>文件改名</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git mv oldfile newfile  #改名操作</span><br><span class="line">$ …#多次改名操作</span><br><span class="line">$ git <span class="built_in">add</span> .</span><br><span class="line">$ git commit -<span class="keyword">m</span> <span class="string">&quot;Change file name&quot;</span></span><br><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
+
+
+<p><a href="http://www.yiibai.com/git/git_move_operation.html">git移动操作资料</a></p>
+<h2 id="报错–hexo-g执行报错，提示缺少hexo-util"><a href="#报错–hexo-g执行报错，提示缺少hexo-util" class="headerlink" title="报错–hexo g执行报错，提示缺少hexo-util"></a>报错–hexo g执行报错，提示缺少hexo-util</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ERROR Script load failed: themes/hexo-theme-<span class="keyword">next</span>/scripts/<span class="keyword">tags</span>/exturl.js  </span><br><span class="line">Error: Cannot <span class="keyword">find</span> module <span class="string">&#x27;hexo-util&#x27;</span> </span><br></pre></td></tr></table></figure>
+<p>Cannot find module ‘hexo-util’<br>发现提示hexo-util找不到,<br>执行下面命令后就可以了</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-util --save</span><br></pre></td></tr></table></figure>
+
+<p>资料参考：<br><a href="https://www.liaoxuefeng.com/">廖学峰官方网站</a><br><a href="http://blog.csdn.net/u011471873/article/details/51462871">error: failed to push some refs to ‘git@github.com:</a><br><a href="http://blog.csdn.net/u012385190/article/details/70670213">error:Cannot pull with rebase</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/hexoblog/tags/git/" rel="tag"># git</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/10/19/%E5%9F%BA%E4%BA%8EHexo%E5%92%8CGithub%E7%9A%84%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="prev" title="基于Hexo和Github的博客搭建">
+                  <i class="fa fa-angle-left"></i> 基于Hexo和Github的博客搭建
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/10/21/%E8%A3%85%E9%A5%B0%E5%99%A8/" rel="next" title="装饰器">
+                  装饰器 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Dai</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

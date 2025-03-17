@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Muse","darkmode":false,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/hexoblog/js/config.js" defer></script>
+
+    <meta property="og:type" content="article">
+<meta property="og:title" content="time模块">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/10/12/time%E6%A8%A1%E5%9D%97/index.html">
+<meta property="og:site_name" content="Lander Blog">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2017/11/01/59f9890e94a1e.jpg">
+<meta property="article:published_time" content="2017-10-11T16:08:12.000Z">
+<meta property="article:modified_time" content="2025-03-16T14:10:04.583Z">
+<meta property="article:author" content="Dai">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="time">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2017/11/01/59f9890e94a1e.jpg">
+
+
+<link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/10/12/time%E6%A8%A1%E5%9D%97/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":"","permalink":"https://github.com/dclarken/hexoblog/2017/10/12/time%E6%A8%A1%E5%9D%97/","path":"2017/10/12/time模块/","title":"time模块"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>time模块 | Lander Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/hexoblog/js/utils.js" defer></script><script src="/hexoblog/js/motion.js" defer></script><script src="/hexoblog/js/sidebar.js" defer></script><script src="/hexoblog/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Lander Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#time-localtime-%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E7%9A%84%E6%97%B6%E9%97%B4"><span class="nav-number">1.</span> <span class="nav-text">time.localtime()获取当前的时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-mktime-t-%EF%BC%9A%E5%B0%86%E4%B8%80%E4%B8%AAstruct-time%E8%BD%AC%E5%8C%96%E4%B8%BA%E6%97%B6%E9%97%B4%E6%88%B3"><span class="nav-number">2.</span> <span class="nav-text">time.mktime(t)：将一个struct_time转化为时间戳</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-sleep-secs-%EF%BC%9A%E7%BA%BF%E7%A8%8B%E6%8E%A8%E8%BF%9F%E6%8C%87%E5%AE%9A%E7%9A%84%E6%97%B6%E9%97%B4%E8%BF%90%E8%A1%8C"><span class="nav-number">3.</span> <span class="nav-text">time.sleep(secs)：线程推迟指定的时间运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-asctime-t"><span class="nav-number">4.</span> <span class="nav-text">time.asctime( [t] )</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-ctime-secs"><span class="nav-number">5.</span> <span class="nav-text">time.ctime([secs])</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-strftime-format-t"><span class="nav-number">6.</span> <span class="nav-text">time.strftime( format [, t] )</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#time-strptime-string-format"><span class="nav-number">7.</span> <span class="nav-text">time.strptime(string[,format])</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dai</p>
+  <div class="site-description" itemprop="description">陌路 远方 片海</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/2017/10/12/time%E6%A8%A1%E5%9D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="Dai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lander Blog">
+      <meta itemprop="description" content="陌路 远方 片海">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="time模块 | Lander Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          time模块
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-10-12 00:08:12" itemprop="dateCreated datePublished" datetime="2017-10-12T00:08:12+08:00">2017-10-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-03-16 22:10:04" itemprop="dateModified" datetime="2025-03-16T22:10:04+08:00">2025-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><img src="https://i.loli.net/2017/11/01/59f9890e94a1e.jpg" alt="mahua"></p>
+<span id="more"></span>
+<p>Python时间模块之Time模块解析<br><a href="http://blog.csdn.net/SeeTheWorld518/article/details/48314501">文章转载来源</a><br>time模块。<br>在开始前，先说明几点：</p>
+<ul>
+<li>在Python中，通常有这几种方式表示时间：时间戳、格式化的时间字符串、元组（struct_time 共九种元素）。由于Python的time模块主要是调用C库实现的，所以在不同的平台可能会有所不同。</li>
+<li>时间戳（timestamp）的方式：时间戳表示是从1970年1月1号 00:00:00开始到现在按秒计算的偏移量。查看一下type(time.time())的返回值类型，可以看出是float类型。返回时间戳的函数主要有time()、clock()等。</li>
+<li>UTC（世界协调时），就是格林威治天文时间，也是世界标准时间。在中国为UTC+8。DST夏令时。</li>
+<li>元组方式：struct_time元组共有9个元素，返回struct_time的函数主要有gmtime()，localtime()，strptime()。</li>
+</ul>
+<h2 id="time-localtime-获取当前的时间"><a href="#time-localtime-获取当前的时间" class="headerlink" title="time.localtime()获取当前的时间"></a>time.localtime()获取当前的时间</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">ls = time.localtime() 获取当前的时间，其生成的ls的数据结构为具有<span class="number">9</span>个元素的元组</span><br><span class="line">time.struct_time(tm_year=<span class="number">2015</span>, tm_mon=<span class="number">8</span>, tm_mday=<span class="number">24</span>, tm_hour=<span class="number">9</span>, tm_min=<span class="number">39</span>, tm_sec=<span class="number">38</span>, tm_wday=<span class="number">0</span>, tm_yday=<span class="number">236</span>, tm_isdst=<span class="number">0</span>)</span><br><span class="line">tm_year ：年</span><br><span class="line">tm_mon ：月（<span class="number">1</span>-<span class="number">12</span>）</span><br><span class="line">tm_mday ：日（<span class="number">1</span>-<span class="number">31</span>）</span><br><span class="line">tm_hour ：时（<span class="number">0</span>-<span class="number">23</span>）</span><br><span class="line">tm_min ：分（<span class="number">0</span>-<span class="number">59</span>）</span><br><span class="line">tm_sec ：秒（<span class="number">0</span>-<span class="number">59</span>）</span><br><span class="line">tm_wday ：星期几（<span class="number">0</span>-<span class="number">6</span>,<span class="number">0</span>表示周日）</span><br><span class="line">tm_yday ：一年中的第几天（<span class="number">1</span>-<span class="number">366</span>）</span><br><span class="line">tm_isdst ：是否是夏令时（默认为-<span class="number">1</span>）</span><br></pre></td></tr></table></figure>
+
+<p>使用元组索引获取对应项的值，或者是使用成员符号调用。<br>调用年份的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>ls[<span class="number">0</span>]</span><br><span class="line"><span class="number">2015</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>ls.tm_year</span><br><span class="line"><span class="number">2015</span></span><br><span class="line">time.time()：返回当前时间的时间戳</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>time.time()</span><br><span class="line"><span class="number">1440337405.85</span></span><br><span class="line"><span class="comment">#对时间戳取整</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">int</span>(time.time())</span><br><span class="line"><span class="number">1440746424</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="time-mktime-t-：将一个struct-time转化为时间戳"><a href="#time-mktime-t-：将一个struct-time转化为时间戳" class="headerlink" title="time.mktime(t)：将一个struct_time转化为时间戳"></a>time.mktime(t)：将一个struct_time转化为时间戳</h2><p>time.mktime() 函数执行与gmtime(), localtime()相反的操作，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>time.mktime(time.localtime())</span><br><span class="line"><span class="number">1440338541.0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="time-sleep-secs-：线程推迟指定的时间运行"><a href="#time-sleep-secs-：线程推迟指定的时间运行" class="headerlink" title="time.sleep(secs)：线程推迟指定的时间运行"></a>time.sleep(secs)：线程推迟指定的时间运行</h2><p>secs表示线程睡眠指定时间，单位为妙。<br>time.clock()<br>函数以浮点数计算的秒数返回当前的CPU时间。用来衡量不同程序的耗时，比time.time()更有用。在不同的系统上含义不同。在NUix系统上，它返回的是“进程时间”，它是用妙表示的浮点数（时间戳）。而在Windows中，第一次调用，返回的是进程运行时实际时间。而第二次之后的调用是自第一次调用以后到现在的运行时间。<br>返回值<br>该函数有两个功能：</p>
+<p>（1）在第一次调用的时候，返回的是程序运行的实际时间；<br>（2）第二次之后的调用，返回的是自第一次调用后,到这次调用的时间间隔在win32系统下，这个函数返回的是真实时间（wall time），而在Unix&#x2F;Linux下返回的是CPU时间。</p>
+<h2 id="time-asctime-t"><a href="#time-asctime-t" class="headerlink" title="time.asctime( [t] )"></a>time.asctime( [t] )</h2><p>把一个表示时间的元组或者struct_time表示为 ‘Sun Aug 23 14:31:59 2015’ 这种形式。如果没有给参数，会将time.localtime()作为参数传入。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>time.asctime(time.gmtime())</span><br><span class="line"><span class="string">&#x27;Sun Aug 23 14:31:59 2015&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="time-ctime-secs"><a href="#time-ctime-secs" class="headerlink" title="time.ctime([secs])"></a>time.ctime([secs])</h2><p>把一个时间戳（按秒计算的浮点数）转化为time.asctime()的形式。如果为指定参数，将会默认使用time.time()作为参数。它的作用相当于time.asctime(time.localtime(secs)) </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>time.ctime(<span class="number">1440338541.0</span>)</span><br><span class="line"><span class="string">&#x27;Sun Aug 23 22:02:21 2015&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="time-strftime-format-t"><a href="#time-strftime-format-t" class="headerlink" title="time.strftime( format [, t] )"></a>time.strftime( format [, t] )</h2><p>返回字符串表示的当地时间。<br>把一个代表时间的元组或者struct_time（如由time.localtime()和time.gmtime()返回）转化为格式化的时间字符串，格式由参数format决定。如果未指定，将传入time.localtime()。如果元组中任何一个元素越界，就会抛出ValueError的异常。函数返回的是一个可读表示的本地时间的字符串。<br>参数：<br>format：格式化字符串<br>t ：可选的参数是一个struct_time对象<br>时间字符串支持的格式符号：（区分大小写）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">%a  本地星期名称的简写（如星期四为Thu）      </span><br><span class="line">%A  本地星期名称的全称（如星期四为Thursday）      </span><br><span class="line">%b  本地月份名称的简写（如八月份为agu）    </span><br><span class="line">%B  本地月份名称的全称（如八月份为august）       </span><br><span class="line">%c  本地相应的日期和时间的字符串表示（如：<span class="number">15</span>/08/<span class="number">27</span> <span class="number">10</span>:<span class="number">20</span>:06）       </span><br><span class="line">%d  一个月中的第几天（01 - <span class="number">31</span>）  </span><br><span class="line">%f  微妙（范围<span class="number">0.999999</span>）    </span><br><span class="line">%H  一天中的第几个小时（<span class="number">24</span>小时制，<span class="number">00</span> - <span class="number">23</span>）       </span><br><span class="line">%I  第几个小时（<span class="number">12</span>小时制，<span class="number">0</span> - <span class="number">11</span>）       </span><br><span class="line">%j  一年中的第几天（001 - <span class="number">366</span>）     </span><br><span class="line">%m  月份（01 - <span class="number">12</span>）    </span><br><span class="line">%M  分钟数（<span class="number">00</span> - <span class="number">59</span>）       </span><br><span class="line">%p  本地am或者pm的相应符      </span><br><span class="line">%S  秒（<span class="number">00</span> - <span class="number">61</span>）    </span><br><span class="line">%U  一年中的星期数。（<span class="number">00</span> - <span class="number">53</span>星期天是一个星期的开始。）第一个星期天之前的所有天数都放在第<span class="number">0</span>周。     </span><br><span class="line">%w  一个星期中的第几天（<span class="number">0</span> - <span class="number">6</span>，<span class="number">0</span>是星期天）    </span><br><span class="line">%W  和%U基本相同，不同的是%W以星期一为一个星期的开始。    </span><br><span class="line">%x  本地相应日期字符串（如<span class="number">15</span>/08/01）     </span><br><span class="line">%X  本地相应时间字符串（如08:08:<span class="number">10</span>）     </span><br><span class="line">%y  去掉世纪的年份（<span class="number">00</span> - <span class="number">99</span>）两个数字表示的年份       </span><br><span class="line">%Y  完整的年份（<span class="number">4</span>个数字表示年份）</span><br><span class="line">%z  与UTC时间的间隔（如果是本地时间，返回空字符串）</span><br><span class="line">%Z  时区的名字（如果是本地时间，返回空字符串）       </span><br><span class="line">%%  ‘%’字符  </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>time.strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>,  formattime)</span><br><span class="line"><span class="string">&#x27;2015-08-24 13:01:30&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="time-strptime-string-format"><a href="#time-strptime-string-format" class="headerlink" title="time.strptime(string[,format])"></a>time.strptime(string[,format])</h2><p>将格式字符串转化成struct_time.<br>该函数是time.strftime()函数的逆操作。time strptime() 函数根据指定的格式把一个时间字符串解析为时间元组。所以函数返回的是struct_time对象。<br>参数：<br>string ：时间字符串<br>format：格式化字符串</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>stime = <span class="string">&quot;2015-08-24 13:01:30&quot;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>formattime = time.strptime(stime,<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span> formattime</span><br><span class="line">time.struct_time(tm_year=<span class="number">2015</span>, tm_mon=<span class="number">8</span>, tm_mday=<span class="number">24</span>, tm_hour=<span class="number">13</span>, tm_min=<span class="number">1</span>, tm_sec=<span class="number">30</span>, tm_wday=<span class="number">0</span>, tm_yday=<span class="number">236</span>, tm_isdst=-<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/hexoblog/tags/python/" rel="tag"># python</a>
+              <a href="/hexoblog/tags/time/" rel="tag"># time</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/10/01/ALB%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="prev" title="ALB应用程序负载均衡">
+                  <i class="fa fa-angle-left"></i> ALB应用程序负载均衡
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/10/12/Apache%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="next" title="Apache负载均衡">
+                  Apache负载均衡 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Dai</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

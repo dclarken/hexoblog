@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Muse","darkmode":false,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/hexoblog/js/config.js" defer></script>
+
+    <meta name="description" content="安装文档资料dockers安装troubleshooting资料内核变更docker再Linux的kernel3.8上运行最佳。利用 uname -r命令查看当前系统版本的内核，内核版本不满足要求，升级内核： 12sudo apt-get install linux-image-generic-lts-raring linux-headers-generic-lts-raringsudo apt-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu下安装dockers">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/09/14/ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85dockers/index.html">
+<meta property="og:site_name" content="Lander Blog">
+<meta property="og:description" content="安装文档资料dockers安装troubleshooting资料内核变更docker再Linux的kernel3.8上运行最佳。利用 uname -r命令查看当前系统版本的内核，内核版本不满足要求，升级内核： 12sudo apt-get install linux-image-generic-lts-raring linux-headers-generic-lts-raringsudo apt-">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-09-14T03:31:21.000Z">
+<meta property="article:modified_time" content="2025-03-16T14:10:04.584Z">
+<meta property="article:author" content="Dai">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/09/14/ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85dockers/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://github.com/dclarken/hexoblog/2017/09/14/ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85dockers/","path":"2017/09/14/ubuntu下安装dockers/","title":"ubuntu下安装dockers"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ubuntu下安装dockers | Lander Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/hexoblog/js/utils.js" defer></script><script src="/hexoblog/js/motion.js" defer></script><script src="/hexoblog/js/sidebar.js" defer></script><script src="/hexoblog/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Lander Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dai</p>
+  <div class="site-description" itemprop="description">陌路 远方 片海</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/2017/09/14/ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85dockers/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="Dai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lander Blog">
+      <meta itemprop="description" content="陌路 远方 片海">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="ubuntu下安装dockers | Lander Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ubuntu下安装dockers
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-09-14 11:31:21" itemprop="dateCreated datePublished" datetime="2017-09-14T11:31:21+08:00">2017-09-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-03-16 22:10:04" itemprop="dateModified" datetime="2025-03-16T22:10:04+08:00">2025-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><a href="http://www.linuxidc.com/Linux/2015-04/116051.htm">安装文档资料</a><br><a href="http://blog.csdn.net/quuqu/article/details/51488966">dockers安装troubleshooting资料</a><br><strong><code>内核变更</code></strong><br>docker再Linux的kernel3.8上运行最佳。<br>利用 uname -r命令查看当前系统版本的内核，内核版本不满足要求，升级内核：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install linux-image-generic-lts-raring linux-headers-generic-lts-raringsudo apt-<span class="built_in">get</span> install --install-recommends linux-generic-lts-raring xserver-xorg-lts-raring libgl1-mesa-glx-lts-raring</span><br><span class="line">~sudo reboot </span><br></pre></td></tr></table></figure>
+<p>重启ubuntu</p>
+<p><strong><code>更新apt-get的安装源</code></strong></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@linuxidc:~# <span class="keyword">vi</span> /etc/apt/sources.<span class="keyword">list</span></span><br></pre></td></tr></table></figure>
+<p>是包管理工具 apt 所用的记录软件包仓库位置的配置文件<br><a href="http://blog.csdn.net/gong_xucheng/article/details/53886271">&#x2F;etc&#x2F;apt&#x2F;sources.list 详解</a><br>删除里面的所有内容，把下面的安装源写入</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span> http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-backports main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-security main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-updates main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-proposed main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span>-src http://mirrors.aliyun.<span class="keyword">com</span>/ubuntu/ trusty-backports main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+
+<p><strong><code>然后更新apt-get，利用apt-get安装docker.io</code></strong></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@linuxidc:~#apt-<span class="built_in">get</span> <span class="keyword">update</span></span><br><span class="line">root@linuxidc:~#apt-<span class="built_in">get</span> install docker.io</span><br><span class="line">root@linuxidc:~# service docker.io restart或者 service docker start</span><br></pre></td></tr></table></figure>
+
+<p>错误信息<br>●报错1：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FATA[<span class="number">0000</span>] Post http:///var/run/docker.sock/v1.<span class="number">18</span>/images/create?fromImage=wpscanteam%<span class="number">2</span>Fvulnerablewordpress%<span class="number">3</span>Alatest: dial unix /var/run/docker.sock: <span class="keyword">no</span> such <span class="keyword">file</span> <span class="built_in">or</span> directory. Are you trying <span class="keyword">to</span> connect <span class="keyword">to</span> <span class="keyword">a</span> TLS-enabled daemon without TLS?</span><br></pre></td></tr></table></figure>
+<p>解决办法：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo touch /var/run/docker.sock</span><br><span class="line">$ sudo docker -d</span><br></pre></td></tr></table></figure>
+
+<p>touch命令有两个功能：一是用于把已存在文件的时间标签更新为系统当前的时间（默认方式），它们的数据将原封不动地保留下来；二是用来创建新的空文件。<br><a href="http://man.linuxde.net/touch">文档资料1</a><br>~docker -d :Run container in background and print container ID 运行容量并且打印容器ID<br><a href="http://www.cnblogs.com/go2bed/p/5703117.html">文档资料2</a></p>
+<p>●报错2：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">INFO[<span class="number">0000</span>] +job serveapi(unix:///var/run/docker.sock) </span><br><span class="line">INFO[<span class="number">0000</span>] Listening <span class="keyword">for</span> HTTP <span class="keyword">on</span> unix (/var/run/docker.sock) </span><br><span class="line">INFO[<span class="number">0000</span>] +job init_networkdriver() </span><br><span class="line">INFO[<span class="number">0000</span>] -job init_networkdriver() = OK (<span class="number">0</span>) </span><br><span class="line">WARN[<span class="number">0000</span>] Your kernel does not support cgroup swap limit. </span><br><span class="line">FATA[<span class="number">0000</span>] Shutting down daemon due <span class="keyword">to</span> errors: Error loading docker apparmor <span class="keyword">profile</span>: fork/exec /sbin/apparmor_parser: <span class="keyword">no</span> such <span class="keyword">file</span></span><br></pre></td></tr></table></figure>
+
+<p>解决办法：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-<span class="built_in">get</span> install apparmor</span><br></pre></td></tr></table></figure>
+<p>Apparmor—Linux内核中的强制访问控制系统，是Linux内核的一个安全模块，AppArmor允许系统管理员将每个程序与一个安全配置文件关联，从而限制程序的功能。简单的说，AppArmor是与SELinux类似的一个访问控制系统，通过它你可以指定程序可以读、写或运行哪些文件，是否可以打开网络端口等。作为对传统Unix的自主访问控制模块的补充，AppArmor提供了强制访问控制机制，它已经被整合到2.6版本的Linux内核中。<br><a href="http://www.cnblogs.com/-Lei/archive/2013/02/24/2923947.html">Apparmor</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/hexoblog/tags/docker/" rel="tag"># docker</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/09/14/Docker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94Cgroup%E6%8E%A7%E5%88%B6%E7%BB%84/" rel="prev" title="Docker内核知识——Cgroup控制组">
+                  <i class="fa fa-angle-left"></i> Docker内核知识——Cgroup控制组
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/09/15/Docker%E5%86%85%E6%A0%B8%E7%9F%A5%E8%AF%86%E2%80%94namespace/" rel="next" title="Docker内核知识——namespace">
+                  Docker内核知识——namespace <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Dai</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

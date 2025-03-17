@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexoblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexoblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexoblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/hexoblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/hexoblog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"github.com","root":"/hexoblog/","images":"/hexoblog/images","scheme":"Muse","darkmode":false,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/hexoblog/js/config.js" defer></script>
+
+    <meta name="description" content="OSI (Open System Interconnection)开放式系统互联参考模型。从下到上七层模型功能及其代表协议：  物理层(Physical) ：规定了激活、维持、关闭通信端点之间的机械特性、电气特性、功能特性以及过程特性。该层为上层协议提供了一个传输数据的物理媒体。Bit，比特。典型协议代表：EIA&#x2F;TIA-232, EIA&#x2F;TIA-499, V.35, V.24">
+<meta property="og:type" content="article">
+<meta property="og:title" content="四七层模型协议比较">
+<meta property="og:url" content="https://github.com/dclarken/hexoblog/2017/08/12/%E5%9B%9B%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B%E5%8D%8F%E8%AE%AE%E6%AF%94%E8%BE%83/index.html">
+<meta property="og:site_name" content="Lander Blog">
+<meta property="og:description" content="OSI (Open System Interconnection)开放式系统互联参考模型。从下到上七层模型功能及其代表协议：  物理层(Physical) ：规定了激活、维持、关闭通信端点之间的机械特性、电气特性、功能特性以及过程特性。该层为上层协议提供了一个传输数据的物理媒体。Bit，比特。典型协议代表：EIA&#x2F;TIA-232, EIA&#x2F;TIA-499, V.35, V.24">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-08-12T03:31:21.000Z">
+<meta property="article:modified_time" content="2025-03-16T14:10:04.584Z">
+<meta property="article:author" content="Dai">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="tcp&#x2F;ip">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://github.com/dclarken/hexoblog/2017/08/12/%E5%9B%9B%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B%E5%8D%8F%E8%AE%AE%E6%AF%94%E8%BE%83/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"https://github.com/dclarken/hexoblog/2017/08/12/%E5%9B%9B%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B%E5%8D%8F%E8%AE%AE%E6%AF%94%E8%BE%83/","path":"2017/08/12/四七层模型协议比较/","title":"四七层模型协议比较"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>四七层模型协议比较 | Lander Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/hexoblog/js/utils.js" defer></script><script src="/hexoblog/js/motion.js" defer></script><script src="/hexoblog/js/sidebar.js" defer></script><script src="/hexoblog/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/hexoblog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexoblog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Lander Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Dai</p>
+  <div class="site-description" itemprop="description">陌路 远方 片海</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/hexoblog/archives/">
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/hexoblog/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/hexoblog/tags/">
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://github.com/dclarken/hexoblog/2017/08/12/%E5%9B%9B%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B%E5%8D%8F%E8%AE%AE%E6%AF%94%E8%BE%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexoblog/images/avatar.gif">
+      <meta itemprop="name" content="Dai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lander Blog">
+      <meta itemprop="description" content="陌路 远方 片海">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="四七层模型协议比较 | Lander Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          四七层模型协议比较
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2017-08-12 11:31:21" itemprop="dateCreated datePublished" datetime="2017-08-12T11:31:21+08:00">2017-08-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2025-03-16 22:10:04" itemprop="dateModified" datetime="2025-03-16T22:10:04+08:00">2025-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/hexoblog/categories/%E7%AC%94%E8%AE%B0/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><strong><code>OSI (Open System Interconnection)</code></strong><br>开放式系统互联参考模型。从下到上七层模型功能及其代表协议：</p>
+<ul>
+<li>物理层(Physical) ：规定了激活、维持、关闭通信端点之间的机械特性、电气特性、功能特性以及过程特性。该层为上层协议提供了一个传输数据的物理媒体。Bit，比特。典型协议代表：EIA&#x2F;TIA-232, EIA&#x2F;TIA-499, V.35, V.24, RJ45, Ethernet, IEEE 802.3x(以太网) 物理层, FDDI(Fiber Distributed Data Interface, 光纤分布式数据接口) 物理层</li>
+<li>数据链路层(Data Link) : 在不可靠的物理介质上提供可靠的传输。该层的作用包括：物理地址寻址、数据的成帧、流量控制、数据的检错、重发等。Frame，帧。典型协议代表：SDLC(Synchronous DataLink Control，同步数据链路控制), HDLC(High-Level Data Link Control, 高级数据链路控制), PPP(Point-to-Point 点到点), IEEE 802.3x 数据链路层, FDDI 数据链路层, ATM(Asynchronous Transfer Mode, 异步传输模式), IEEE 802.5(令牌环) , Frame Relay(帧中继)</li>
+<li>网络层(Network) : 负责对子网间的数据包进行路由选择。此外，网络层还可以实现拥塞控制、网际互连等功能。 Packet，包。典型协议代表：IP, ICMP, IGMP, IPX, BGP, OSPF, RIP, IGRP, EIGRP, ARP, RARP, X.25</li>
+<li>传输层(Transport) : 传输层是第一个端到端，即主机到主机的层次。传输层负责将上层数据分段并提供端到端的、可靠的或不可靠的传输。此外，传输层还要处理端到端的差错控制和流量控制问题。 Segment，段。典型协议代表：TCP, UDP, TLS, RTP, SCTP, SPX, ATP, IL</li>
+<li>会话层(Session) : 管理主机之间的会话进程，即负责建立、管理、终止进程之间的会话。会话层还利用在数据中插入校验点来实现数据的同步。典型协议代表：RPC, SQL, NFS, NetBIOS, SCP, ASP, SSH, Winsock, BSD sockets</li>
+<li>表示层(Presentation) : 对上层数据或信息进行变换以保证一个主机应用层信息可以被另一个主机的应用程序理解。表示层的数据转换包括数据的加密、压缩、格式转换等。典型协议代表：TIFF, GIF, JPEG, PICT, ASCII, EBCDIC, encryption, MPEG, MIDI, HTML</li>
+<li>应用层(Application) : 为操作系统或网络应用程序提供访问网络服务的接口。典型协议代表：FTP, WWW, Telnet, NFS, SMTP, Gateway, SNMP, HTTP, Whois, SSH<br>OSI 七层模型各层设备：<br>物理层：各种传输媒体(光线，网线)，各类 DTE 和 DCE 之间通讯的物理设备(计算机， HUB)，各类插槽，插座<br>数据链路层：两个子层：LLC(Logical Link Control, 逻辑链路控制层)，MAC(Media Access Control，媒体访问控制层)。网卡，网桥和二层交换机<br>网路层：路由器，网关和三层交换机<br>传输层：四层交换机<br>会话层：五层交换机<br>表示层：六层交换机<br>应用层：计算机，负载均衡和七成交换机</li>
+</ul>
+<hr>
+<p><strong><code>TCP/IP网络协议</code></strong><br>TCP&#x2F;IP(Transmission Control Protocol&#x2F;Internet Protocol，传输控制协议&#x2F;网间网协议)是目前世界上应用最为广泛的协议，它的流行与 Internet 的迅猛发展密切相关。TCP&#x2F;IP 最初是为互联网的原型 ARPANET 所设计的，目的是提供一整套方便实用、能应用于多种网络上的协议，事实证明 TCP&#x2F;IP 做到了这一点，它使网络互联变得容易起来，并且使越来越多的网络加入其中，成为 Internet 的事实标准。<br>TCP&#x2F;IP 参考模型分为四个层次：</p>
+<ul>
+<li>主机到网络层:实际上TCP&#x2F;IP参考模型没有真正描述这一层的实现，只是要求能够提供给其上层-网络互连层一个访问接口，以便在其上传递IP分组。由于这一层次未被定义，所以其具体的实现方法将随着网络类型的不同而不同。</li>
+<li>网络互连层：定义了分组格式和协议，即IP协议（Internet Protocol）。网络互连层除了需要完成路由的功能外，也可以完成将不同类型的网络（异构网）互连的任务。除此之外，网络互连层还需要完成拥塞控制的功能。</li>
+<li>传输层：使源端主机和目标端主机上的对等实体可以进行会话。在传输层定义了两种服务质量不同的协议。即：传输控制协议TCP（transmission control protocol）和用户数据报协议UDP（user datagram protocol）。TCP协议是一个面向连接的、可靠的协议。它将一台主机发出的字节流无差错地发往互联网上的其他主机。在发送端，它负责把上层传送下来的字节流分成报文段并传递给下层。在接收端，它负责把收到的报文进行重组后递交给上层。TCP协议还要处理端到端的流量控制，以避免缓慢接收的接收方没有足够的缓冲区接收发送方发送的大量数据。 　　 　　UDP协议是一个不可靠的、无连接协议，主要适用于不需要对报文进行排序和流量控制的场合。</li>
+<li>应用层：包括 OSI 参考模型中的会话层和表示层。面向不同的网络应用引入不同的应用层协议。其中，有基于 TCP 协议的，如 FTP(File Transfer Protocol，文件传输协议)， Telnet(虚拟终端协议)， HTTP(Hyper Text Transfer Protocol，超文本链接协议)；基于 UDP 协议的：如 SNMP, TFTP，NTP。</li>
+</ul>
+<hr>
+<p><strong><code>OSI七层协议和TCP/IP四层协议之比较:</code></strong></p>
+<ul>
+<li>分层结构<br>OSI参考模型与TCP&#x2F;IP协议都采用了分层结构，都是基于独立的协议栈的概念。OSI参考模型有7层，而TCP&#x2F;IP协议只有 4 层，即 TCP&#x2F;IP协议没有了表示层和会话层，并且把数据链路层和物理层合并为网络接口层。不过，二者的分层之间有一定的对应关系</li>
+<li>标准的特色<br>OSI 参考模型的标准最早是由 ISO 和 CCITT (ITU的前身)制定的，有浓厚的通信背景，因此也打上了深厚的通信系统的特色，比如对服务质量（QoS）、差错率的保证，只考虑了面向连接的服务。并且是先定义一套功能完整的构架，再根据该构架来发展相应的协议与系统。<br>TCP&#x2F;IP 协议产生于对 Internet 网络的研究与实践中，是应实际需求而产生的，再由 IAB、IETF 等组织标准化，而并不是之前定义一个严谨的框架。而且 TCP&#x2F;IP 最早是在 UNIX 系统中实现的，考虑了计算机网络的特点，比较适合计算机实现和使用。 </li>
+<li>连接服务<br>OSI 的网络层基本与 TCP&#x2F;IP 的网际层对应，二者的功能基本相似，但是寻址方式有较大的区别。<br>OSI的地址空间为不固定的可变长，由选定的地址命名方式决定，最长可达 160byte，可以容纳非常大的网络，因而具有较大的成长空间。根据 OSI 的规定，网络上每个系统至多可以有 256 个通信地址。<br>TCP&#x2F;IP网络的地址空间为固定的 4byte (在目前常用的 IPv4 中是这样，在 IPv6 中将扩展到 16byte)。网络上的每一个系统至少有一个唯一的地址与之对应。 </li>
+<li>传输服务<br>OSI 与 TCP&#x2F;IP 的传输层都对不同的业务采取不同的传输策略。OSI 定义了五个不同层次的服务：TP1，TP2，TP3，TP4，TP5。TCP&#x2F;I P定义了 TCP 和 UDP 两种协议，分别具有面向连接和面向无连接的性质。其中 TCP 与 OSI 中的 TP4，UDP 与OSI中的 TP0 在构架和功能上大体相同，只是内部细节有一些差异。</li>
+<li>应用范围<br>OSI 由于体系比较复杂，而且设计先于实现，有许多设计过于理想，不太方便计算机软件实现，因而完全实现 OSI 参考模型的系统并不多，应用的范围有限。而 TCP&#x2F;IP 协议最早在计算机系统中实现，在 UNIX、Windows平台中都有稳定的实现，并且提供了简单方便的编程接口 (API)，可以在其上开发出丰富的应用程序，因此得到了广泛的应用。TCP&#x2F;IP 协议已成为目前网际互联事实上的国际标准和工业标准。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexoblog/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/hexoblog/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag"># 网络协议</a>
+              <a href="/hexoblog/tags/tcp-ip/" rel="tag"># tcp/ip</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/08/12/AWS%E7%AE%80%E7%A7%B0%E5%8F%8A%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D/" rel="prev" title="AWS简称及基本架构介绍">
+                  <i class="fa fa-angle-left"></i> AWS简称及基本架构介绍
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/hexoblog/2017/08/12/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E9%9B%86%E5%90%88/" rel="next" title="排序算法集合">
+                  排序算法集合 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Dai</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
